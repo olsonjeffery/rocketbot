@@ -7,8 +7,8 @@
     <ProjectGuid>{020E9D77-1643-4AC4-98DB-BDB4D8543D87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RocketBot.Core</RootNamespace>
-    <AssemblyName>RocketBot.Core</AssemblyName>
+    <RootNamespace>PredibotLib</RootNamespace>
+    <AssemblyName>PredibotLib</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -16,22 +16,22 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <SourceAnalysisOverrideSettingsFile>C:\Users\Administrator\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\Debug\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,7 +49,7 @@
     <Compile Include="CommandRunners\PrivMSGRunner.boo" />
     <Compile Include="CommandRunners\RawMSGRunner.boo" />
     <Compile Include="CommandRunners\TimerRunner.boo" />
-    <Compile Include="Configuration.boo" />
+    <Compile Include="BotConfig.boo" />
     <Compile Include="FuturePlugins\MSNSearchService.boo" />
     <Compile Include="FuturePlugins\ndfdXML.boo" />
     <Compile Include="FuturePlugins\TranslateService.boo" />
