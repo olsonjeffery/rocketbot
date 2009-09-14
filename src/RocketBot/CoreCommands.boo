@@ -1,19 +1,18 @@
-
-namespace Predibot
+namespace RocketBot
 
 import System
 import System.Net
 import System.IO
 import System.Text
 import System.Text.RegularExpressions
-import PredibotLib
+import RocketBot.Core
 
 public static class CoreCommands:
 
 	
 	public def SetupCommands():
 		// web summary
-		PredibotLib.RawMSGRunner.RegisterCommand(PredibotLib.CommandWrapper('websummary', Regex('^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*'), websummary_Command))
+		RawMSGRunner.RegisterCommand(CommandWrapper('websummary', Regex('^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*'), websummary_Command))
 		
 	private def websummary_Command(message as IncomingMessage):
 		

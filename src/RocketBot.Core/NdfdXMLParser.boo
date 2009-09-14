@@ -1,9 +1,4 @@
-
-
-// alot of the code/style for this class was ripped from:
-// http://www.eggheadcafe.com/articles/20050216.asp
-
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Net

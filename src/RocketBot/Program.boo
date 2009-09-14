@@ -1,23 +1,9 @@
-
-/*
- * This is the Main() containing code for the predibot project. Also where
- * the changelog/todo is located
- *
- * AUTHORS: 
- *  - Original, basic IrcBot class coded by Pasi Havia 
- *  19.11.2001 http://www.c-sharpcorner.com/UploadFile/pasihavia/IrcBot11222005231107PM/IrcBot.aspx
- *  
- *  - Modified heavily and retooled/expanded by jeff olson
- *  circa 2007
-*/
-
-
-namespace Predibot
+namespace RocketBot
 
 import System
-import PredibotLib
+import RocketBot.Core
 
-PredibotLib.Configuration.Initialize('./RocketBot.config.xml', 'RocketBotConfiguration')
+BotConfig.Initialize('./RocketBot.config.xml', 'RocketBotConfiguration')
 RegexLibrary.Initialize()
 PrivMSGRunner.Initialize()
 RawMSGRunner.Initialize()
@@ -25,5 +11,5 @@ TimerRunner.Initialize()
 ActionQueue.Initialize()
 PluginLoader.LoadPlugins(Environment.CurrentDirectory)
 CoreCommands.SetupCommands()
-predibot = IrcConnection(PredibotLib.Configuration.GetParameter('IRCServer'), Int32.Parse(PredibotLib.Configuration.GetParameter('IRCPort')), PredibotLib.Configuration.GetParameter('Username'), PredibotLib.Configuration.GetParameter('IRCNick'), PredibotLib.Configuration.GetParameter('Channel'), PredibotLib.Configuration.GetParameter('NickservPassword'))
+predibot = IrcConnection(BotConfig.GetParameter('IRCServer'), Int32.Parse(BotConfig.GetParameter('IRCPort')), BotConfig.GetParameter('Username'), BotConfig.GetParameter('IRCNick'), BotConfig.GetParameter('Channel'), BotConfig.GetParameter('NickservPassword'))
 predibot.Connect()

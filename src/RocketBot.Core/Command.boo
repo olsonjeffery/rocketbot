@@ -1,4 +1,4 @@
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Collections.Generic

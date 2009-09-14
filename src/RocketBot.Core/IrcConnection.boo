@@ -1,5 +1,4 @@
-
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Net
@@ -18,9 +17,9 @@ public class IrcConnection:
 	public static def IsNickIdentifiedToServices(nick as string) as bool:
 		
 		
-		whoisEOF as string = (((('318 ' + PredibotLib.Configuration.GetParameter('IRCNick')) + ' ') + nick) + ' :End of /WHOIS list.')
+		whoisEOF as string = (((('318 ' + BotConfig.GetParameter('IRCNick')) + ' ') + nick) + ' :End of /WHOIS list.')
 		
-		nickIdString as string = (((('320 ' + PredibotLib.Configuration.GetParameter('IRCNick')) + ' ') + nick) + ' :is identified to services')
+		nickIdString as string = (((('320 ' + BotConfig.GetParameter('IRCNick')) + ' ') + nick) + ' :is identified to services')
 		
 		isNickRegged = false
 		
@@ -228,7 +227,7 @@ public class IrcConnection:
 			Writer.WriteLine(('Nick ' + Nick))
 			Writer.Flush()
 			// nickserv registration...
-			if PredibotLib.Configuration.GetParameter('RegisterWithNickserv').ToString() == 'True':
+			if BotConfig.GetParameter('RegisterWithNickserv').ToString() == 'True':
 				Writer.WriteLine(('PRIVMSG nickserv :identify ' + NickservPassword))
 				Writer.Flush()
 			
@@ -292,7 +291,7 @@ public class IrcConnection:
 					// ie if the "channel" for this message is the bot's name,
 					// that means it's a privmsg, so the channel for reply
 					// should be changed to the sender's nick
-					if message.Channel == PredibotLib.Configuration.GetParameter('IRCNick'):
+					if message.Channel == BotConfig.GetParameter('IRCNick'):
 						message.Channel = message.Nick
 					
 					// PRIV MSG COMMAND
@@ -335,7 +334,7 @@ public class IrcConnection:
 	public def ShowRawIRCOutput(output as string):
 		
 		// print raw output from the server, if configured
-		if PredibotLib.Configuration.GetParameter('RawIRCOutput') == 'True':
+		if BotConfig.GetParameter('RawIRCOutput') == 'True':
 			Utilities.DebugOutput(output)
 		
 	
@@ -373,6 +372,6 @@ internal class PingSender:
 		while true:
 			IrcConnection.Writer.WriteLine((PingSender.Ping + PingSender.Server))
 			IrcConnection.Writer.Flush()
-			Thread.Sleep((Int16.Parse(PredibotLib.Configuration.GetParameter('PingPongInterval')) * 1000))
+			Thread.Sleep((Int16.Parse(BotConfig.GetParameter('PingPongInterval')) * 1000))
 	
 

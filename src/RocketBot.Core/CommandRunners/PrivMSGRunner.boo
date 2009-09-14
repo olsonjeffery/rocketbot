@@ -1,6 +1,4 @@
-
-
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Net
@@ -379,7 +377,7 @@ public class PrivMSGRunner:
 			source[0].Source = MSNSearch.SourceType.Web
 			
 			//search.AppID = AppID;
-			search.AppID = PredibotLib.Configuration.GetParameter('SearchAppID')
+			search.AppID = BotConfig.GetParameter('SearchAppID')
 			search.Query = message.Args.Trim()
 			search.Requests = source
 			search.CultureInfo = 'en-US'
@@ -587,7 +585,7 @@ public class PrivMSGRunner:
 			return 
 		
 		// print version info from config file
-		IrcConnection.SendPRIVMSG(message.Channel, (((('I am running predibot version ' + PredibotLib.Configuration.GetParameter('Version')) + ', released on ') + PredibotLib.Configuration.GetParameter('VersionDate')) + '.'))
+		IrcConnection.SendPRIVMSG(message.Channel, (((('I am running predibot version ' + BotConfig.GetParameter('Version')) + ', released on ') + BotConfig.GetParameter('VersionDate')) + '.'))
 
 	#endregion
 	

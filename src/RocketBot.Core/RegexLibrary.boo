@@ -1,5 +1,4 @@
-
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Net
@@ -10,7 +9,6 @@ import System.Data
 import System.Collections
 import System.Collections.Generic
 import System.Text.RegularExpressions
-import PredibotLib.Configuration as Configuration
 
 public class RegexLibrary:
 
@@ -26,7 +24,7 @@ public class RegexLibrary:
 	public static def Initialize():
 		_regexDict = Dictionary[of string, Regex]()
 		
-		_regexDict.Add('channelTalkPattern', Regex((('^.+PRIVMSG ' + PredibotLib.Configuration.GetParameter('Channel')) + '.+$')))
+		_regexDict.Add('channelTalkPattern', Regex((('^.+PRIVMSG ' + BotConfig.GetParameter('Channel')) + '.+$')))
 		_regexDict.Add('IncomingMessagePattern', Regex('^.+PRIVMSG.+$'))
 		_regexDict.Add('TopicMessagePattern', Regex('^.+TOPIC.+$'))
 		
@@ -43,8 +41,8 @@ public class RegexLibrary:
 		
 		
 		// natural language parsing
-		_regexDict.Add('naturalLanguagePattern', Regex((((('(^' + PredibotLib.Configuration.GetParameter('IRCNick')) + '(,|:)\\s*.+$|^.+,\\s*') + PredibotLib.Configuration.GetParameter('IRCNick')) + '$)')))
-		_regexDict.Add('naturalLanguageGroup', Regex((((('(^' + PredibotLib.Configuration.GetParameter('IRCNick')) + '(,|:)\\s*(?<message>.+)$|^(?<message>.+),\\s*') + PredibotLib.Configuration.GetParameter('IRCNick')) + '$)')))
+		_regexDict.Add('naturalLanguagePattern', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*.+$|^.+,\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
+		_regexDict.Add('naturalLanguageGroup', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*(?<message>.+)$|^(?<message>.+),\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
 		
 
 	

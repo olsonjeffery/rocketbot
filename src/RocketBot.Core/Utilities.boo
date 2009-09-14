@@ -1,17 +1,15 @@
-
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Collections.Generic
 import System.Text
-import PredibotLib.Configuration as Configuration
 
 public class Utilities:
 
 	
 	public static def DebugOutput(message as string):
 		
-		if PredibotLib.Configuration.GetParameter('DebugOutput') == 'True':
+		if BotConfig.GetParameter('DebugOutput') == 'True':
 			Console.WriteLine((TimeStamp() + message))
 		
 
@@ -35,7 +33,7 @@ public class Utilities:
 			return returnValue
 		
 		// let's get the list of bot admins
-		botAdmins as (string) = PredibotLib.Configuration.GetParameter('BotAdmins').Split(char(','))
+		botAdmins as (string) = BotConfig.GetParameter('BotAdmins').Split(char(','))
 		for admin as string in botAdmins:
 			
 			if admin == nick:

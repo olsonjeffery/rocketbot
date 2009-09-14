@@ -1,5 +1,5 @@
 
-namespace PredibotLib
+namespace RocketBot.Core
 
 import System
 import System.Net
@@ -11,7 +11,7 @@ import System.Collections
 import System.Collections.Generic
 import System.Text.RegularExpressions
 
-public final class Configuration:
+public final class BotConfig:
 
 	
 	// this is the actual config, held in a 
