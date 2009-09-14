@@ -1,64 +1,58 @@
 ﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <ProjectGuid>{D66440D4-BD0B-4D2D-A048-B9E63FD6A8E9}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{020E9D77-1643-4AC4-98DB-BDB4D8543D87}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PredibotLib</RootNamespace>
-    <AssemblyName>PredibotLib</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\Administrator\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RootNamespace>RocketBot.Core</RootNamespace>
+    <AssemblyName>RocketBot.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="Boo.Lang.Useful" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionQueue.boo" />
-    <Compile Include="Command.boo" />
-    <Compile Include="CommandRunners\PrivMSGRunner.boo" />
-    <Compile Include="CommandRunners\RawMSGRunner.boo" />
-    <Compile Include="CommandRunners\TimerRunner.boo" />
+    <Compile Include="AssemblyInfo.boo" />
     <Compile Include="BotConfig.boo" />
-    <Compile Include="FuturePlugins\MSNSearchService.boo" />
-    <Compile Include="FuturePlugins\ndfdXML.boo" />
-    <Compile Include="FuturePlugins\TranslateService.boo" />
+    <Compile Include="Command.boo" />
     <Compile Include="IncomingMessage.boo" />
     <Compile Include="IrcConnection.boo" />
+    <Compile Include="MSNSearchService.boo" />
+    <Compile Include="ndfdXML.boo" />
     <Compile Include="NdfdXMLParser.boo" />
     <Compile Include="Plugin.boo" />
-    <Compile Include="Properties\AssemblyInfo.boo" />
+    <Compile Include="PrivMSGRunner.boo" />
+    <Compile Include="RawMSGRunner.boo" />
     <Compile Include="RegexLibrary.boo" />
+    <Compile Include="TimerRunner.boo" />
+    <Compile Include="TranslateService.boo" />
     <Compile Include="User.boo" />
     <Compile Include="Utilities.boo" />
   </ItemGroup>
