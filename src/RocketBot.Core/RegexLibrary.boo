@@ -34,12 +34,6 @@ public class RegexLibrary:
 		_regexDict.Add('botCommandPattern', Regex('^!.+'))
 		_regexDict.Add('botCommandGroup', Regex('(?<command>[^! ]+)(?<args>.*)'))
 		
-		_regexDict.Add('isURLPattern', Regex('^.*http://[^ ]+.*'))
-		_regexDict.Add('webSummaryURLPattern', Regex('(?<before>.*)(?<websummaryurl>http://[^ ]+)(?<after>.*)'))
-		_regexDict.Add('changeMatchPattern', Regex('(?<changeamount>(penny|nickel|dime|quarter)) (?<nick>[^ ]+)'))
-		_regexDict.Add('changeNumericMatchPattern', Regex('(?<changenumericamount>[0-9]+) (?<nick>[^ ]+)'))
-		
-		
 		// natural language parsing
 		_regexDict.Add('naturalLanguagePattern', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*.+$|^.+,\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
 		_regexDict.Add('naturalLanguageGroup', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*(?<message>.+)$|^(?<message>.+),\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))

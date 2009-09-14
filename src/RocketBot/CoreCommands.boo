@@ -16,7 +16,7 @@ public static class CoreCommands:
 		
 	private def websummary_Command(message as IncomingMessage):
 		
-		
+		webMatch = Regex('(?<before>.*)(?<websummaryurl>http://[^ ]+)(?<after>.*)')
 		// this is a dirty hack to avoid explicit execution of this command..
 		// it should only be ran when a url and only a url, is pasted to the chan
 		if message.Command == 'websummary':
@@ -30,7 +30,7 @@ public static class CoreCommands:
 		sb = StringBuilder()
 		buf as (byte) = array(byte, 8192)
 		
-		webSummaryURLMatch as Match = RegexLibrary.GetRegex('webSummaryURLPattern').Match(message.Message)
+		webSummaryURLMatch as Match = webMatch.Match(message.Message)
 		
 		if not webSummaryURLMatch.Success:
 			
