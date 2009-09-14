@@ -62,6 +62,11 @@
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="Irc\IncomingMessage.boo" />
     <Compile Include="Irc\IrcConnection.boo" />
+    <Compile Include="Macros\AuthorMacro.boo" />
+    <Compile Include="Macros\DescMacro.boo" />
+    <Compile Include="Macros\NameMacro.boo" />
+    <Compile Include="Macros\PluginMacro.boo" />
+    <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Plugin\Command.boo" />
     <Compile Include="Plugin\Plugin.boo" />
     <Compile Include="Plugin\PluginLoader.boo" />
