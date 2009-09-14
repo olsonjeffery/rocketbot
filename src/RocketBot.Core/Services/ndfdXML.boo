@@ -27,87 +27,87 @@ import System.Xml.Serialization
 [System.Web.Services.WebServiceBindingAttribute(Name: 'ndfdXMLBinding', Namespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
 partial public class ndfdXML(System.Web.Services.Protocols.SoapHttpClientProtocol):
 
-	
-	private NDFDgenOperationCompleted as System.Threading.SendOrPostCallback
+  
+  private NDFDgenOperationCompleted as System.Threading.SendOrPostCallback
 
-	
-	private NDFDgenByDayOperationCompleted as System.Threading.SendOrPostCallback
+  
+  private NDFDgenByDayOperationCompleted as System.Threading.SendOrPostCallback
 
-	
-	public def constructor():
-		self.Url = 'http://www.weather.gov/forecasts/xml/SOAP_server/ndfdXMLserver.php'
+  
+  public def constructor():
+    self.Url = 'http://www.weather.gov/forecasts/xml/SOAP_server/ndfdXMLserver.php'
 
-	
-	public event NDFDgenCompleted as NDFDgenCompletedEventHandler
+  
+  public event NDFDgenCompleted as NDFDgenCompletedEventHandler
 
-	
-	public event NDFDgenByDayCompleted as NDFDgenByDayCompletedEventHandler
+  
+  public event NDFDgenByDayCompleted as NDFDgenByDayCompletedEventHandler
 
-	
-	[System.Web.Services.Protocols.SoapRpcMethodAttribute('http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl#NDFDgen', RequestNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl', ResponseNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
-	public def NDFDgen(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType) as string:
-		results as (object) = self.Invoke('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters))
-		return cast(string, results[0])
+  
+  [System.Web.Services.Protocols.SoapRpcMethodAttribute('http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl#NDFDgen', RequestNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl', ResponseNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
+  public def NDFDgen(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType) as string:
+    results as (object) = self.Invoke('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters))
+    return cast(string, results[0])
 
-	
-	public def BeginNDFDgen(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
-		return self.BeginInvoke('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters), callback, asyncState)
+  
+  public def BeginNDFDgen(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
+    return self.BeginInvoke('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters), callback, asyncState)
 
-	
-	public def EndNDFDgen(asyncResult as System.IAsyncResult) as string:
-		results as (object) = self.EndInvoke(asyncResult)
-		return cast(string, results[0])
+  
+  public def EndNDFDgen(asyncResult as System.IAsyncResult) as string:
+    results as (object) = self.EndInvoke(asyncResult)
+    return cast(string, results[0])
 
-	
-	public def NDFDgenAsync(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType):
-		self.NDFDgenAsync(latitude, longitude, product, startTime, endTime, weatherParameters, null)
+  
+  public def NDFDgenAsync(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType):
+    self.NDFDgenAsync(latitude, longitude, product, startTime, endTime, weatherParameters, null)
 
-	
-	public def NDFDgenAsync(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType, userState as object):
-		if self.NDFDgenOperationCompleted is null:
-			self.NDFDgenOperationCompleted = System.Threading.SendOrPostCallback(self.OnNDFDgenOperationCompleted)
-		self.InvokeAsync('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters), self.NDFDgenOperationCompleted, userState)
+  
+  public def NDFDgenAsync(latitude as decimal, longitude as decimal, product as string, startTime as date, endTime as date, weatherParameters as weatherParametersType, userState as object):
+    if self.NDFDgenOperationCompleted is null:
+      self.NDFDgenOperationCompleted = System.Threading.SendOrPostCallback(self.OnNDFDgenOperationCompleted)
+    self.InvokeAsync('NDFDgen', (of object: latitude, longitude, product, startTime, endTime, weatherParameters), self.NDFDgenOperationCompleted, userState)
 
-	
-	private def OnNDFDgenOperationCompleted(arg as object):
-		if self.NDFDgenCompleted is not null:
-			invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
-			self.NDFDgenCompleted(self, NDFDgenCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+  
+  private def OnNDFDgenOperationCompleted(arg as object):
+    if self.NDFDgenCompleted is not null:
+      invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
+      self.NDFDgenCompleted(self, NDFDgenCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
 
-	
-	[System.Web.Services.Protocols.SoapRpcMethodAttribute('http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl#NDFDgenByDay', RequestNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl', ResponseNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
-	public def NDFDgenByDay(latitude as decimal, longitude as decimal, [System.Xml.Serialization.SoapElementAttribute(DataType: 'date')] startDate as date, [System.Xml.Serialization.SoapElementAttribute(DataType: 'integer')] numDays as string, format as string) as string:
-		results as (object) = self.Invoke('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format))
-		return cast(string, results[0])
+  
+  [System.Web.Services.Protocols.SoapRpcMethodAttribute('http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl#NDFDgenByDay', RequestNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl', ResponseNamespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
+  public def NDFDgenByDay(latitude as decimal, longitude as decimal, [System.Xml.Serialization.SoapElementAttribute(DataType: 'date')] startDate as date, [System.Xml.Serialization.SoapElementAttribute(DataType: 'integer')] numDays as string, format as string) as string:
+    results as (object) = self.Invoke('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format))
+    return cast(string, results[0])
 
-	
-	public def BeginNDFDgenByDay(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
-		return self.BeginInvoke('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format), callback, asyncState)
+  
+  public def BeginNDFDgenByDay(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
+    return self.BeginInvoke('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format), callback, asyncState)
 
-	
-	public def EndNDFDgenByDay(asyncResult as System.IAsyncResult) as string:
-		results as (object) = self.EndInvoke(asyncResult)
-		return cast(string, results[0])
+  
+  public def EndNDFDgenByDay(asyncResult as System.IAsyncResult) as string:
+    results as (object) = self.EndInvoke(asyncResult)
+    return cast(string, results[0])
 
-	
-	public def NDFDgenByDayAsync(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string):
-		self.NDFDgenByDayAsync(latitude, longitude, startDate, numDays, format, null)
+  
+  public def NDFDgenByDayAsync(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string):
+    self.NDFDgenByDayAsync(latitude, longitude, startDate, numDays, format, null)
 
-	
-	public def NDFDgenByDayAsync(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string, userState as object):
-		if self.NDFDgenByDayOperationCompleted is null:
-			self.NDFDgenByDayOperationCompleted = System.Threading.SendOrPostCallback(self.OnNDFDgenByDayOperationCompleted)
-		self.InvokeAsync('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format), self.NDFDgenByDayOperationCompleted, userState)
+  
+  public def NDFDgenByDayAsync(latitude as decimal, longitude as decimal, startDate as date, numDays as string, format as string, userState as object):
+    if self.NDFDgenByDayOperationCompleted is null:
+      self.NDFDgenByDayOperationCompleted = System.Threading.SendOrPostCallback(self.OnNDFDgenByDayOperationCompleted)
+    self.InvokeAsync('NDFDgenByDay', (of object: latitude, longitude, startDate, numDays, format), self.NDFDgenByDayOperationCompleted, userState)
 
-	
-	private def OnNDFDgenByDayOperationCompleted(arg as object):
-		if self.NDFDgenByDayCompleted is not null:
-			invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
-			self.NDFDgenByDayCompleted(self, NDFDgenByDayCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+  
+  private def OnNDFDgenByDayOperationCompleted(arg as object):
+    if self.NDFDgenByDayCompleted is not null:
+      invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
+      self.NDFDgenByDayCompleted(self, NDFDgenByDayCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
 
-	
-	public def CancelAsync(userState as object):
-		super.CancelAsync(userState)
+  
+  public def CancelAsync(userState as object):
+    super.CancelAsync(userState)
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -117,315 +117,315 @@ partial public class ndfdXML(System.Web.Services.Protocols.SoapHttpClientProtoco
 [System.Xml.Serialization.SoapTypeAttribute(Namespace: 'http://www.weather.gov/forecasts/xml/DWMLgen/wsdl/ndfdXML.wsdl')]
 partial public class weatherParametersType:
 
-	
-	private maxtField as bool
+  
+  private maxtField as bool
 
-	
-	private mintField as bool
+  
+  private mintField as bool
 
-	
-	private tempField as bool
+  
+  private tempField as bool
 
-	
-	private dewField as bool
+  
+  private dewField as bool
 
-	
-	private pop12Field as bool
+  
+  private pop12Field as bool
 
-	
-	private qpfField as bool
+  
+  private qpfField as bool
 
-	
-	private skyField as bool
+  
+  private skyField as bool
 
-	
-	private snowField as bool
+  
+  private snowField as bool
 
-	
-	private wspdField as bool
+  
+  private wspdField as bool
 
-	
-	private wdirField as bool
+  
+  private wdirField as bool
 
-	
-	private wxField as bool
+  
+  private wxField as bool
 
-	
-	private wavehField as bool
+  
+  private wavehField as bool
 
-	
-	private iconsField as bool
+  
+  private iconsField as bool
 
-	
-	private rhField as bool
+  
+  private rhField as bool
 
-	
-	private apptField as bool
+  
+  private apptField as bool
 
-	
-	private conhazoField as bool
+  
+  private conhazoField as bool
 
-	
-	private ptornadoField as bool
+  
+  private ptornadoField as bool
 
-	
-	private phailField as bool
+  
+  private phailField as bool
 
-	
-	private ptstmwindsField as bool
+  
+  private ptstmwindsField as bool
 
-	
-	private pxtornadoField as bool
+  
+  private pxtornadoField as bool
 
-	
-	private pxhailField as bool
+  
+  private pxhailField as bool
 
-	
-	private pxtstmwindsField as bool
+  
+  private pxtstmwindsField as bool
 
-	
-	private ptotsvrtstmField as bool
+  
+  private ptotsvrtstmField as bool
 
-	
-	private pxtotsvrtstmField as bool
+  
+  private pxtotsvrtstmField as bool
 
-	
-	private wgustField as bool
+  
+  private wgustField as bool
 
-	
-	private incw34Field as bool
+  
+  private incw34Field as bool
 
-	
-	private incw50Field as bool
+  
+  private incw50Field as bool
 
-	
-	private incw64Field as bool
+  
+  private incw64Field as bool
 
-	
-	private cumw34Field as bool
+  
+  private cumw34Field as bool
 
-	
-	private cumw50Field as bool
+  
+  private cumw50Field as bool
 
-	
-	private cumw64Field as bool
+  
+  private cumw64Field as bool
 
-	
-	public maxt as bool:
-		get:
-			return self.maxtField
-		set:
-			self.maxtField = value
+  
+  public maxt as bool:
+    get:
+      return self.maxtField
+    set:
+      self.maxtField = value
 
-	
-	public mint as bool:
-		get:
-			return self.mintField
-		set:
-			self.mintField = value
+  
+  public mint as bool:
+    get:
+      return self.mintField
+    set:
+      self.mintField = value
 
-	
-	public temp as bool:
-		get:
-			return self.tempField
-		set:
-			self.tempField = value
+  
+  public temp as bool:
+    get:
+      return self.tempField
+    set:
+      self.tempField = value
 
-	
-	public dew as bool:
-		get:
-			return self.dewField
-		set:
-			self.dewField = value
+  
+  public dew as bool:
+    get:
+      return self.dewField
+    set:
+      self.dewField = value
 
-	
-	public pop12 as bool:
-		get:
-			return self.pop12Field
-		set:
-			self.pop12Field = value
+  
+  public pop12 as bool:
+    get:
+      return self.pop12Field
+    set:
+      self.pop12Field = value
 
-	
-	public qpf as bool:
-		get:
-			return self.qpfField
-		set:
-			self.qpfField = value
+  
+  public qpf as bool:
+    get:
+      return self.qpfField
+    set:
+      self.qpfField = value
 
-	
-	public sky as bool:
-		get:
-			return self.skyField
-		set:
-			self.skyField = value
+  
+  public sky as bool:
+    get:
+      return self.skyField
+    set:
+      self.skyField = value
 
-	
-	public snow as bool:
-		get:
-			return self.snowField
-		set:
-			self.snowField = value
+  
+  public snow as bool:
+    get:
+      return self.snowField
+    set:
+      self.snowField = value
 
-	
-	public wspd as bool:
-		get:
-			return self.wspdField
-		set:
-			self.wspdField = value
+  
+  public wspd as bool:
+    get:
+      return self.wspdField
+    set:
+      self.wspdField = value
 
-	
-	public wdir as bool:
-		get:
-			return self.wdirField
-		set:
-			self.wdirField = value
+  
+  public wdir as bool:
+    get:
+      return self.wdirField
+    set:
+      self.wdirField = value
 
-	
-	public wx as bool:
-		get:
-			return self.wxField
-		set:
-			self.wxField = value
+  
+  public wx as bool:
+    get:
+      return self.wxField
+    set:
+      self.wxField = value
 
-	
-	public waveh as bool:
-		get:
-			return self.wavehField
-		set:
-			self.wavehField = value
+  
+  public waveh as bool:
+    get:
+      return self.wavehField
+    set:
+      self.wavehField = value
 
-	
-	public icons as bool:
-		get:
-			return self.iconsField
-		set:
-			self.iconsField = value
+  
+  public icons as bool:
+    get:
+      return self.iconsField
+    set:
+      self.iconsField = value
 
-	
-	public rh as bool:
-		get:
-			return self.rhField
-		set:
-			self.rhField = value
+  
+  public rh as bool:
+    get:
+      return self.rhField
+    set:
+      self.rhField = value
 
-	
-	public appt as bool:
-		get:
-			return self.apptField
-		set:
-			self.apptField = value
+  
+  public appt as bool:
+    get:
+      return self.apptField
+    set:
+      self.apptField = value
 
-	
-	public conhazo as bool:
-		get:
-			return self.conhazoField
-		set:
-			self.conhazoField = value
+  
+  public conhazo as bool:
+    get:
+      return self.conhazoField
+    set:
+      self.conhazoField = value
 
-	
-	public ptornado as bool:
-		get:
-			return self.ptornadoField
-		set:
-			self.ptornadoField = value
+  
+  public ptornado as bool:
+    get:
+      return self.ptornadoField
+    set:
+      self.ptornadoField = value
 
-	
-	public phail as bool:
-		get:
-			return self.phailField
-		set:
-			self.phailField = value
+  
+  public phail as bool:
+    get:
+      return self.phailField
+    set:
+      self.phailField = value
 
-	
-	public ptstmwinds as bool:
-		get:
-			return self.ptstmwindsField
-		set:
-			self.ptstmwindsField = value
+  
+  public ptstmwinds as bool:
+    get:
+      return self.ptstmwindsField
+    set:
+      self.ptstmwindsField = value
 
-	
-	public pxtornado as bool:
-		get:
-			return self.pxtornadoField
-		set:
-			self.pxtornadoField = value
+  
+  public pxtornado as bool:
+    get:
+      return self.pxtornadoField
+    set:
+      self.pxtornadoField = value
 
-	
-	public pxhail as bool:
-		get:
-			return self.pxhailField
-		set:
-			self.pxhailField = value
+  
+  public pxhail as bool:
+    get:
+      return self.pxhailField
+    set:
+      self.pxhailField = value
 
-	
-	public pxtstmwinds as bool:
-		get:
-			return self.pxtstmwindsField
-		set:
-			self.pxtstmwindsField = value
+  
+  public pxtstmwinds as bool:
+    get:
+      return self.pxtstmwindsField
+    set:
+      self.pxtstmwindsField = value
 
-	
-	public ptotsvrtstm as bool:
-		get:
-			return self.ptotsvrtstmField
-		set:
-			self.ptotsvrtstmField = value
+  
+  public ptotsvrtstm as bool:
+    get:
+      return self.ptotsvrtstmField
+    set:
+      self.ptotsvrtstmField = value
 
-	
-	public pxtotsvrtstm as bool:
-		get:
-			return self.pxtotsvrtstmField
-		set:
-			self.pxtotsvrtstmField = value
+  
+  public pxtotsvrtstm as bool:
+    get:
+      return self.pxtotsvrtstmField
+    set:
+      self.pxtotsvrtstmField = value
 
-	
-	public wgust as bool:
-		get:
-			return self.wgustField
-		set:
-			self.wgustField = value
+  
+  public wgust as bool:
+    get:
+      return self.wgustField
+    set:
+      self.wgustField = value
 
-	
-	public incw34 as bool:
-		get:
-			return self.incw34Field
-		set:
-			self.incw34Field = value
+  
+  public incw34 as bool:
+    get:
+      return self.incw34Field
+    set:
+      self.incw34Field = value
 
-	
-	public incw50 as bool:
-		get:
-			return self.incw50Field
-		set:
-			self.incw50Field = value
+  
+  public incw50 as bool:
+    get:
+      return self.incw50Field
+    set:
+      self.incw50Field = value
 
-	
-	public incw64 as bool:
-		get:
-			return self.incw64Field
-		set:
-			self.incw64Field = value
+  
+  public incw64 as bool:
+    get:
+      return self.incw64Field
+    set:
+      self.incw64Field = value
 
-	
-	public cumw34 as bool:
-		get:
-			return self.cumw34Field
-		set:
-			self.cumw34Field = value
+  
+  public cumw34 as bool:
+    get:
+      return self.cumw34Field
+    set:
+      self.cumw34Field = value
 
-	
-	public cumw50 as bool:
-		get:
-			return self.cumw50Field
-		set:
-			self.cumw50Field = value
+  
+  public cumw50 as bool:
+    get:
+      return self.cumw50Field
+    set:
+      self.cumw50Field = value
 
-	
-	public cumw64 as bool:
-		get:
-			return self.cumw64Field
-		set:
-			self.cumw64Field = value
+  
+  public cumw64 as bool:
+    get:
+      return self.cumw64Field
+    set:
+      self.cumw64Field = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -436,19 +436,19 @@ public callable NDFDgenCompletedEventHandler(sender as object, e as NDFDgenCompl
 [System.ComponentModel.DesignerCategoryAttribute('code')]
 partial public class NDFDgenCompletedEventArgs(System.ComponentModel.AsyncCompletedEventArgs):
 
-	
-	private results as (object)
+  
+  private results as (object)
 
-	
-	internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
-		super(exception, cancelled, userState)
-		self.results = results
+  
+  internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
+    super(exception, cancelled, userState)
+    self.results = results
 
-	
-	public Result as string:
-		get:
-			self.RaiseExceptionIfNecessary()
-			return cast(string, self.results[0])
+  
+  public Result as string:
+    get:
+      self.RaiseExceptionIfNecessary()
+      return cast(string, self.results[0])
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -459,17 +459,17 @@ public callable NDFDgenByDayCompletedEventHandler(sender as object, e as NDFDgen
 [System.ComponentModel.DesignerCategoryAttribute('code')]
 partial public class NDFDgenByDayCompletedEventArgs(System.ComponentModel.AsyncCompletedEventArgs):
 
-	
-	private results as (object)
+  
+  private results as (object)
 
-	
-	internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
-		super(exception, cancelled, userState)
-		self.results = results
+  
+  internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
+    super(exception, cancelled, userState)
+    self.results = results
 
-	
-	public Result as string:
-		get:
-			self.RaiseExceptionIfNecessary()
-			return cast(string, self.results[0])
+  
+  public Result as string:
+    get:
+      self.RaiseExceptionIfNecessary()
+      return cast(string, self.results[0])
 

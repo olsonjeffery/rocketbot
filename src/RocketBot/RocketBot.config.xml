@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration>
-	<RocketBotConfiguration>
+  <RocketBotConfiguration>
     <Version>
       0.1
     </Version>
@@ -49,5 +49,8 @@
     <YahooAppID>
       EO1LA9LV34FJj90jpp_q8k6Kv1zNJK3UipHoQ704YotCUi6eEDRy3CD.XhvCFSEu.A--
     </YahooAppID>
+    <ScriptDirectory>
+      Scripts
+    </ScriptDirectory>
   </RocketBotConfiguration>
 </Configuration>

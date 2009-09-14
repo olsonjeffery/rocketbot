@@ -49,6 +49,9 @@
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="CoreCommands.boo" />
     <Compile Include="Program.boo" />
+    <None Include="Scripts\web_summary.boo">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="RocketBot.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -58,6 +61,7 @@
       <Project>{D66440D4-BD0B-4D2D-A048-B9E63FD6A8E9}</Project>
       <Name>RocketBot.Core</Name>
     </ProjectReference>
+    <Folder Include="Scripts" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>

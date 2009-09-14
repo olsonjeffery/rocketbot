@@ -27,50 +27,50 @@ import System.Xml.Serialization
 [System.Web.Services.WebServiceBindingAttribute(Name: 'TranslateServiceSoap', Namespace: 'http://www.webservicex.net')]
 partial public class TranslateService(System.Web.Services.Protocols.SoapHttpClientProtocol):
 
-	
-	private TranslateOperationCompleted as System.Threading.SendOrPostCallback
+  
+  private TranslateOperationCompleted as System.Threading.SendOrPostCallback
 
-	
-	public def constructor():
-		self.Url = 'http://www.webservicex.com/TranslateService.asmx'
+  
+  public def constructor():
+    self.Url = 'http://www.webservicex.com/TranslateService.asmx'
 
-	
-	public event TranslateCompleted as TranslateCompletedEventHandler
+  
+  public event TranslateCompleted as TranslateCompletedEventHandler
 
-	
-	[System.Web.Services.Protocols.SoapDocumentMethodAttribute('http://www.webservicex.net/Translate', RequestNamespace: 'http://www.webservicex.net', ResponseNamespace: 'http://www.webservicex.net', Use: System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle: System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-	public def Translate(LanguageMode as Language, Text as string) as string:
-		results as (object) = self.Invoke('Translate', (of object: LanguageMode, Text))
-		return cast(string, results[0])
+  
+  [System.Web.Services.Protocols.SoapDocumentMethodAttribute('http://www.webservicex.net/Translate', RequestNamespace: 'http://www.webservicex.net', ResponseNamespace: 'http://www.webservicex.net', Use: System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle: System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+  public def Translate(LanguageMode as Language, Text as string) as string:
+    results as (object) = self.Invoke('Translate', (of object: LanguageMode, Text))
+    return cast(string, results[0])
 
-	
-	public def BeginTranslate(LanguageMode as Language, Text as string, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
-		return self.BeginInvoke('Translate', (of object: LanguageMode, Text), callback, asyncState)
+  
+  public def BeginTranslate(LanguageMode as Language, Text as string, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
+    return self.BeginInvoke('Translate', (of object: LanguageMode, Text), callback, asyncState)
 
-	
-	public def EndTranslate(asyncResult as System.IAsyncResult) as string:
-		results as (object) = self.EndInvoke(asyncResult)
-		return cast(string, results[0])
+  
+  public def EndTranslate(asyncResult as System.IAsyncResult) as string:
+    results as (object) = self.EndInvoke(asyncResult)
+    return cast(string, results[0])
 
-	
-	public def TranslateAsync(LanguageMode as Language, Text as string):
-		self.TranslateAsync(LanguageMode, Text, null)
+  
+  public def TranslateAsync(LanguageMode as Language, Text as string):
+    self.TranslateAsync(LanguageMode, Text, null)
 
-	
-	public def TranslateAsync(LanguageMode as Language, Text as string, userState as object):
-		if self.TranslateOperationCompleted is null:
-			self.TranslateOperationCompleted = System.Threading.SendOrPostCallback(self.OnTranslateOperationCompleted)
-		self.InvokeAsync('Translate', (of object: LanguageMode, Text), self.TranslateOperationCompleted, userState)
+  
+  public def TranslateAsync(LanguageMode as Language, Text as string, userState as object):
+    if self.TranslateOperationCompleted is null:
+      self.TranslateOperationCompleted = System.Threading.SendOrPostCallback(self.OnTranslateOperationCompleted)
+    self.InvokeAsync('Translate', (of object: LanguageMode, Text), self.TranslateOperationCompleted, userState)
 
-	
-	private def OnTranslateOperationCompleted(arg as object):
-		if self.TranslateCompleted is not null:
-			invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
-			self.TranslateCompleted(self, TranslateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+  
+  private def OnTranslateOperationCompleted(arg as object):
+    if self.TranslateCompleted is not null:
+      invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
+      self.TranslateCompleted(self, TranslateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
 
-	
-	public def CancelAsync(userState as object):
-		super.CancelAsync(userState)
+  
+  public def CancelAsync(userState as object):
+    super.CancelAsync(userState)
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -78,107 +78,107 @@ partial public class TranslateService(System.Web.Services.Protocols.SoapHttpClie
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://www.webservicex.net')]
 public enum Language:
 
-	
-	EnglishTOChinese
+  
+  EnglishTOChinese
 
-	
-	EnglishTOFrench
+  
+  EnglishTOFrench
 
-	
-	EnglishTOGerman
+  
+  EnglishTOGerman
 
-	
-	EnglishTOItalian
+  
+  EnglishTOItalian
 
-	
-	EnglishTOJapanese
+  
+  EnglishTOJapanese
 
-	
-	EnglishTOKorean
+  
+  EnglishTOKorean
 
-	
-	EnglishTOPortuguese
+  
+  EnglishTOPortuguese
 
-	
-	EnglishTOSpanish
+  
+  EnglishTOSpanish
 
-	
-	ChineseTOEnglish
+  
+  ChineseTOEnglish
 
-	
-	FrenchTOEnglish
+  
+  FrenchTOEnglish
 
-	
-	FrenchTOGerman
+  
+  FrenchTOGerman
 
-	
-	GermanTOEnglish
+  
+  GermanTOEnglish
 
-	
-	GermanTOFrench
+  
+  GermanTOFrench
 
-	
-	ItalianTOEnglish
+  
+  ItalianTOEnglish
 
-	
-	JapaneseTOEnglish
+  
+  JapaneseTOEnglish
 
-	
-	KoreanTOEnglish
+  
+  KoreanTOEnglish
 
-	
-	PortugueseTOEnglish
+  
+  PortugueseTOEnglish
 
-	
-	RussianTOEnglish
+  
+  RussianTOEnglish
 
-	
-	SpanishTOEnglish
+  
+  SpanishTOEnglish
 
-	
-	SpanishToFrench
+  
+  SpanishToFrench
 
-	
-	PortugueseToFrench
+  
+  PortugueseToFrench
 
-	
-	ItalianToFrench
+  
+  ItalianToFrench
 
-	
-	GreekToFrench
+  
+  GreekToFrench
 
-	
-	GermanToFrench
+  
+  GermanToFrench
 
-	
-	FrenchToGreek
+  
+  FrenchToGreek
 
-	
-	FrenchToItalian
+  
+  FrenchToItalian
 
-	
-	FrenchToPortuguese
+  
+  FrenchToPortuguese
 
-	
-	FrenchToDutch
+  
+  FrenchToDutch
 
-	
-	FrenchToSpanish
+  
+  FrenchToSpanish
 
-	
-	EnglishToRussian
+  
+  EnglishToRussian
 
-	
-	EnglishToDutch
+  
+  EnglishToDutch
 
-	
-	DutchToEnglish
+  
+  DutchToEnglish
 
-	
-	DutchToFrench
+  
+  DutchToFrench
 
-	
-	GreekToEnglish
+  
+  GreekToEnglish
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -189,17 +189,17 @@ public callable TranslateCompletedEventHandler(sender as object, e as TranslateC
 [System.ComponentModel.DesignerCategoryAttribute('code')]
 partial public class TranslateCompletedEventArgs(System.ComponentModel.AsyncCompletedEventArgs):
 
-	
-	private results as (object)
+  
+  private results as (object)
 
-	
-	internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
-		super(exception, cancelled, userState)
-		self.results = results
+  
+  internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
+    super(exception, cancelled, userState)
+    self.results = results
 
-	
-	public Result as string:
-		get:
-			self.RaiseExceptionIfNecessary()
-			return cast(string, self.results[0])
+  
+  public Result as string:
+    get:
+      self.RaiseExceptionIfNecessary()
+      return cast(string, self.results[0])
 

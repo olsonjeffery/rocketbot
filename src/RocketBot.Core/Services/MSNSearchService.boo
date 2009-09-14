@@ -30,50 +30,50 @@ import System.Xml.Serialization
 [System.Web.Services.WebServiceBindingAttribute(Name: 'MSNSearchPortBinding', Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class MSNSearchService(System.Web.Services.Protocols.SoapHttpClientProtocol):
 
-	
-	private SearchOperationCompleted as System.Threading.SendOrPostCallback
+  
+  private SearchOperationCompleted as System.Threading.SendOrPostCallback
 
-	
-	public def constructor():
-		self.Url = 'http://soap.search.msn.com:80/webservices.asmx'
+  
+  public def constructor():
+    self.Url = 'http://soap.search.msn.com:80/webservices.asmx'
 
-	
-	public event SearchCompleted as SearchCompletedEventHandler
+  
+  public event SearchCompleted as SearchCompletedEventHandler
 
-	
-	[System.Web.Services.Protocols.SoapDocumentMethodAttribute('http://schemas.microsoft.com/MSNSearch/2005/09/fex/Search', RequestNamespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex', ResponseNamespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex', Use: System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle: System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-	public def Search(Request as SearchRequest) as SearchResponse:
-		results as (object) = self.Invoke('Search', (of object: Request))
-		return cast(SearchResponse, results[0])
+  
+  [System.Web.Services.Protocols.SoapDocumentMethodAttribute('http://schemas.microsoft.com/MSNSearch/2005/09/fex/Search', RequestNamespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex', ResponseNamespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex', Use: System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle: System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+  public def Search(Request as SearchRequest) as SearchResponse:
+    results as (object) = self.Invoke('Search', (of object: Request))
+    return cast(SearchResponse, results[0])
 
-	
-	public def BeginSearch(Request as SearchRequest, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
-		return self.BeginInvoke('Search', (of object: Request), callback, asyncState)
+  
+  public def BeginSearch(Request as SearchRequest, callback as System.AsyncCallback, asyncState as object) as System.IAsyncResult:
+    return self.BeginInvoke('Search', (of object: Request), callback, asyncState)
 
-	
-	public def EndSearch(asyncResult as System.IAsyncResult) as SearchResponse:
-		results as (object) = self.EndInvoke(asyncResult)
-		return cast(SearchResponse, results[0])
+  
+  public def EndSearch(asyncResult as System.IAsyncResult) as SearchResponse:
+    results as (object) = self.EndInvoke(asyncResult)
+    return cast(SearchResponse, results[0])
 
-	
-	public def SearchAsync(Request as SearchRequest):
-		self.SearchAsync(Request, null)
+  
+  public def SearchAsync(Request as SearchRequest):
+    self.SearchAsync(Request, null)
 
-	
-	public def SearchAsync(Request as SearchRequest, userState as object):
-		if self.SearchOperationCompleted is null:
-			self.SearchOperationCompleted = System.Threading.SendOrPostCallback(self.OnSearchOperationCompleted)
-		self.InvokeAsync('Search', (of object: Request), self.SearchOperationCompleted, userState)
+  
+  public def SearchAsync(Request as SearchRequest, userState as object):
+    if self.SearchOperationCompleted is null:
+      self.SearchOperationCompleted = System.Threading.SendOrPostCallback(self.OnSearchOperationCompleted)
+    self.InvokeAsync('Search', (of object: Request), self.SearchOperationCompleted, userState)
 
-	
-	private def OnSearchOperationCompleted(arg as object):
-		if self.SearchCompleted is not null:
-			invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
-			self.SearchCompleted(self, SearchCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+  
+  private def OnSearchOperationCompleted(arg as object):
+    if self.SearchCompleted is not null:
+      invokeArgs = cast(System.Web.Services.Protocols.InvokeCompletedEventArgs, arg)
+      self.SearchCompleted(self, SearchCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
 
-	
-	public def CancelAsync(userState as object):
-		super.CancelAsync(userState)
+  
+  public def CancelAsync(userState as object):
+    super.CancelAsync(userState)
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -83,81 +83,81 @@ partial public class MSNSearchService(System.Web.Services.Protocols.SoapHttpClie
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class SearchRequest:
 
-	
-	private appIDField as string
+  
+  private appIDField as string
 
-	
-	private queryField as string
+  
+  private queryField as string
 
-	
-	private cultureInfoField as string
+  
+  private cultureInfoField as string
 
-	
-	private safeSearchField as SafeSearchOptions
+  
+  private safeSearchField as SafeSearchOptions
 
-	
-	private flagsField as SearchFlags
+  
+  private flagsField as SearchFlags
 
-	
-	private locationField as Location
+  
+  private locationField as Location
 
-	
-	private requestsField as (SourceRequest)
+  
+  private requestsField as (SourceRequest)
 
-	
-	public def constructor():
-		self.safeSearchField = SafeSearchOptions.Moderate
-		self.flagsField = SearchFlags.None
+  
+  public def constructor():
+    self.safeSearchField = SafeSearchOptions.Moderate
+    self.flagsField = SearchFlags.None
 
-	
-	public AppID as string:
-		get:
-			return self.appIDField
-		set:
-			self.appIDField = value
+  
+  public AppID as string:
+    get:
+      return self.appIDField
+    set:
+      self.appIDField = value
 
-	
-	public Query as string:
-		get:
-			return self.queryField
-		set:
-			self.queryField = value
+  
+  public Query as string:
+    get:
+      return self.queryField
+    set:
+      self.queryField = value
 
-	
-	public CultureInfo as string:
-		get:
-			return self.cultureInfoField
-		set:
-			self.cultureInfoField = value
+  
+  public CultureInfo as string:
+    get:
+      return self.cultureInfoField
+    set:
+      self.cultureInfoField = value
 
-	
-	public SafeSearch as SafeSearchOptions:
-		get:
-			return self.safeSearchField
-		set:
-			self.safeSearchField = value
+  
+  public SafeSearch as SafeSearchOptions:
+    get:
+      return self.safeSearchField
+    set:
+      self.safeSearchField = value
 
-	
-	public Flags as SearchFlags:
-		get:
-			return self.flagsField
-		set:
-			self.flagsField = value
+  
+  public Flags as SearchFlags:
+    get:
+      return self.flagsField
+    set:
+      self.flagsField = value
 
-	
-	public Location as Location:
-		get:
-			return self.locationField
-		set:
-			self.locationField = value
+  
+  public Location as Location:
+    get:
+      return self.locationField
+    set:
+      self.locationField = value
 
-	
-	[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
-	public Requests as (SourceRequest):
-		get:
-			return self.requestsField
-		set:
-			self.requestsField = value
+  
+  [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
+  public Requests as (SourceRequest):
+    get:
+      return self.requestsField
+    set:
+      self.requestsField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -165,14 +165,14 @@ partial public class SearchRequest:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 public enum SafeSearchOptions:
 
-	
-	Moderate
+  
+  Moderate
 
-	
-	Strict
+  
+  Strict
 
-	
-	Off
+  
+  Off
 
 
 [System.FlagsAttribute]
@@ -181,20 +181,20 @@ public enum SafeSearchOptions:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 public enum SearchFlags:
 
-	
-	None = 1
+  
+  None = 1
 
-	
-	MarkQueryWords = 2
+  
+  MarkQueryWords = 2
 
-	
-	DisableSpellCorrectForSpecialWords = 4
+  
+  DisableSpellCorrectForSpecialWords = 4
 
-	
-	DisableHostCollapsing = 8
+  
+  DisableHostCollapsing = 8
 
-	
-	DisableLocationDetection = 16
+  
+  DisableLocationDetection = 16
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -204,40 +204,40 @@ public enum SearchFlags:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class Location:
 
-	
-	private latitudeField as double
+  
+  private latitudeField as double
 
-	
-	private longitudeField as double
+  
+  private longitudeField as double
 
-	
-	private radiusField as double
+  
+  private radiusField as double
 
-	
-	public def constructor():
-		self.radiusField = 5
+  
+  public def constructor():
+    self.radiusField = 5
 
-	
-	public Latitude as double:
-		get:
-			return self.latitudeField
-		set:
-			self.latitudeField = value
+  
+  public Latitude as double:
+    get:
+      return self.latitudeField
+    set:
+      self.latitudeField = value
 
-	
-	public Longitude as double:
-		get:
-			return self.longitudeField
-		set:
-			self.longitudeField = value
+  
+  public Longitude as double:
+    get:
+      return self.longitudeField
+    set:
+      self.longitudeField = value
 
-	
-	[System.ComponentModel.DefaultValueAttribute(5)]
-	public Radius as double:
-		get:
-			return self.radiusField
-		set:
-			self.radiusField = value
+  
+  [System.ComponentModel.DefaultValueAttribute(5)]
+  public Radius as double:
+    get:
+      return self.radiusField
+    set:
+      self.radiusField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -247,151 +247,151 @@ partial public class Location:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class Image:
 
-	
-	private imageURLField as string
+  
+  private imageURLField as string
 
-	
-	private imageWidthField as int
+  
+  private imageWidthField as int
 
-	
-	private imageWidthFieldSpecified as bool
+  
+  private imageWidthFieldSpecified as bool
 
-	
-	private imageHeightField as int
+  
+  private imageHeightField as int
 
-	
-	private imageHeightFieldSpecified as bool
+  
+  private imageHeightFieldSpecified as bool
 
-	
-	private imageFileSizeField as int
+  
+  private imageFileSizeField as int
 
-	
-	private imageFileSizeFieldSpecified as bool
+  
+  private imageFileSizeFieldSpecified as bool
 
-	
-	private thumbnailURLField as string
+  
+  private thumbnailURLField as string
 
-	
-	private thumbnailWidthField as int
+  
+  private thumbnailWidthField as int
 
-	
-	private thumbnailWidthFieldSpecified as bool
+  
+  private thumbnailWidthFieldSpecified as bool
 
-	
-	private thumbnailHeightField as int
+  
+  private thumbnailHeightField as int
 
-	
-	private thumbnailHeightFieldSpecified as bool
+  
+  private thumbnailHeightFieldSpecified as bool
 
-	
-	private thumbnailFileSizeField as int
+  
+  private thumbnailFileSizeField as int
 
-	
-	private thumbnailFileSizeFieldSpecified as bool
+  
+  private thumbnailFileSizeFieldSpecified as bool
 
-	
-	public ImageURL as string:
-		get:
-			return self.imageURLField
-		set:
-			self.imageURLField = value
+  
+  public ImageURL as string:
+    get:
+      return self.imageURLField
+    set:
+      self.imageURLField = value
 
-	
-	public ImageWidth as int:
-		get:
-			return self.imageWidthField
-		set:
-			self.imageWidthField = value
+  
+  public ImageWidth as int:
+    get:
+      return self.imageWidthField
+    set:
+      self.imageWidthField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ImageWidthSpecified as bool:
-		get:
-			return self.imageWidthFieldSpecified
-		set:
-			self.imageWidthFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ImageWidthSpecified as bool:
+    get:
+      return self.imageWidthFieldSpecified
+    set:
+      self.imageWidthFieldSpecified = value
 
-	
-	public ImageHeight as int:
-		get:
-			return self.imageHeightField
-		set:
-			self.imageHeightField = value
+  
+  public ImageHeight as int:
+    get:
+      return self.imageHeightField
+    set:
+      self.imageHeightField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ImageHeightSpecified as bool:
-		get:
-			return self.imageHeightFieldSpecified
-		set:
-			self.imageHeightFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ImageHeightSpecified as bool:
+    get:
+      return self.imageHeightFieldSpecified
+    set:
+      self.imageHeightFieldSpecified = value
 
-	
-	public ImageFileSize as int:
-		get:
-			return self.imageFileSizeField
-		set:
-			self.imageFileSizeField = value
+  
+  public ImageFileSize as int:
+    get:
+      return self.imageFileSizeField
+    set:
+      self.imageFileSizeField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ImageFileSizeSpecified as bool:
-		get:
-			return self.imageFileSizeFieldSpecified
-		set:
-			self.imageFileSizeFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ImageFileSizeSpecified as bool:
+    get:
+      return self.imageFileSizeFieldSpecified
+    set:
+      self.imageFileSizeFieldSpecified = value
 
-	
-	public ThumbnailURL as string:
-		get:
-			return self.thumbnailURLField
-		set:
-			self.thumbnailURLField = value
+  
+  public ThumbnailURL as string:
+    get:
+      return self.thumbnailURLField
+    set:
+      self.thumbnailURLField = value
 
-	
-	public ThumbnailWidth as int:
-		get:
-			return self.thumbnailWidthField
-		set:
-			self.thumbnailWidthField = value
+  
+  public ThumbnailWidth as int:
+    get:
+      return self.thumbnailWidthField
+    set:
+      self.thumbnailWidthField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ThumbnailWidthSpecified as bool:
-		get:
-			return self.thumbnailWidthFieldSpecified
-		set:
-			self.thumbnailWidthFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ThumbnailWidthSpecified as bool:
+    get:
+      return self.thumbnailWidthFieldSpecified
+    set:
+      self.thumbnailWidthFieldSpecified = value
 
-	
-	public ThumbnailHeight as int:
-		get:
-			return self.thumbnailHeightField
-		set:
-			self.thumbnailHeightField = value
+  
+  public ThumbnailHeight as int:
+    get:
+      return self.thumbnailHeightField
+    set:
+      self.thumbnailHeightField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ThumbnailHeightSpecified as bool:
-		get:
-			return self.thumbnailHeightFieldSpecified
-		set:
-			self.thumbnailHeightFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ThumbnailHeightSpecified as bool:
+    get:
+      return self.thumbnailHeightFieldSpecified
+    set:
+      self.thumbnailHeightFieldSpecified = value
 
-	
-	public ThumbnailFileSize as int:
-		get:
-			return self.thumbnailFileSizeField
-		set:
-			self.thumbnailFileSizeField = value
+  
+  public ThumbnailFileSize as int:
+    get:
+      return self.thumbnailFileSizeField
+    set:
+      self.thumbnailFileSizeField = value
 
-	
-	[System.Xml.Serialization.XmlIgnoreAttribute]
-	public ThumbnailFileSizeSpecified as bool:
-		get:
-			return self.thumbnailFileSizeFieldSpecified
-		set:
-			self.thumbnailFileSizeFieldSpecified = value
+  
+  [System.Xml.Serialization.XmlIgnoreAttribute]
+  public ThumbnailFileSizeSpecified as bool:
+    get:
+      return self.thumbnailFileSizeFieldSpecified
+    set:
+      self.thumbnailFileSizeFieldSpecified = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -401,25 +401,25 @@ partial public class Image:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class SearchTag:
 
-	
-	private nameField as string
+  
+  private nameField as string
 
-	
-	private valueField as string
+  
+  private valueField as string
 
-	
-	public Name as string:
-		get:
-			return self.nameField
-		set:
-			self.nameField = value
+  
+  public Name as string:
+    get:
+      return self.nameField
+    set:
+      self.nameField = value
 
-	
-	public Value as string:
-		get:
-			return self.valueField
-		set:
-			self.valueField = value
+  
+  public Value as string:
+    get:
+      return self.valueField
+    set:
+      self.valueField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -429,75 +429,75 @@ partial public class SearchTag:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class Address:
 
-	
-	private addressLineField as string
+  
+  private addressLineField as string
 
-	
-	private primaryCityField as string
+  
+  private primaryCityField as string
 
-	
-	private secondaryCityField as string
+  
+  private secondaryCityField as string
 
-	
-	private subdivisionField as string
+  
+  private subdivisionField as string
 
-	
-	private postalCodeField as string
+  
+  private postalCodeField as string
 
-	
-	private countryRegionField as string
+  
+  private countryRegionField as string
 
-	
-	private formattedAddressField as string
+  
+  private formattedAddressField as string
 
-	
-	public AddressLine as string:
-		get:
-			return self.addressLineField
-		set:
-			self.addressLineField = value
+  
+  public AddressLine as string:
+    get:
+      return self.addressLineField
+    set:
+      self.addressLineField = value
 
-	
-	public PrimaryCity as string:
-		get:
-			return self.primaryCityField
-		set:
-			self.primaryCityField = value
+  
+  public PrimaryCity as string:
+    get:
+      return self.primaryCityField
+    set:
+      self.primaryCityField = value
 
-	
-	public SecondaryCity as string:
-		get:
-			return self.secondaryCityField
-		set:
-			self.secondaryCityField = value
+  
+  public SecondaryCity as string:
+    get:
+      return self.secondaryCityField
+    set:
+      self.secondaryCityField = value
 
-	
-	public Subdivision as string:
-		get:
-			return self.subdivisionField
-		set:
-			self.subdivisionField = value
+  
+  public Subdivision as string:
+    get:
+      return self.subdivisionField
+    set:
+      self.subdivisionField = value
 
-	
-	public PostalCode as string:
-		get:
-			return self.postalCodeField
-		set:
-			self.postalCodeField = value
+  
+  public PostalCode as string:
+    get:
+      return self.postalCodeField
+    set:
+      self.postalCodeField = value
 
-	
-	public CountryRegion as string:
-		get:
-			return self.countryRegionField
-		set:
-			self.countryRegionField = value
+  
+  public CountryRegion as string:
+    get:
+      return self.countryRegionField
+    set:
+      self.countryRegionField = value
 
-	
-	public FormattedAddress as string:
-		get:
-			return self.formattedAddressField
-		set:
-			self.formattedAddressField = value
+  
+  public FormattedAddress as string:
+    get:
+      return self.formattedAddressField
+    set:
+      self.formattedAddressField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -507,65 +507,65 @@ partial public class Address:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class DateTime:
 
-	
-	private yearField as int
+  
+  private yearField as int
 
-	
-	private monthField as int
+  
+  private monthField as int
 
-	
-	private dayField as int
+  
+  private dayField as int
 
-	
-	private hourField as int
+  
+  private hourField as int
 
-	
-	private minuteField as int
+  
+  private minuteField as int
 
-	
-	private secondField as int
+  
+  private secondField as int
 
-	
-	public Year as int:
-		get:
-			return self.yearField
-		set:
-			self.yearField = value
+  
+  public Year as int:
+    get:
+      return self.yearField
+    set:
+      self.yearField = value
 
-	
-	public Month as int:
-		get:
-			return self.monthField
-		set:
-			self.monthField = value
+  
+  public Month as int:
+    get:
+      return self.monthField
+    set:
+      self.monthField = value
 
-	
-	public Day as int:
-		get:
-			return self.dayField
-		set:
-			self.dayField = value
+  
+  public Day as int:
+    get:
+      return self.dayField
+    set:
+      self.dayField = value
 
-	
-	public Hour as int:
-		get:
-			return self.hourField
-		set:
-			self.hourField = value
+  
+  public Hour as int:
+    get:
+      return self.hourField
+    set:
+      self.hourField = value
 
-	
-	public Minute as int:
-		get:
-			return self.minuteField
-		set:
-			self.minuteField = value
+  
+  public Minute as int:
+    get:
+      return self.minuteField
+    set:
+      self.minuteField = value
 
-	
-	public Second as int:
-		get:
-			return self.secondField
-		set:
-			self.secondField = value
+  
+  public Second as int:
+    get:
+      return self.secondField
+    set:
+      self.secondField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -575,157 +575,157 @@ partial public class DateTime:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class Result:
 
-	
-	private titleField as string
+  
+  private titleField as string
 
-	
-	private descriptionField as string
+  
+  private descriptionField as string
 
-	
-	private urlField as string
+  
+  private urlField as string
 
-	
-	private displayUrlField as string
+  
+  private displayUrlField as string
 
-	
-	private cacheUrlField as string
+  
+  private cacheUrlField as string
 
-	
-	private sourceField as string
+  
+  private sourceField as string
 
-	
-	private searchTagsField as string
+  
+  private searchTagsField as string
 
-	
-	private phoneField as string
+  
+  private phoneField as string
 
-	
-	private DateTimeField as DateTime
+  
+  private DateTimeField as DateTime
 
-	
-	private addressField as Address
+  
+  private addressField as Address
 
-	
-	private locationField as Location
+  
+  private locationField as Location
 
-	
-	private searchTagsArrayField as (SearchTag)
+  
+  private searchTagsArrayField as (SearchTag)
 
-	
-	private summaryField as string
+  
+  private summaryField as string
 
-	
-	private resultTypeField as string
+  
+  private resultTypeField as string
 
-	
-	private imageField as Image
+  
+  private imageField as Image
 
-	
-	public Title as string:
-		get:
-			return self.titleField
-		set:
-			self.titleField = value
+  
+  public Title as string:
+    get:
+      return self.titleField
+    set:
+      self.titleField = value
 
-	
-	public Description as string:
-		get:
-			return self.descriptionField
-		set:
-			self.descriptionField = value
+  
+  public Description as string:
+    get:
+      return self.descriptionField
+    set:
+      self.descriptionField = value
 
-	
-	public Url as string:
-		get:
-			return self.urlField
-		set:
-			self.urlField = value
+  
+  public Url as string:
+    get:
+      return self.urlField
+    set:
+      self.urlField = value
 
-	
-	public DisplayUrl as string:
-		get:
-			return self.displayUrlField
-		set:
-			self.displayUrlField = value
+  
+  public DisplayUrl as string:
+    get:
+      return self.displayUrlField
+    set:
+      self.displayUrlField = value
 
-	
-	public CacheUrl as string:
-		get:
-			return self.cacheUrlField
-		set:
-			self.cacheUrlField = value
+  
+  public CacheUrl as string:
+    get:
+      return self.cacheUrlField
+    set:
+      self.cacheUrlField = value
 
-	
-	public Source as string:
-		get:
-			return self.sourceField
-		set:
-			self.sourceField = value
+  
+  public Source as string:
+    get:
+      return self.sourceField
+    set:
+      self.sourceField = value
 
-	
-	public SearchTags as string:
-		get:
-			return self.searchTagsField
-		set:
-			self.searchTagsField = value
+  
+  public SearchTags as string:
+    get:
+      return self.searchTagsField
+    set:
+      self.searchTagsField = value
 
-	
-	public Phone as string:
-		get:
-			return self.phoneField
-		set:
-			self.phoneField = value
+  
+  public Phone as string:
+    get:
+      return self.phoneField
+    set:
+      self.phoneField = value
 
-	
-	public DateTime as DateTime:
-		get:
-			return self.DateTimeField
-		set:
-			
-			self.DateTimeField = value
+  
+  public DateTime as DateTime:
+    get:
+      return self.DateTimeField
+    set:
+      
+      self.DateTimeField = value
 
-	
-	public Address as Address:
-		get:
-			return self.addressField
-		set:
-			self.addressField = value
+  
+  public Address as Address:
+    get:
+      return self.addressField
+    set:
+      self.addressField = value
 
-	
-	public Location as Location:
-		get:
-			return self.locationField
-		set:
-			self.locationField = value
+  
+  public Location as Location:
+    get:
+      return self.locationField
+    set:
+      self.locationField = value
 
-	
-	[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
-	public SearchTagsArray as (SearchTag):
-		get:
-			return self.searchTagsArrayField
-		set:
-			self.searchTagsArrayField = value
+  
+  [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
+  public SearchTagsArray as (SearchTag):
+    get:
+      return self.searchTagsArrayField
+    set:
+      self.searchTagsArrayField = value
 
-	
-	public Summary as string:
-		get:
-			return self.summaryField
-		set:
-			self.summaryField = value
+  
+  public Summary as string:
+    get:
+      return self.summaryField
+    set:
+      self.summaryField = value
 
-	
-	public ResultType as string:
-		get:
-			return self.resultTypeField
-		set:
-			self.resultTypeField = value
+  
+  public ResultType as string:
+    get:
+      return self.resultTypeField
+    set:
+      self.resultTypeField = value
 
-	
-	public Image as Image:
-		get:
-			return self.imageField
-		set:
-			self.imageField = value
+  
+  public Image as Image:
+    get:
+      return self.imageField
+    set:
+      self.imageField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -735,46 +735,46 @@ partial public class Result:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class SourceResponse:
 
-	
-	private sourceField as SourceType
+  
+  private sourceField as SourceType
 
-	
-	private offsetField as int
+  
+  private offsetField as int
 
-	
-	private totalField as int
+  
+  private totalField as int
 
-	
-	private resultsField as (Result)
+  
+  private resultsField as (Result)
 
-	
-	public Source as SourceType:
-		get:
-			return self.sourceField
-		set:
-			self.sourceField = value
+  
+  public Source as SourceType:
+    get:
+      return self.sourceField
+    set:
+      self.sourceField = value
 
-	
-	public Offset as int:
-		get:
-			return self.offsetField
-		set:
-			self.offsetField = value
+  
+  public Offset as int:
+    get:
+      return self.offsetField
+    set:
+      self.offsetField = value
 
-	
-	public Total as int:
-		get:
-			return self.totalField
-		set:
-			self.totalField = value
+  
+  public Total as int:
+    get:
+      return self.totalField
+    set:
+      self.totalField = value
 
-	
-	[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
-	public Results as (Result):
-		get:
-			return self.resultsField
-		set:
-			self.resultsField = value
+  
+  [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
+  public Results as (Result):
+    get:
+      return self.resultsField
+    set:
+      self.resultsField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -782,32 +782,32 @@ partial public class SourceResponse:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 public enum SourceType:
 
-	
-	Web
+  
+  Web
 
-	
-	News
+  
+  News
 
-	
-	Ads
+  
+  Ads
 
-	
-	InlineAnswers
+  
+  InlineAnswers
 
-	
-	PhoneBook
+  
+  PhoneBook
 
-	
-	WordBreaker
+  
+  WordBreaker
 
-	
-	Spelling
+  
+  Spelling
 
-	
-	QueryLocation
+  
+  QueryLocation
 
-	
-	Image
+  
+  Image
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -817,16 +817,16 @@ public enum SourceType:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class SearchResponse:
 
-	
-	private responsesField as (SourceResponse)
+  
+  private responsesField as (SourceResponse)
 
-	
-	[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
-	public Responses as (SourceResponse):
-		get:
-			return self.responsesField
-		set:
-			self.responsesField = value
+  
+  [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
+  public Responses as (SourceResponse):
+    get:
+      return self.responsesField
+    set:
+      self.responsesField = value
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -836,85 +836,85 @@ partial public class SearchResponse:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 partial public class SourceRequest:
 
-	
-	private sourceField as SourceType
+  
+  private sourceField as SourceType
 
-	
-	private offsetField as int
+  
+  private offsetField as int
 
-	
-	private countField as int
+  
+  private countField as int
 
-	
-	private fileTypeField as string
+  
+  private fileTypeField as string
 
-	
-	private sortByField as SortByType
+  
+  private sortByField as SortByType
 
-	
-	private resultFieldsField as ResultFieldMask
+  
+  private resultFieldsField as ResultFieldMask
 
-	
-	private searchTagFiltersField as (string)
+  
+  private searchTagFiltersField as (string)
 
-	
-	public def constructor():
-		self.sourceField = SourceType.Web
-		self.offsetField = 0
-		self.countField = 10
-		self.sortByField = SortByType.Default
-		self.resultFieldsField = ((ResultFieldMask.Title | ResultFieldMask.Description) | ResultFieldMask.Url)
+  
+  public def constructor():
+    self.sourceField = SourceType.Web
+    self.offsetField = 0
+    self.countField = 10
+    self.sortByField = SortByType.Default
+    self.resultFieldsField = ((ResultFieldMask.Title | ResultFieldMask.Description) | ResultFieldMask.Url)
 
-	
-	public Source as SourceType:
-		get:
-			return self.sourceField
-		set:
-			self.sourceField = value
+  
+  public Source as SourceType:
+    get:
+      return self.sourceField
+    set:
+      self.sourceField = value
 
-	
-	public Offset as int:
-		get:
-			return self.offsetField
-		set:
-			self.offsetField = value
+  
+  public Offset as int:
+    get:
+      return self.offsetField
+    set:
+      self.offsetField = value
 
-	
-	public Count as int:
-		get:
-			return self.countField
-		set:
-			self.countField = value
+  
+  public Count as int:
+    get:
+      return self.countField
+    set:
+      self.countField = value
 
-	
-	public FileType as string:
-		get:
-			return self.fileTypeField
-		set:
-			self.fileTypeField = value
+  
+  public FileType as string:
+    get:
+      return self.fileTypeField
+    set:
+      self.fileTypeField = value
 
-	
-	[System.ComponentModel.DefaultValueAttribute(SortByType.Default)]
-	public SortBy as SortByType:
-		get:
-			return self.sortByField
-		set:
-			self.sortByField = value
+  
+  [System.ComponentModel.DefaultValueAttribute(SortByType.Default)]
+  public SortBy as SortByType:
+    get:
+      return self.sortByField
+    set:
+      self.sortByField = value
 
-	
-	public ResultFields as ResultFieldMask:
-		get:
-			return self.resultFieldsField
-		set:
-			self.resultFieldsField = value
+  
+  public ResultFields as ResultFieldMask:
+    get:
+      return self.resultFieldsField
+    set:
+      self.resultFieldsField = value
 
-	
-	[System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
-	public SearchTagFilters as (string):
-		get:
-			return self.searchTagFiltersField
-		set:
-			self.searchTagFiltersField = value
+  
+  [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable: false)]
+  public SearchTagFilters as (string):
+    get:
+      return self.searchTagFiltersField
+    set:
+      self.searchTagFiltersField = value
 
 
 [System.FlagsAttribute]
@@ -923,14 +923,14 @@ partial public class SourceRequest:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 public enum SortByType:
 
-	
-	Default = 1
+  
+  Default = 1
 
-	
-	Relevance = 2
+  
+  Relevance = 2
 
-	
-	Distance = 4
+  
+  Distance = 4
 
 
 [System.FlagsAttribute]
@@ -939,53 +939,53 @@ public enum SortByType:
 [System.Xml.Serialization.XmlTypeAttribute(Namespace: 'http://schemas.microsoft.com/MSNSearch/2005/09/fex')]
 public enum ResultFieldMask:
 
-	
-	All = 1
+  
+  All = 1
 
-	
-	Title = 2
+  
+  Title = 2
 
-	
-	Description = 4
+  
+  Description = 4
 
-	
-	Url = 8
+  
+  Url = 8
 
-	
-	DisplayUrl = 16
+  
+  DisplayUrl = 16
 
-	
-	CacheUrl = 32
+  
+  CacheUrl = 32
 
-	
-	Source = 64
+  
+  Source = 64
 
-	
-	SearchTags = 128
+  
+  SearchTags = 128
 
-	
-	Phone = 256
+  
+  Phone = 256
 
-	
-	DateTime = 512
+  
+  DateTime = 512
 
-	
-	Address = 1024
+  
+  Address = 1024
 
-	
-	Location = 2048
+  
+  Location = 2048
 
-	
-	SearchTagsArray = 4096
+  
+  SearchTagsArray = 4096
 
-	
-	Summary = 8192
+  
+  Summary = 8192
 
-	
-	ResultType = 16384
+  
+  ResultType = 16384
 
-	
-	Image = 32768
+  
+  Image = 32768
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute('wsdl', '2.0.50727.312')]
@@ -996,18 +996,18 @@ public callable SearchCompletedEventHandler(sender as object, e as SearchComplet
 [System.ComponentModel.DesignerCategoryAttribute('code')]
 partial public class SearchCompletedEventArgs(System.ComponentModel.AsyncCompletedEventArgs):
 
-	
-	private results as (object)
+  
+  private results as (object)
 
-	
-	internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
-		super(exception, cancelled, userState)
-		self.results = results
+  
+  internal def constructor(results as (object), exception as System.Exception, cancelled as bool, userState as object):
+    super(exception, cancelled, userState)
+    self.results = results
 
-	
-	public Result as SearchResponse:
-		get:
-			self.RaiseExceptionIfNecessary()
-			return cast(SearchResponse, self.results[0])
+  
+  public Result as SearchResponse:
+    get:
+      self.RaiseExceptionIfNecessary()
+      return cast(SearchResponse, self.results[0])
 
 
