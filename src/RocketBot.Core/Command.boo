@@ -1,17 +1,8 @@
-
 namespace PredibotLib
 
 import System
-import System.Net
-import System.Net.Sockets
-import System.IO
-import System.Threading
-import System.Data
-import System.Collections
 import System.Collections.Generic
-import System.Text
 import System.Text.RegularExpressions
-import System.Xml
 
 public callable PrivMSGCommand(message as IncomingMessage, displayDocs as bool) as void
 public callable RawMSGCommand(message as IncomingMessage) as void

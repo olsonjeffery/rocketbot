@@ -1,7 +1,7 @@
 ﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{020E9D77-1643-4AC4-98DB-BDB4D8543D87}</ProjectGuid>
@@ -16,34 +16,24 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <SourceAnalysisOverrideSettingsFile>C:\Users\Administrator\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Db4objects.Db4o, Version=6.3.500.0, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -60,27 +50,17 @@
     <Compile Include="CommandRunners\RawMSGRunner.boo" />
     <Compile Include="CommandRunners\TimerRunner.boo" />
     <Compile Include="Configuration.boo" />
-    <Compile Include="Database.boo" />
     <Compile Include="FuturePlugins\MSNSearchService.boo" />
     <Compile Include="FuturePlugins\ndfdXML.boo" />
     <Compile Include="FuturePlugins\TranslateService.boo" />
     <Compile Include="IncomingMessage.boo" />
     <Compile Include="IrcConnection.boo" />
     <Compile Include="NdfdXMLParser.boo" />
-    <Compile Include="Persistence\BandName.boo" />
-    <Compile Include="Persistence\ChannelTopic.boo" />
-    <Compile Include="Persistence\CommandLogMessage.boo" />
-    <Compile Include="Persistence\Group.boo" />
-    <Compile Include="Persistence\GroupMembership.boo" />
-    <Compile Include="Persistence\PrediRecord.boo" />
-    <Compile Include="Persistence\User.boo" />
-    <Compile Include="Persistence\WebURL.boo" />
     <Compile Include="Plugin.boo" />
     <Compile Include="Properties\AssemblyInfo.boo" />
     <Compile Include="RegexLibrary.boo" />
+    <Compile Include="User.boo" />
     <Compile Include="Utilities.boo" />
-    <Content Include="db4o\Db4objects.Db4o.dll" />
-    <Content Include="db4o\Db4objects.Db4o.xml" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>

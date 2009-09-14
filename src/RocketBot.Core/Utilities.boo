@@ -28,14 +28,7 @@ public class Utilities:
 	
 	public static def IsUserBotAdmin(nick as string) as bool:
 		
-		returnValue = false
-		
-		// first determine that the user is in our valid list of
-		// stored users
-		if not User.DoesUserExistByNick(nick):
-			
-			return returnValue
-			
+		returnValue = false	
 		
 		// next let's check if the user is identified to nickserv
 		if not IrcConnection.IsNickIdentifiedToServices(nick):

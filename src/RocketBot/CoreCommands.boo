@@ -18,18 +18,6 @@ public static class CoreCommands:
 
 	
 	public static def SetupCommands():
-		// hello command
-		//PredibotLib.PrivMSGRunner.RegisterCommand();
-		
-		// seen
-		//PredibotLib.PrivMSGRunner.RegisterCommand());
-		
-		// export command test
-		PredibotLib.PrivMSGRunner.RegisterCommand(PredibotLib.CommandWrapper((of string: 'export'), Regex('^(?<command>export) (?<args>.+)$'), export_Command))
-		
-		// import command test
-		PredibotLib.PrivMSGRunner.RegisterCommand(PredibotLib.CommandWrapper((of string: 'import'), Regex('^(?<command>import) (?<args>.+)$'), import_Command))
-		
 		// web summary
 		PredibotLib.RawMSGRunner.RegisterCommand(PredibotLib.CommandWrapper('websummary', Regex('^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*'), websummary_Command))
 		
@@ -109,21 +97,6 @@ public static class CoreCommands:
 			urlTitle as string = splitOne[1].Substring(0, titleCloseIndex)
 			
 			IrcConnection.SendPRIVMSG(message.Channel, (('"' + urlTitle) + '"'))
-			
-			Database.CreateNewWebURL(message, webSummaryURLMatch.Groups['websummaryurl'].Value, urlTitle)
-		
-		/* 
-                // doesn't work :/
-                Match titleMatch = getTitleGroup.Match(sb.ToString());
-                if (titleMatch.Success)
-                {
-                    Console.WriteLine("Inside of the check");
-                    Formatting.WriteToChannel(message.Channel, "\""+titleMatch.Groups["title"].Value+"\"");
-
-                }
-                */
-		
-		
 		
 		
 		except e as Exception:
@@ -132,38 +105,3 @@ public static class CoreCommands:
 		
 
 	#endregion
-	
-	public static def export_Command(message as IncomingMessage, displayDocs as bool):
-		converterGeneratedName1 = message.Args.Trim()
-		
-		
-		if converterGeneratedName1 == 'User':
-			User.Export('userexport.prd')
-		else:
-			IrcConnection.SendPRIVMSG(message.Channel, (('No export functionality set up for the \'' + message.Args) + '\' type.'))
-			return 
-		
-
-	
-	public static def import_Command(message as IncomingMessage, displayDocs as bool):
-		
-		importSplit as (string) = message.Args.Trim().Split(char(' '))
-		if importSplit.Length != 2:
-			IrcConnection.SendPRIVMSG(message.Channel, 'You need to use the command like so: \'!import <type> <filename>\'')
-			return 
-		
-		if not FileInfo(((Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar) + importSplit[1])).Exists:
-			IrcConnection.SendPRIVMSG(message.Channel, (('The import file \'' + importSplit[1]) + '\' does not exist.'))
-			return 
-		else:
-			converterGeneratedName2 = importSplit[0]
-			if converterGeneratedName2 == 'User':
-				User.Import(importSplit[1])
-			else:
-				IrcConnection.SendPRIVMSG(message.Channel, (('There are no import rules for type \'' + importSplit[0]) + '\''))
-				return 
-		
-	
-	
-	
-

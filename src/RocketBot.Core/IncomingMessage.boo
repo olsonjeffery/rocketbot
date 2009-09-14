@@ -10,6 +10,7 @@ import System.Data
 import System.Collections
 import System.Collections.Generic
 import System.Text.RegularExpressions
+import RocketBot.Core
 
 public class IncomingMessage:
 
@@ -58,7 +59,7 @@ public class IncomingMessage:
 		
 		RawMessage = rawMessage
 		
-		User = User('.', DateTime.Now)
+		User = User('.')
 		DisplayDocs = false
 		
 		m as Match = RegexLibrary.GetRegex('IRCMessageGroup').Match(RawMessage)

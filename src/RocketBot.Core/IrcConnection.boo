@@ -328,11 +328,6 @@ public class IrcConnection:
 		Thread.Sleep(1000)
 		irc.Close()
 		
-		// need to close down everything that needs closing...
-		// currently that would just be the db.
-		Database.CloseDBConnection()
-		BotDB.CloseDBConnection()
-		
 		Environment.Exit(0)
 		
 
