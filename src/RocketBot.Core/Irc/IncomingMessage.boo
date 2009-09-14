@@ -1,13 +1,6 @@
 namespace RocketBot.Core
 
 import System
-import System.Net
-import System.Net.Sockets
-import System.IO
-import System.Threading
-import System.Data
-import System.Collections
-import System.Collections.Generic
 import System.Text.RegularExpressions
 import RocketBot.Core
 
@@ -141,26 +134,18 @@ public class IncomingMessage:
       Utilities.DebugOutput(((('Topic change: "' + Message) + '" by ') + Nick))
       
       return 
-      
-    
-    // check if it's a VERSION
-    
-    // PING/PONG check?
     
     // If it's anything else ?
-    if true:
-      
-      //throw new Exception("The message parse did not work. Not good.");
-      Message = ''
-      FullMessage = ''
-      Nick = ''
-      Channel = ''
-      SenderHostInfo = ''
-      Command = ''
-      Args = ''
-      MessageType = (-1)
-      
-      Utilities.DebugOutput('Unmatched message type?')
+    Message = ''
+    FullMessage = ''
+    Nick = ''
+    Channel = ''
+    SenderHostInfo = ''
+    Command = ''
+    Args = ''
+    MessageType = (-1)
+    
+    Utilities.DebugOutput('Unmatched message type?')
       
       
     

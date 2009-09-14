@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.boo" />
-    <Compile Include="CoreCommands.boo" />
     <Compile Include="Program.boo" />
     <None Include="Scripts\web_summary.boo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

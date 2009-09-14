@@ -2,28 +2,16 @@ namespace RocketBot.Core
 
 import System
 import System.Net
-import System.Net.Sockets
 import System.IO
-import System.Threading
-import System.Data
-import System.Collections
 import System.Collections.Generic
 import System.Text
 import System.Text.RegularExpressions
-import System.Xml
-
 
 public class PrivMSGRunner:
 
   
   private static _commandSyntaxDict as Dictionary[of string, Regex] = Dictionary[of string, Regex]()
 
-  
-  // pretty durn useless
-  //public static Regex getTitleGroup = new Regex(@"(?<beforetitle>(?:\n|.)+)\<title\>(?<title>(?:\n|.)*)\<\\title\>(?<aftertitle>(?:\n|.)+)");
-  
-  //public static string AppID = @"9074058FAC2C1A3D55A3CE860BE7CD50589FAD9D";
-  
   private def constructor():
     pass
     // empty ctor
@@ -82,30 +70,14 @@ public class PrivMSGRunner:
     // help command
     _lexicon.Add('help', help_Command)
     _commandSyntaxDict.Add('help', Regex('^(?<command>help)(?<args>.*)$'))
-    
-    // test methods to flesh out various pieces of functionality
-    // 
-    /*_lexicon.Add("idtoservices", idtoservices_Command); // test nickserv check
-            _lexicon.Add("threadlock", threadlock_Command); // testing threads
-            _lexicon.Add("translate", translate_Command); // translation stuff
-            _lexicon.Add("whoistest", whoistest_Command); // whois test
-            */
-    
-    
+        
     // leave and it's synonyms -- naturalized
     _lexicon.Add('leave', leave_Command)
     _lexicon.Add('bye', leave_Command)
     _lexicon.Add('seeya', leave_Command)
     _lexicon.Add('quit', leave_Command)
     _lexicon.Add('exit', leave_Command)
-    _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))
-    
-    // special case command, doesn't reqire a syntax because it's never
-    // executed directly by a user, also by inference if a URL is in
-    // their IRC message.
-    //_lexicon.Add("websummary", websummary_Command);
-    
-    
+    _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))    
 
   
   #region ExecuteCommand Methods

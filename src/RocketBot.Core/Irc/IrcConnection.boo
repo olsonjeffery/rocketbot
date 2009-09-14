@@ -1,14 +1,11 @@
 namespace RocketBot.Core
 
 import System
-import System.Net
 import System.Net.Sockets
 import System.IO
 import System.Threading
-import System.Data
 import System.Collections
 import System.Collections.Generic
-import System.Text.RegularExpressions
 
 // Class to get information from the IRC Server
 public class IrcConnection:
@@ -208,8 +205,6 @@ public class IrcConnection:
     stream as NetworkStream
     //TcpClient irc;
     inputLine as string
-    reader as StreamReader
-    
     try:
       // Connection stuff
       

@@ -10,7 +10,7 @@ public static class PluginLoader:
   private _plugins as Dictionary[of string, Plugin]
 
   public Plugins as Dictionary[of string, Plugin]:
-    static get:
+    get:
       return _plugins
 
   
@@ -54,12 +54,10 @@ public static class PluginLoader:
       for type as Type in asm.GetTypes():    
         if type.IsAbstract:
           continue 
-        attrs as (object) = type.GetCustomAttributes(typeof(PluginAttribute), true)
-        // if true, we have plugin, yay!
-        
-        //implementsIPlugin = type.GetInterface('IPlugin') is not null
-        
-        if attrs.Length > 0:// or implementsIPlugin:
+
+        implementsIPlugin = typeof(IPlugin).IsAssignableFrom(type)
+        if implementsIPlugin:
+          print "here?"
           PluginClass = type
           rawPlugin = (Activator.CreateInstance(PluginClass) as IPlugin)
           

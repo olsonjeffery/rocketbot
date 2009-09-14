@@ -1,13 +1,7 @@
 namespace RocketBot.Core
 
 import System
-import System.Collections
 import System.Collections.Generic
-import System.Text
-import System.Text.RegularExpressions
-import System.Data
-import System.Reflection
-import System.IO
 
 public interface IPlugin:
 
@@ -26,18 +20,8 @@ public interface IPlugin:
 
   
   def GetCommands() as List[of CommandWrapper]
-  
-  
 
-
-
-[AttributeUsage(AttributeTargets.Class)]
-public final class PluginAttribute(Attribute):
-  pass
-  
-
-
-public class Plugin(IPlugin):
+public class Plugin:
 
   
   private _internalPlugin as IPlugin

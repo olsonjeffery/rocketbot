@@ -8,7 +8,6 @@ import System.Collections.Generic
 import System.Text.RegularExpressions
 import RocketBot.Core
 
-[Plugin]
 public class WebSummaryPlugin(IPlugin):
   public Name as string:
     get:
