@@ -41,20 +41,27 @@
     <Compile Include="ActionQueue.boo" />
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="BotConfig.boo" />
-    <Compile Include="Command.boo" />
-    <Compile Include="IncomingMessage.boo" />
-    <Compile Include="IrcConnection.boo" />
-    <Compile Include="MSNSearchService.boo" />
-    <Compile Include="ndfdXML.boo" />
-    <Compile Include="NdfdXMLParser.boo" />
-    <Compile Include="Plugin.boo" />
-    <Compile Include="PrivMSGRunner.boo" />
-    <Compile Include="RawMSGRunner.boo" />
+    <Compile Include="Irc\IncomingMessage.boo" />
+    <Compile Include="Irc\IrcConnection.boo" />
+    <Compile Include="Plugin\Command.boo" />
+    <Compile Include="Plugin\Plugin.boo" />
     <Compile Include="RegexLibrary.boo" />
-    <Compile Include="TimerRunner.boo" />
-    <Compile Include="TranslateService.boo" />
+    <Compile Include="Runners\PrivMSGRunner.boo" />
+    <Compile Include="Runners\RawMSGRunner.boo" />
+    <Compile Include="Runners\TimerRunner.boo" />
+    <Compile Include="Services\MSNSearchService.boo" />
+    <Compile Include="Services\ndfdXML.boo" />
+    <Compile Include="Services\NdfdXMLParser.boo" />
+    <Compile Include="Services\TranslateService.boo" />
     <Compile Include="User.boo" />
     <Compile Include="Utilities.boo" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Macros" />
+    <Folder Include="Irc" />
+    <Folder Include="Services" />
+    <Folder Include="Runners" />
+    <Folder Include="Plugin" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>
