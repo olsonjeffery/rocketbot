@@ -3,30 +3,19 @@ namespace Predibot
 
 import System
 import System.Net
-import System.Net.Sockets
 import System.IO
-import System.Threading
-import System.Data
-import System.Collections
-import System.Collections.Generic
 import System.Text
 import System.Text.RegularExpressions
-import System.Reflection
 import PredibotLib
 
 public static class CoreCommands:
 
 	
-	public static def SetupCommands():
+	public def SetupCommands():
 		// web summary
 		PredibotLib.RawMSGRunner.RegisterCommand(PredibotLib.CommandWrapper('websummary', Regex('^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*'), websummary_Command))
 		
-
-	
-	
-	
-	#region websummary_Command()
-	private static def websummary_Command(message as IncomingMessage):
+	private def websummary_Command(message as IncomingMessage):
 		
 		
 		// this is a dirty hack to avoid explicit execution of this command..
@@ -89,7 +78,6 @@ public static class CoreCommands:
 			// say not to waste your time with doing regex on HTML, so
 			// yeah...
 			blah as (string) = ('<title>',)
-			blahTwo as (string) = ('<\\title>',)
 			splitOne as (string) = sb.ToString().Split(blah, StringSplitOptions.None)
 			//string[] splitTwo = splitOne[1].ToString().Split(blahTwo, StringSplitOptions.None);
 			titleCloseIndex as int = splitOne[1].IndexOf('</title>')
@@ -102,6 +90,3 @@ public static class CoreCommands:
 		except e as Exception:
 			
 			Console.WriteLine(((Utilities.TimeStamp() + 'EXCEPTION: ') + e.ToString()))
-		
-
-	#endregion
