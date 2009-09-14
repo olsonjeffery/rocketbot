@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<RocketBotConfiguration>
+    <Version>
+      0.1
+    </Version>
+    <VersionDate>
+      09/14/2008
+    </VersionDate>
+    <!-- IRC identification/connection information-->
+    <IRCServer>
+      irc.freenode.net
+    </IRCServer>
+    <IRCPort>
+      6667
+    </IRCPort>
+    <Channel>
+      #testchannel
+    </Channel>
+    <IRCNick>
+      rocketbot_test
+    </IRCNick>
+    <Username>
+      User rocket 8 * :Arf, arf!
+    </Username>
+    <RegisterWithNickserv>
+      True
+    </RegisterWithNickserv>
+    <NickservPassword>
+      rocketbot123!
+    </NickservPassword>
+    <SearchAppID>
+      9074058FAC2C1A3D55A3CE860BE7CD50589FAD9D
+    </SearchAppID>
+    <!-- How often to send a ping to the server in seconds-->
+    <PingPongInterval>
+      60
+    </PingPongInterval>
+    <!-- Send shitloads of raw irc output to the console?-->
+    <RawIRCOutput>
+      True
+    </RawIRCOutput>
+    <DebugOutput>
+      True
+    </DebugOutput>
+    <BotAdmins>
+      patientfox
+    </BotAdmins>
+    <YahooAppID>
+      EO1LA9LV34FJj90jpp_q8k6Kv1zNJK3UipHoQ704YotCUi6eEDRy3CD.XhvCFSEu.A--
+    </YahooAppID>
+  </RocketBotConfiguration>
+</Configuration>
