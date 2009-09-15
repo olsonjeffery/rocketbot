@@ -24,9 +24,9 @@ public static class PluginLoader:
     
     files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.boo')
     for file in files:
-      print "LOADING SCRIPT: "+file.FullName
+      Utilities.DebugOutput("LOADING SCRIPT: "+file.FullName)
       asm = compiler.CompileCodeAndGetAssembly(file.FullName)
-      print "after compiling"
+      
       LoadPluginsInAssembly(asm)
   
   public def LoadPluginsFromAssembliesInPath(pluginPath as string):
