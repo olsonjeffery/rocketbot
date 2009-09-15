@@ -141,18 +141,26 @@ def GetCommands(body as Block) as Method*:
         nameLiteral = StringLiteralExpression(name)
         getCommandsMethod.Body.Statements.Add(ExpressionStatement([| $botNamesList.Add($nameLiteral) |]))
       
-      regexLiteral = m["reLiteral"] as RELiteralExpression
+      regexLiteral = m["reLiteral"] as StringLiteralExpression
       raise "null re literal?" if regexLiteral is null
       raise "null method name?" if m.Name is null
       methodName = ReferenceExpression(m.Name)
       
-      pattern = regexLiteral.ToCodeString().Remove(0, 1).Remove((regexLiteral.ToCodeString().Length-2), 1)
+      pattern = regexLiteral
       
       methods.Add(m)
       
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($botNamesList, System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
     elif cmdType == "raw":
-      pass
+      commandName = StringLiteralExpression(m["commandName"] as string)
+      raise "null names?" if commandName is null
+      regexLiteral = m["reLiteral"] as StringLiteralExpression
+      raise "null re literal?" if regexLiteral is null
+      raise "null method name?" if m.Name is null
+      methodName = ReferenceExpression(m.Name)
+      pattern = regexLiteral
+      methods.Add(m)
+      getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($commandName, System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
     elif cmdType == "timer":
       pass
     else:

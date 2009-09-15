@@ -8,25 +8,13 @@ import System.Collections.Generic
 import System.Text.RegularExpressions
 import RocketBot.Core
 
-public class WebSummaryPlugin(IPlugin):
-  public Name as string:
-    get:
-      return "Web Summary"
-  public Description as string:
-    get:
-      return "prints the <title> to a channel when a URL is pasted"
-  public Version as string:
-    get:
-      return "0.1"
-  public Author as string:
-    get:
-      return "pfox"
-  
-  public def GetCommands() as List[of CommandWrapper]:
-    wrapper = CommandWrapper(Name, Regex('^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*'), WebSummary.ProcessSummary)
-    list = List of CommandWrapper()
-    list.Add(wrapper)
-    return list
+plugin WebSummaryPlugin:
+  name "Web Summary"
+  desc "prints the <title> to a channel when a URL is pasted"
+  version "0.1"
+  author "pfox"
+  raw_command "^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*":
+    WebSummary.ProcessSummary(message)
 
 public class WebSummary:
   public static Pattern as Regex = Regex('(?<before>.*)(?<websummaryurl>http://[^ ]+)(?<after>.*)')

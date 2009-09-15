@@ -8,7 +8,7 @@ plugin LaeveCommand:
   version "0.1"
   author "pfox"
   desc "tells the bot to shutdown. available only to bot admins"
-  bot_command /^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$/, leave, bye, seeya, quit, exit:
+  bot_command "^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$", leave, bye, seeya, quit, exit:
     if not Utilities.IsUserBotAdmin(message.Nick):
       return 
     

@@ -67,6 +67,7 @@
     <Compile Include="Macros\DescMacro.boo" />
     <Compile Include="Macros\NameMacro.boo" />
     <Compile Include="Macros\PluginMacro.boo" />
+    <Compile Include="Macros\RawCommandMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Plugin\Command.boo" />
     <Compile Include="Plugin\Plugin.boo" />
