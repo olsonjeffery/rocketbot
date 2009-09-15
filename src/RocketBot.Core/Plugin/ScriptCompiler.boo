@@ -9,10 +9,6 @@ import Boo.Lang.Compiler.Pipelines
 
 
 class ScriptCompiler:
-"""Description of ScriptCompiler"""
-  public def constructor():
-    pass
-
   public def CompileCodeAndGetAssembly(filePath as string) as Assembly:
 
     booC = BooCompiler()

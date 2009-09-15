@@ -7,12 +7,12 @@ import System.Text.RegularExpressions
 public static class RawMSGRunner:
 
   
-  private static _lexicon as Dictionary[of string, RawMSGCommand]
+  private _lexicon as Dictionary[of string, RawMSGCommand]
 
-  private static _commandSyntaxDict as Dictionary[of string, Regex]
+  private _commandSyntaxDict as Dictionary[of string, Regex]
 
   
-  public static def Initialize():
+  public def Initialize():
     // the dictionary that contains the string/value pairs pointing to
     _lexicon = Dictionary[of string, RawMSGCommand]()
     // set up the command syntax dict, which does all of out syntax parsing for
@@ -20,7 +20,7 @@ public static class RawMSGRunner:
     _commandSyntaxDict = Dictionary[of string, Regex]()
 
   
-  public static def RegisterCommand(commandInfo as CommandWrapper):
+  public def RegisterCommand(commandInfo as CommandWrapper):
     
     _lexicon.Add(commandInfo.Names[0], commandInfo.RawMSGMethod)
     _commandSyntaxDict.Add(commandInfo.Names[0], commandInfo.SyntaxPattern)
@@ -29,7 +29,7 @@ public static class RawMSGRunner:
   
   #region ExecuteCommands
   
-  public static def ExecuteCommand(commandTemp as string, message as IncomingMessage):
+  public def ExecuteCommand(commandTemp as string, message as IncomingMessage):
     
     try:
       command = cast(RawMSGCommand, _lexicon[commandTemp])
@@ -43,7 +43,7 @@ public static class RawMSGRunner:
     
 
   
-  public static def ParseMessage(message as IncomingMessage):
+  public def ParseMessage(message as IncomingMessage):
     
     for key as string in _lexicon.Keys:
       m as Match = _commandSyntaxDict[key].Match(message.RawMessage)

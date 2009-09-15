@@ -5,16 +5,8 @@ import System.Collections.Generic
 import System.Text.RegularExpressions
 
 public class RegexLibrary:
-
-  
   private static _regexDict as Dictionary[of string, Regex]
 
-  
-  private def constructor():
-    pass
-    // private ctor
-
-  
   public static def Initialize():
     _regexDict = Dictionary[of string, Regex]()
     
@@ -32,8 +24,6 @@ public class RegexLibrary:
     _regexDict.Add('naturalLanguagePattern', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*.+$|^.+,\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
     _regexDict.Add('naturalLanguageGroup', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*(?<message>.+)$|^(?<message>.+),\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
     
-
-  
   public static def GetRegex(key as string) as Regex:
     
     return _regexDict[key]

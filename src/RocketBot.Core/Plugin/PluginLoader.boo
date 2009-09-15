@@ -40,7 +40,6 @@ public static class PluginLoader:
     InitializePluginsDict();
     
     asm as Assembly
-    PluginClass as Type = null
     files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.dll')
     Utilities.DebugOutput(((('Plugins found in dir \'' + pluginPath) + '\': ') + files.Length))
     
@@ -48,7 +47,7 @@ public static class PluginLoader:
       asm = Assembly.LoadFile(file.FullName)
       LoadPluginsInAssembly(asm)
   
-  public static def LoadPluginsInAssembly(asm as Assembly):
+  public def LoadPluginsInAssembly(asm as Assembly):
     Utilities.DebugOutput('Full assembly name: \'' + asm.FullName + '\'')
     if asm is not null:
       for type as Type in asm.GetTypes():    

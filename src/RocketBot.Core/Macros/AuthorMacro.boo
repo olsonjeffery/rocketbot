@@ -1,7 +1,6 @@
 ﻿namespace RocketBot.Core
 
 import System
-import Boo.Lang.Compiler
 import Boo.Lang.Compiler.Ast
 
 macro author:

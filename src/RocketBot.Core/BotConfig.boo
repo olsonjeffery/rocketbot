@@ -2,14 +2,7 @@
 namespace RocketBot.Core
 
 import System
-import System.Net
-import System.Net.Sockets
-import System.IO
-import System.Threading
 import System.Data
-import System.Collections
-import System.Collections.Generic
-import System.Text.RegularExpressions
 
 public final class BotConfig:
 
@@ -18,17 +11,6 @@ public final class BotConfig:
   // datarow. yip yip yip!
   private static config as DataRow = null
 
-  
-  
-  
-  private def constructor():
-    pass
-    
-    // yeeeeah
-    
-
-  
-  
   public static def Initialize(path as string, configPiece as string):
     
     // i suppose its fair to say that this is a pretty kludgey
@@ -48,9 +30,6 @@ public final class BotConfig:
       // log call here
       Console.WriteLine(('Failure to initialize Configuration: ' + e.ToString()))
     
-    
-
-  
   public static def Initialize():
     
     /*
@@ -70,8 +49,6 @@ public final class BotConfig:
     
     Initialize(((System.Environment.CurrentDirectory.ToString() + System.IO.Path.DirectorySeparatorChar.ToString()) + path), 'RocketBotConfiguration')
 
-  
-  
   public static def GetParameter(param as string) as string:
     
     if (config[param].ToString().Trim() is null) or (config[param].ToString().Trim() == ''):

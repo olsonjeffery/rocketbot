@@ -1,26 +1,14 @@
 namespace RocketBot.Core
 
 import System
-import System.Net
-import System.IO
 import System.Collections.Generic
-import System.Text
 import System.Text.RegularExpressions
 
 public class PrivMSGRunner:
-
-  
   private static _commandSyntaxDict as Dictionary[of string, Regex] = Dictionary[of string, Regex]()
-
-  private def constructor():
-    pass
-    // empty ctor
-
   
   private static _lexicon as Dictionary[of string, PrivMSGCommand]
 
-  
-  
   public static def RegisterCommand(commandInfo as CommandWrapper):
     
     // first of all create _lexicon entries for each entry
@@ -32,9 +20,6 @@ public class PrivMSGRunner:
     // in index 0
     _commandSyntaxDict.Add(commandInfo.Names[0], commandInfo.SyntaxPattern)
     
-    
-
-  
   public static def Initialize():
     
     // the dictionary that contains the string/value pairs pointing to
@@ -59,9 +44,6 @@ public class PrivMSGRunner:
     _lexicon.Add('exit', leave_Command)
     _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))    */
 
-  
-  #region ExecuteCommand Methods
-  
   public static def ExecuteCommand(message as IncomingMessage):
     
     try:
@@ -71,9 +53,6 @@ public class PrivMSGRunner:
       // blah!
       Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(IncomingMessage): ') + e.ToString()))
     
-    
-
-  
   public static def ExecuteCommand(commandTemp as string, message as IncomingMessage):
     
     try:
@@ -85,16 +64,7 @@ public class PrivMSGRunner:
       // blah!
       Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(string, IncomingMessage): ') + e.ToString()))
     
-    
-
-  
-  #endregion
-  
-  
   public static def ParseCommand(message as IncomingMessage):
-    
-    
-    
     // in case the command get's wiped out when passed as an 'out',
     // we have it here
     commandTemp as string = message.Command
@@ -106,7 +76,6 @@ public class PrivMSGRunner:
       IrcConnection.SendPRIVMSG(message.Nick, (('The \'' + message.Command) + '\' command does not exist, sorry.'))
       return 
       
-    
     // check if the message is properly formed...?
     
     Utilities.DebugOutput(('Parse Command attempted message: ' + message.Message))
@@ -117,23 +86,12 @@ public class PrivMSGRunner:
       
       PrivMSGRunner.ParseSyntax(message.Message, message.Command, message.Args)
       
-    
-    
-    
     if message.Command == '.':
       Utilities.DebugOutput('Bad natural language attempt.')
       IrcConnection.SendPRIVMSG(message.Nick, (((('Bad syntax for the \'' + commandTemp) + '\' command. Use \'!help ') + commandTemp) + '\' to get information on the proper syntax for this command.'))
     else:
       PrivMSGRunner.ExecuteCommand(message)
     
-    
-    
-
-  
-  
-  
-  
-  
   #region Syntax Parsing Methods
   
   public static def ParseSyntax(message as string, ref command as string, ref args as string) as bool:
@@ -252,58 +210,7 @@ public class PrivMSGRunner:
     
 
   #endregion
-  
-  #region template_Command()
-  private static def template_Command(message as IncomingMessage, displayDocs as bool):
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'template\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: List of synonyms here.')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: template <arguments1> <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: template for <arguments1> and <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: arguments1: First arguoment description. arguements2: Second argument description')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Brief overview of the utility of this command.')
-      return 
-    
-    // template stuff goes here
-    
 
-  #endregion
-
-  #region translate_Command() DISABLED
-  private static def translate_Command(message as IncomingMessage, displayDocs as bool):
-    
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for \'template\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: template <arguments1> <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: template for <arguments1> and <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: arguments1: First arguoment description. arguements2: Second argument description')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Brief overview of the utility of this command.')
-      
-      return 
-    
-    if not Utilities.IsUserBotAdmin(message.Nick):
-      return 
-    
-    /*
-            TranslateLanguage.Translate translate = new TranslateLanguage.Translate();
-            string translatedText = translate.TranslateLanguage(TranslateLanguage.Language.English, TranslateLanguage.Language.Spanich, message.Args);
-            Formatting.WriteToChannel(message.Channel, translatedText);
-            */
-    
-    
-    
-    translate = TranslateService()
-    translatedText as string = translate.Translate(Language.EnglishTOSpanish, message.Args.Trim())
-    IrcConnection.SendPRIVMSG(message.Channel, translatedText)
-    
-    
-
-  #endregion
-  
   #region version_Command()
   private static def version_Command(message as IncomingMessage, displayDocs as bool):
     // if this is true, then instead of running the command, we just output

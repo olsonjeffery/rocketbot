@@ -1,31 +1,23 @@
 namespace RocketBot.Core
 
 import System
-import System.Net
-import System.Net.Sockets
-import System.IO
 import System.Threading
-import System.Data
-import System.Collections
 import System.Collections.Generic
-import System.Text
-import System.Text.RegularExpressions
-import System.Xml
 
 public static class TimerRunner:
 
   
-  private static _lexicon as Dictionary[of string, TimerItem]
+  private _lexicon as Dictionary[of string, TimerItem]
 
   
-  public static def Initialize():
+  public def Initialize():
     // the dictionary that contains the string/value pairs pointing to
     _lexicon = Dictionary[of string, TimerItem]()
     // set up the command syntax dict, which does all of out syntax parsing for
     // us...
 
   
-  public static def RegisterCommand(commandInfo as CommandWrapper):
+  public def RegisterCommand(commandInfo as CommandWrapper):
     pass
     
     // set up the TimerItem

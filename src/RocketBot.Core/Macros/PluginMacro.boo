@@ -4,49 +4,6 @@ import System
 import Boo.Lang.Compiler
 import Boo.Lang.Compiler.Ast
 
-/*
-public class PluginMacro(AbstractAstMacro):
-  
-  public override def Expand(plugin as MacroStatement) as Statement:
-    args = plugin.Arguments
-    raise "plugin must have an identifier!" if args.Count == 0
-    raise "plugin must have a 'safe' identifier for its identifier, example: plugin FooPlugin" if not args[0] isa ReferenceExpression
-    raise "plugin takse only a single argument, its identifier. example: plguin FooPlugin" if args.Count > 1
-    
-    className = args[0].ToString()
-    
-    body = plugin.Body
-    name = GetName(body, className)
-    desc = GetDescription(body)
-    version = GetVersion(body)
-    author = GetAuthor(body)
-    
-    //commands = GetCommands(body)
-    
-    pluginClass = [|
-      public class $(ReferenceExpression(className))(IPlugin):
-        Name as string:
-          get:
-            return $name
-        Description as string:
-          get:
-            return $desc
-        Version as string:
-          get:
-            return $version
-        Author as string:
-          get:
-            return $author
-    |]
-    //pluginClass.Members.Add(commands)
-    
-    parent as Node = plugin
-    while not parent isa Module:
-      parent = parent.ParentNode
-    
-    (parent as Module).Members.Add(pluginClass)
-*/
-
 macro plugin:
   args = plugin.Arguments
   raise "plugin must have an identifier!" if args.Count == 0
@@ -130,12 +87,10 @@ def GetCommands(body as Block) as Method*:
   for m as Method in commands:
     methods as System.Collections.Generic.List of Method = System.Collections.Generic.List of Method()
     cmdType = m["commandType"] as string
-    st as Statement
     if cmdType == "bot":
       commandNames = m["commandNames"] as List[of string]
       raise "null names?" if commandNames is null
       botNamesList = ReferenceExpression("bot_names_list"+PluginHelper.Rand.Next().ToString())
-      blk = BlockExpression()
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| $botNamesList = System.Collections.Generic.List[of string]() |]))
       for name in commandNames:
         nameLiteral = StringLiteralExpression(name)
@@ -172,4 +127,4 @@ def GetCommands(body as Block) as Method*:
   return methods
   
 public static class PluginHelper:
-  public static Rand as Random = Random()
+  public Rand as Random = Random()
