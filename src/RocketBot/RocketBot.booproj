@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="Program.boo" />
+    <None Include="Scripts\spell_command.boo">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\weather_plugin.boo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
