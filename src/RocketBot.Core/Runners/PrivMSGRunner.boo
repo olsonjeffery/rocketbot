@@ -72,12 +72,12 @@ public class PrivMSGRunner:
     _commandSyntaxDict.Add('help', Regex('^(?<command>help)(?<args>.*)$'))
         
     // leave and it's synonyms -- naturalized
-    _lexicon.Add('leave', leave_Command)
+    /*_lexicon.Add('leave', leave_Command)
     _lexicon.Add('bye', leave_Command)
     _lexicon.Add('seeya', leave_Command)
     _lexicon.Add('quit', leave_Command)
     _lexicon.Add('exit', leave_Command)
-    _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))    
+    _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))    */
 
   
   #region ExecuteCommand Methods

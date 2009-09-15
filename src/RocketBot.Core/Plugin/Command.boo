@@ -66,13 +66,13 @@ public class CommandWrapper:
   
   #endregion
   
-  public def constructor(names as (string), syntaxPattern as Regex, method as PrivMSGCommand):
+  public def constructor(names as List of string, syntaxPattern as regex, method as PrivMSGCommand):
     _names = List[of string](names)
     _syntaxPattern = syntaxPattern
     _privMSGMethod = method
     _commandType = CommandType.PrivMSGCommand
 
-  public def constructor(name as string, syntaxPattern as Regex, method as RawMSGCommand):
+  public def constructor(name as string, syntaxPattern as regex, method as RawMSGCommand):
     _names = List[of string]()
     Names.Add(name)
     _syntaxPattern = syntaxPattern
