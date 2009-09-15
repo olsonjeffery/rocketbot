@@ -8,7 +8,10 @@ public class PrivMSGRunner:
   private static _commandSyntaxDict as Dictionary[of string, Regex] = Dictionary[of string, Regex]()
   
   private static _lexicon as Dictionary[of string, PrivMSGCommand]
-
+  public static Lexicon as Dictionary[of string, PrivMSGCommand]:
+    get:
+      return _lexicon
+  
   public static def RegisterCommand(commandInfo as CommandWrapper):
     
     // first of all create _lexicon entries for each entry
@@ -32,17 +35,6 @@ public class PrivMSGRunner:
     _lexicon.Add('version', version_Command)
     _commandSyntaxDict.Add('version', Regex('^(?<command>version)(?<args>.*)$'))
     
-    // help command
-    _lexicon.Add('help', help_Command)
-    _commandSyntaxDict.Add('help', Regex('^(?<command>help)(?<args>.*)$'))
-        
-    // leave and it's synonyms -- naturalized
-    /*_lexicon.Add('leave', leave_Command)
-    _lexicon.Add('bye', leave_Command)
-    _lexicon.Add('seeya', leave_Command)
-    _lexicon.Add('quit', leave_Command)
-    _lexicon.Add('exit', leave_Command)
-    _commandSyntaxDict.Add('leave', Regex('^(?<command>(quit|exit|bye|leave|seeya))(?<args>.*)$'))    */
 
   public static def ExecuteCommand(message as IncomingMessage):
     
@@ -63,7 +55,10 @@ public class PrivMSGRunner:
       
       // blah!
       Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(string, IncomingMessage): ') + e.ToString()))
-    
+  
+  public static def DoesCommandExist(key as string) as bool:
+    return Lexicon.ContainsKey(key)
+  
   public static def ParseCommand(message as IncomingMessage):
     // in case the command get's wiped out when passed as an 'out',
     // we have it here
@@ -146,70 +141,13 @@ public class PrivMSGRunner:
     
 
   
-  public static def DoesCommandExist(key as string) as bool:
-    
-    return _lexicon.ContainsKey(key)
+
     
 
   
   #endregion
   
   #region Lexical Methods
-  
-  #region help_Command()
-  private static def help_Command(message as IncomingMessage, displayDocs as bool):
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'help\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: help <command>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: command: the bot command for which you would like further help.')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Provides the requesting user with documentation on the use and purpose of a given bot command.')
-      
-      return 
-    
-    args as string = message.Args.Trim()
-    
-    // check if this was executed with zero args.. if so then let's display
-    // a list of commands that we can provide help for...
-    if args == '':
-      
-      commandsString = ''
-      
-      keys as List[of string] = List[of string](_lexicon.Keys)
-      keys.Sort()
-      
-      for key as string in keys:
-        
-        commandsString += (key + ', ')
-        
-      // chomp off the last two characters
-      commandsString = commandsString.Remove((commandsString.Length - 2))
-      
-      IrcConnection.SendPRIVMSG(message.Nick, 'I have help documentation for the following commands:')
-      IrcConnection.SendPRIVMSG(message.Nick, commandsString)
-      return 
-    
-    // check and see if the requested command exists: if it does, then
-    if not DoesCommandExist(args):
-      
-      IrcConnection.SendPRIVMSG(message.Nick, (('Sorry, the \'' + args) + '\' command does not exist.'))
-      return 
-      
-    
-    // since we're here, that means the command DOES EXIST.. so we'll
-    // just make message.Command = message.Args .. and call ExecuteCommand()
-    // again, but this time with the displayDocs bool set to true
-    message.Command = args
-    message.DisplayDocs = true
-    ExecuteCommand(message)
-    
-    
-
-  #endregion
 
   #region version_Command()
   private static def version_Command(message as IncomingMessage, displayDocs as bool):
