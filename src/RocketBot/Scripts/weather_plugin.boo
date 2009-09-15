@@ -7,6 +7,7 @@ import System.Net
 import System.IO
 import System.Text
 import RocketBot.Core
+import System.Web.Services.Protocols
 
 plugin WeatherPlugin:
   name "weather"
