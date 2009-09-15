@@ -69,7 +69,7 @@
     <Compile Include="Macros\PluginMacro.boo" />
     <Compile Include="Macros\RawCommandMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
-    <Compile Include="Plugin\Command.boo" />
+    <Compile Include="Plugin\CommandWrapper.boo" />
     <Compile Include="Plugin\Plugin.boo" />
     <Compile Include="Plugin\PluginLoader.boo" />
     <Compile Include="Plugin\ScriptCompiler.boo" />
