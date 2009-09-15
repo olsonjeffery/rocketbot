@@ -30,12 +30,7 @@ public class PrivMSGRunner:
     // set up the command syntax dict, which does all of out syntax parsing for
     // us...
     _commandSyntaxDict = Dictionary[of string, Regex]()
-        
-    // version
-    _lexicon.Add('version', version_Command)
-    _commandSyntaxDict.Add('version', Regex('^(?<command>version)(?<args>.*)$'))
     
-
   public static def ExecuteCommand(message as IncomingMessage):
     
     try:
@@ -87,8 +82,6 @@ public class PrivMSGRunner:
     else:
       PrivMSGRunner.ExecuteCommand(message)
     
-  #region Syntax Parsing Methods
-  
   public static def ParseSyntax(message as string, ref command as string, ref args as string) as bool:
     
     m as Match
@@ -111,8 +104,6 @@ public class PrivMSGRunner:
     Utilities.DebugOutput((('Unable to extract syntax parse info from: \'' + message) + '\''))
     return false
     
-
-  
   public static def ParseSyntaxByCommand(commandName as string, message as string, ref command as string, ref args as string) as bool:
     
     m as Match
@@ -138,36 +129,3 @@ public class PrivMSGRunner:
         
     
     return false
-    
-
-  
-
-    
-
-  
-  #endregion
-  
-  #region Lexical Methods
-
-  #region version_Command()
-  private static def version_Command(message as IncomingMessage, displayDocs as bool):
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'version\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: version')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: arguments1: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Provides version information on the bot.')
-      return 
-    
-    // print version info from config file
-    IrcConnection.SendPRIVMSG(message.Channel, (((('I am running predibot version ' + BotConfig.GetParameter('Version')) + ', released on ') + BotConfig.GetParameter('VersionDate')) + '.'))
-
-  #endregion
-
-  #endregion
-  
-
