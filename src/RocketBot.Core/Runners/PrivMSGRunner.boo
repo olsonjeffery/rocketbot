@@ -42,20 +42,10 @@ public class PrivMSGRunner:
     // set up the command syntax dict, which does all of out syntax parsing for
     // us...
     _commandSyntaxDict = Dictionary[of string, Regex]()
-    
-    // list of commands/syntax and their delegates
-
-    // hello command
-    // moves to CoreCommands in Predibot project
-    
+        
     // search command
     _lexicon.Add('search', search_Command)
     _commandSyntaxDict.Add('search', Regex('^(?<command>search) (?<args>.*)$'))
-    
-    // weather
-    _lexicon.Add('weather', weather_Command)
-    // naturalized
-    _commandSyntaxDict.Add('weather', Regex('(^(?<command>weather)\\s+(?<args>[0-9]{5})$|^(?<command>weather) for (?<args>[0-9]{5})$)'))
     
     // spell
     _lexicon.Add('spell', spell_Command)
@@ -272,54 +262,6 @@ public class PrivMSGRunner:
     
 
   #endregion
-  
-  #region idtoservices_Command() DISABLED
-  private static def idtoservices_Command(message as IncomingMessage, displayDocs as bool):
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'template\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: List of synonyms here.')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: template <arguments1> <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: template for <arguments1> and <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: arguments1: First arguoment description. arguements2: Second argument description')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Brief overview of the utility of this command.')
-      return 
-    
-    // this marks this method as an "admin only" method
-    if not Utilities.IsUserBotAdmin(message.Nick):
-      return 
-    
-    // template stuff goes here
-    result as bool = IrcConnection.IsNickIdentifiedToServices(message.Args.Trim())
-    
-    IrcConnection.SendPRIVMSG(message.Channel, ((('User ' + message.Args.Trim()) + ' is identified to services: ') + result.ToString()))
-
-  #endregion
-  
-  #region leave_Command()
-  private static def leave_Command(message as IncomingMessage, displayDocs as bool):
-    
-    if not Utilities.IsUserBotAdmin(message.Nick):
-      return 
-    
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the ADMIN \'leave\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: bye, seeya, quit, exit')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: leave')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'ADMIN COMMAND: Make the bot go away. Causes the program to end.')
-      return 
-    
-    IrcConnection.GracefulExit()
-    
-
-  #endregion
 
   #region search_Command()
   private static def search_Command(message as IncomingMessage, displayDocs as bool):
@@ -386,10 +328,6 @@ public class PrivMSGRunner:
     
 
   #endregion
-  
-  
-  
-  
   
   #region spell_Command()
   private static def spell_Command(message as IncomingMessage, displayDocs as bool):
@@ -560,169 +498,7 @@ public class PrivMSGRunner:
     IrcConnection.SendPRIVMSG(message.Channel, (((('I am running predibot version ' + BotConfig.GetParameter('Version')) + ', released on ') + BotConfig.GetParameter('VersionDate')) + '.'))
 
   #endregion
-  
-  #region weather_Command()
-  private static def weather_Command(message as IncomingMessage, displayDocs as bool):
-    
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'weather\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: weather <zip>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: weather for <zip>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: zip: a five digit numerical zip code')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Provides current weather information for the supplied zip code.')
-      return 
-    
-    
-    // need to parse out the zip..
-    // parse passed in zip to string
-    
-    // bring the methods under the "new" command parse regime?
-    match as Match = Regex('(?<zip>[0-9]{5})').Match(message.Args.Trim())
-    
-    
-    Utilities.DebugOutput(('Pre-parse ZIP: ' + message.Args))
-    zip = ''
-    if match.Success:
-      
-      zip = match.Groups['zip'].Value
-    else:
-      
-      IrcConnection.SendPRIVMSG(message.Channel, 'Bad ZIP code format, use only five-letter zip codes to represent a location, please. Non-US people, you\'re out of luck.')
-      return 
-    
-    
-    // need to convert the zip to long/lat
-    // http://www.zipinfo.com/cgi-local/zipsrch.exe?ll=ll&zip=98388&Go=Go
-    // ripped from the web summary command
-    sb = StringBuilder()
-    buf as (byte) = array(byte, 8192)
-    resStream as Stream = Stream.Null
-    
-    try:
-      
-      //Console.WriteLine(Utilities.TimeStamp() + "loading table...");
-      request = cast(HttpWebRequest, WebRequest.Create((('http://www.zipinfo.com/cgi-local/zipsrch.exe?ll=ll&zip=' + zip.ToString()) + '&Go=Go')))
-      
-      response = cast(HttpWebResponse, request.GetResponse())
-      
-      resStream = response.GetResponseStream()
-      
-      tempString as string = null
-      count = 0
-      
-      while true:
-        // fill the buffer with data
-        count = resStream.Read(buf, 0, buf.Length)
-        
-        // make sure we read some data
-        if count != 0:
-          // translate from bytes to ASCII text
-          tempString = Encoding.ASCII.GetString(buf, 0, count)
-          
-          // continue building the string
-          //char[] trimChars = {'\n'};
-          sb.Append(tempString)
-        break  unless (count > 0)
-      // any more data to read?
-      //Console.WriteLine(Utilities.TimeStamp() + "before parse attempt");
-      
-      // ok we now have a shitload of ugly html...
-      // we want split[2] ...
-      splitTokenOne as (string) = (zip,)
-      splitStrings as (string) = sb.ToString().Split(splitTokenOne, StringSplitOptions.None)
-      splitString as string = splitStrings[2].ToString()
-      
-      // quick grab here to get the info so we can parse out the city, state
-      cityStateString as string = splitStrings[1].ToString()
-      
-      splitTokenTwo as (string) = ('</font></td></tr></table>',)
-      splitStrings = splitString.Split(splitTokenTwo, StringSplitOptions.None)
-      splitString = splitStrings[0].ToString()
-      splitString = splitString.Replace('</font></td><td align=center>', ' ')
-      splitString = splitString.Substring(1, (splitString.Length - 1))
-      splitTokenThree as (string) = (' ',)
-      latLongStrings as (string) = splitString.Split(splitTokenThree, StringSplitOptions.None)
-      latLongs as (decimal) = (decimal.Parse(latLongStrings[0]), decimal.Parse(('-' + latLongStrings[1])))
-      
-      cityStateSplitTokenOne as (string) = ('(West)',)
-      cityStateSplits as (string) = cityStateString.Split(cityStateSplitTokenOne, StringSplitOptions.None)
-      cityStateString = cityStateSplits[1].ToString()
-      cityStateString = cityStateString.Replace('</th></tr><tr><td align=center>', '')
-      cityStateString = cityStateString.Replace('</font></td><td align=center>', '')
-      
-      cityStateSplitsTwo as (string) = (cityStateString.Substring(0, (cityStateString.Length - 2)).ToString(), cityStateString.Substring((cityStateString.Length - 2), 2).ToString())
-      //Formatting.WriteToChannel(message.Channel,"Lat/Long for "+cityStateSplitsTwo[0]+", "+cityStateSplitsTwo[1]+": "+latLongs[0].ToString()+", "+latLongs[1].ToString());
-      
-      // feed to weather service
-      weather = ndfdXML()
-      weatherParams = weatherParametersType()
-      
-      //weatherParams.wx = true;    // Weather
-      //weatherParams.maxt = true;  // High temp
-      //weatherParams.mint = true;  // Low temp
-      weatherParams.temp = true
-      // 3 hour temperature
-      weatherParams.appt = true
-      // Apparent temp
-      weatherParams.rh = true
-      // relative humidity
-      weatherParams.pop12 = true
-      // 12-Hour chance of Precip
-      weatherParams.wspd = true
-      // wind speed
-      weatherParams.sky = true
-      // cloud coverage
-      rawXML as string = weather.NDFDgen(latLongs[0], latLongs[1], 'time-series', System.DateTime.Now, System.DateTime.Now.AddDays(1), weatherParams)
-      
-      // remove tabs and newlines
-      // which should leave us with just the mark-up..
-      //Console.WriteLine(rawXML);
-      
-      wd as WeatherData = NdfdXMLParser.ParseWeatherXML(rawXML)
-      
-      windSpeedMPH as single = (single.Parse(wd.WindSpeed) * cast(single, 1.15077945))
-      windSpeedMPH.ToString('N2')
-      
-      IrcConnection.SendPRIVMSG(message.Channel, (((((('Weather for ' + cityStateSplitsTwo[0]) + ', ') + cityStateSplitsTwo[1]) + ' (') + zip) + '):'))
-      IrcConnection.SendPRIVMSG(message.Channel, (((((('Temperature: ' + wd.HourlyTemp) + 'F (Feels like ') + wd.ApparentTemp) + 'F) Humidity: ') + wd.RelativeHumidity) + '% '))
-      IrcConnection.SendPRIVMSG(message.Channel, (((((('Cloud Coverage: ' + wd.CloudCoverage) + '% Chance of Precipitation: ') + wd.PrecipPercentage) + '% Wind Speed: ') + windSpeedMPH.ToString('N1')) + ' MPH'))
-    
-    
-    except e as Exception:
-      
-      Console.WriteLine(('Ruh roh! Exception: ' + e.ToString()))
-      IrcConnection.SendPRIVMSG(message.Channel, 'Something is b0rked with the weather fetch attempt.')
-    
-    
 
-  #endregion
-  
-  
-  
-  #region whoistest_Command() DISABLED
-  private static def whoistest_Command(message as IncomingMessage, displayDocs as bool):
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for \'template\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: template <arguments1> <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: template for <arguments1> and <arguments2>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: arguments1: First arguoment description. arguements2: Second argument description')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Brief overview of the utility of this command.')
-      
-      return 
-    
-    // template stuff goes here
-    if not Utilities.IsUserBotAdmin(message.Nick):
-      return 
-    
-    IrcConnection.SendWHOIS(message.Args.Trim())
-    
-  #endregion
-  
   #endregion
   
 

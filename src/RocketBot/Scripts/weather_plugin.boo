@@ -1,9 +1,151 @@
+﻿namespace RocketBot.Scripts
+
 import System
-import System.ComponentModel
-import System.Diagnostics
-import System.Web.Services
-import System.Web.Services.Protocols
-import System.Xml.Serialization
+import System.Xml
+import System.Text.RegularExpressions
+import System.Net
+import System.IO
+import System.Text
+import RocketBot.Core
+
+plugin WeatherPlugin:
+  name "weather"
+  version "0.1"
+  author "pfox"
+  desc "gets weather information for a 5-digit ZIP code (US based)"
+  bot_command '(^(?<command>weather)\\s+(?<args>[0-9]{5})$|^(?<command>weather) for (?<args>[0-9]{5})$)', weather:
+    // if this is true, then instead of running the command, we just output
+    // the documentation for this command to the requesting user via privmsg
+    if displayDocs:
+      // display syntax stuff here
+      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'weather\' command:')
+      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
+      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: weather <zip>')
+      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: weather for <zip>')
+      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: zip: a five digit numerical zip code')
+      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Provides current weather information for the supplied zip code.')
+      return 
+    
+    
+    // need to parse out the zip..
+    // parse passed in zip to string
+    
+    // bring the methods under the "new" command parse regime?
+    match as Match = Regex('(?<zip>[0-9]{5})').Match(message.Args.Trim())
+    
+    
+    Utilities.DebugOutput(('Pre-parse ZIP: ' + message.Args))
+    zip = ''
+    if match.Success:
+      
+      zip = match.Groups['zip'].Value
+    else:
+      
+      IrcConnection.SendPRIVMSG(message.Channel, 'Bad ZIP code format, use only five-letter zip codes to represent a location, please. Non-US people, you\'re out of luck.')
+      return 
+    
+    
+    // need to convert the zip to long/lat
+    // http://www.zipinfo.com/cgi-local/zipsrch.exe?ll=ll&zip=98388&Go=Go
+    // ripped from the web summary command
+    sb = StringBuilder()
+    buf as (byte) = array(byte, 8192)
+    resStream as Stream = Stream.Null
+    
+    try:
+      
+      //Console.WriteLine(Utilities.TimeStamp() + "loading table...");
+      request = cast(HttpWebRequest, WebRequest.Create((('http://www.zipinfo.com/cgi-local/zipsrch.exe?ll=ll&zip=' + zip.ToString()) + '&Go=Go')))
+      
+      response = cast(HttpWebResponse, request.GetResponse())
+      
+      resStream = response.GetResponseStream()
+      
+      tempString as string = null
+      count = 0
+      
+      while true:
+        // fill the buffer with data
+        count = resStream.Read(buf, 0, buf.Length)
+        
+        // make sure we read some data
+        if count != 0:
+          // translate from bytes to ASCII text
+          tempString = Encoding.ASCII.GetString(buf, 0, count)
+          
+          // continue building the string
+          //char[] trimChars = {'\n'};
+          sb.Append(tempString)
+        break  unless (count > 0)
+      // any more data to read?
+      //Console.WriteLine(Utilities.TimeStamp() + "before parse attempt");
+      
+      // ok we now have a shitload of ugly html...
+      // we want split[2] ...
+      splitTokenOne as (string) = (zip,)
+      splitStrings as (string) = sb.ToString().Split(splitTokenOne, StringSplitOptions.None)
+      splitString as string = splitStrings[2].ToString()
+      
+      // quick grab here to get the info so we can parse out the city, state
+      cityStateString as string = splitStrings[1].ToString()
+      
+      splitTokenTwo as (string) = ('</font></td></tr></table>',)
+      splitStrings = splitString.Split(splitTokenTwo, StringSplitOptions.None)
+      splitString = splitStrings[0].ToString()
+      splitString = splitString.Replace('</font></td><td align=center>', ' ')
+      splitString = splitString.Substring(1, (splitString.Length - 1))
+      splitTokenThree as (string) = (' ',)
+      latLongStrings as (string) = splitString.Split(splitTokenThree, StringSplitOptions.None)
+      latLongs as (decimal) = (decimal.Parse(latLongStrings[0]), decimal.Parse(('-' + latLongStrings[1])))
+      
+      cityStateSplitTokenOne as (string) = ('(West)',)
+      cityStateSplits as (string) = cityStateString.Split(cityStateSplitTokenOne, StringSplitOptions.None)
+      cityStateString = cityStateSplits[1].ToString()
+      cityStateString = cityStateString.Replace('</th></tr><tr><td align=center>', '')
+      cityStateString = cityStateString.Replace('</font></td><td align=center>', '')
+      
+      cityStateSplitsTwo as (string) = (cityStateString.Substring(0, (cityStateString.Length - 2)).ToString(), cityStateString.Substring((cityStateString.Length - 2), 2).ToString())
+      //Formatting.WriteToChannel(message.Channel,"Lat/Long for "+cityStateSplitsTwo[0]+", "+cityStateSplitsTwo[1]+": "+latLongs[0].ToString()+", "+latLongs[1].ToString());
+      
+      // feed to weather service
+      weather = ndfdXML()
+      weatherParams = weatherParametersType()
+      
+      //weatherParams.wx = true;    // Weather
+      //weatherParams.maxt = true;  // High temp
+      //weatherParams.mint = true;  // Low temp
+      weatherParams.temp = true
+      // 3 hour temperature
+      weatherParams.appt = true
+      // Apparent temp
+      weatherParams.rh = true
+      // relative humidity
+      weatherParams.pop12 = true
+      // 12-Hour chance of Precip
+      weatherParams.wspd = true
+      // wind speed
+      weatherParams.sky = true
+      // cloud coverage
+      rawXML as string = weather.NDFDgen(latLongs[0], latLongs[1], 'time-series', System.DateTime.Now, System.DateTime.Now.AddDays(1), weatherParams)
+      
+      // remove tabs and newlines
+      // which should leave us with just the mark-up..
+      //Console.WriteLine(rawXML);
+      
+      wd as WeatherData = NdfdXMLParser.ParseWeatherXML(rawXML)
+      
+      windSpeedMPH as single = (single.Parse(wd.WindSpeed) * cast(single, 1.15077945))
+      windSpeedMPH.ToString('N2')
+      
+      IrcConnection.SendPRIVMSG(message.Channel, (((((('Weather for ' + cityStateSplitsTwo[0]) + ', ') + cityStateSplitsTwo[1]) + ' (') + zip) + '):'))
+      IrcConnection.SendPRIVMSG(message.Channel, (((((('Temperature: ' + wd.HourlyTemp) + 'F (Feels like ') + wd.ApparentTemp) + 'F) Humidity: ') + wd.RelativeHumidity) + '% '))
+      IrcConnection.SendPRIVMSG(message.Channel, (((((('Cloud Coverage: ' + wd.CloudCoverage) + '% Chance of Precipitation: ') + wd.PrecipPercentage) + '% Wind Speed: ') + windSpeedMPH.ToString('N1')) + ' MPH'))
+    
+    
+    except e as Exception:
+      
+      Console.WriteLine(('Ruh roh! Exception: ' + e.ToString()))
+      IrcConnection.SendPRIVMSG(message.Channel, 'Something is b0rked with the weather fetch attempt.')
 
 //------------------------------------------------------------------------------
 // <auto-generated>
@@ -472,4 +614,72 @@ partial public class NDFDgenByDayCompletedEventArgs(System.ComponentModel.AsyncC
     get:
       self.RaiseExceptionIfNecessary()
       return cast(string, self.results[0])
+
+public class WeatherData:
+
+  
+  public HourlyTemp as string
+
+  public ApparentTemp as string
+
+  
+  public CloudCoverage as string
+
+  public RelativeHumidity as string
+
+  public PrecipPercentage as string
+
+  
+  public WindSpeed as string
+  
+  
+
+
+public class NdfdXMLParser:
+
+  
+  // http://www.nws.noaa.gov/forecasts/xml/
+  public static def ParseWeatherXML(xmlWeather as string) as WeatherData:
+    try:
+      DamnWeatherData = WeatherData()
+      xmlDoc = XmlDocument()
+      
+      // load XML data into a tree
+      xmlDoc.LoadXml(xmlWeather)
+      
+      // locate dwml/data/time-layout nodes. There should be three of them: 
+      //      - next week nighttime temperatures (lows)
+      //      - next week daytime temperatures (highs)
+      //      - next week cloud data
+      
+      // Find roots nodes for temperature and cloud data
+      hourlyTempNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/temperature[@type=\'hourly\']')
+      apparentTempNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/temperature[@type=\'apparent\']')
+      cloudCoverageNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/cloud-amount[@type=\'total\']')
+      humidityNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/humidity[@type=\'relative\']')
+      precipNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/probability-of-precipitation[@type=\'12 hour\']')
+      windSpeedNode as XmlNode = xmlDoc.SelectSingleNode('/dwml/data/parameters/wind-speed[@type=\'sustained\']')
+      
+      //XmlNodeList lowTempNodes = wtLowTemp.nodeData.SelectNodes("value");
+      //XmlNodeList highTempNodes = wtHighTemp.nodeData.SelectNodes("value");
+      hourlyTempValueNodes as XmlNodeList = hourlyTempNode.SelectNodes('value')
+      apparentTempValueNodes as XmlNodeList = apparentTempNode.SelectNodes('value')
+      cloudCoverageValueNodes as XmlNodeList = cloudCoverageNode.SelectNodes('value')
+      humidityValueNodes as XmlNodeList = humidityNode.SelectNodes('value')
+      precipValueNodes as XmlNodeList = precipNode.SelectNodes('value')
+      windSpeedValueNodes as XmlNodeList = windSpeedNode.SelectNodes('value')
+      //DamnWeatherData.LowTempF = lowTempNodes[0].ToString().Trim();
+      //DamnWeatherData.HighTempF = highTempNodes[0].ToString().Trim();
+      DamnWeatherData.HourlyTemp = hourlyTempValueNodes[0].InnerText.Trim()
+      DamnWeatherData.ApparentTemp = apparentTempValueNodes[0].InnerText.Trim()
+      DamnWeatherData.CloudCoverage = cloudCoverageValueNodes[0].InnerText.Trim()
+      DamnWeatherData.RelativeHumidity = humidityValueNodes[0].InnerText.Trim()
+      DamnWeatherData.PrecipPercentage = precipValueNodes[0].InnerText.Trim()
+      DamnWeatherData.WindSpeed = windSpeedValueNodes[0].InnerText.Trim()
+      
+      return DamnWeatherData
+    except e as Exception:
+      Console.WriteLine(('PARSE EXCPETION: ' + e.ToString()))
+      return null
+  
 

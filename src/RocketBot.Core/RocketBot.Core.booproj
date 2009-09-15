@@ -78,11 +78,8 @@
     <Compile Include="Runners\RawMSGRunner.boo" />
     <Compile Include="Runners\TimerRunner.boo" />
     <Compile Include="Services\BotConfig.boo">
-      <DependentUpon>NdfdXMLParser.boo</DependentUpon>
     </Compile>
     <Compile Include="Services\MSNSearchService.boo" />
-    <Compile Include="Services\ndfdXML.boo" />
-    <Compile Include="Services\NdfdXMLParser.boo" />
     <Compile Include="Services\TranslateService.boo" />
     <Compile Include="User.boo" />
     <Compile Include="Utilities.boo" />
