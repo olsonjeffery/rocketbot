@@ -78,7 +78,6 @@ public class CommandWrapper:
     _syntaxPattern = syntaxPattern
     _rawMSGMethod = method
     _commandType = CommandType.RawMSGCommand
-    print "adding raw msg"
 
   
   public def constructor(name as string, executionInterval as int, method as TimerCommand):

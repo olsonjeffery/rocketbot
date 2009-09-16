@@ -48,7 +48,6 @@ public static class PluginLoader:
       LoadPluginsInAssembly(asm)
   
   public def LoadPluginsInAssembly(asm as Assembly):
-    Utilities.DebugOutput('Full assembly name: \'' + asm.FullName + '\'')
     if asm is not null:
       for type as Type in asm.GetTypes():    
         if type.IsAbstract:
