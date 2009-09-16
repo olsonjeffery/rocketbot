@@ -7,15 +7,15 @@ import System.IO
 
 public static class PluginLoader:
 
-  private _plugins as Dictionary[of string, Plugin]
+  private _plugins as Dictionary[of string, PluginWrapper]
 
-  public Plugins as Dictionary[of string, Plugin]:
+  public Plugins as Dictionary[of string, PluginWrapper]:
     get:
       return _plugins
 
   
   public def InitializePluginsDict():
-    _plugins = Dictionary[of string, Plugin]() if _plugins is null
+    _plugins = Dictionary[of string, PluginWrapper]() if _plugins is null
   
   public def LoadPluginsFromScriptsInPath(pluginPath as string):
     InitializePluginsDict()
@@ -63,7 +63,7 @@ public static class PluginLoader:
           Utilities.DebugOutput(('Found plugin: ' + rawPlugin.Name))
           
           // add code here to deal with plugins with the same name... ?
-          plugin = Plugin(rawPlugin)
+          plugin = PluginWrapper(rawPlugin)
           _plugins.Add(plugin.Name, plugin)
           
           // register all the commands in this plugin

@@ -3,7 +3,7 @@ namespace RocketBot.Core
 import System
 import System.Collections.Generic
 
-public class Plugin:
+public class PluginWrapper:
   private _internalPlugin as IPlugin
 
   public Name as string:
