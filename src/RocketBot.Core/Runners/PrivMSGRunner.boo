@@ -61,9 +61,9 @@ public class PrivMSGRunner:
     
     // check if command exists
     if not PrivMSGRunner.DoesCommandExist(message.Command):
-      
       // bad command name
-      IrcConnection.SendPRIVMSG(message.Nick, (('The \'' + message.Command) + '\' command does not exist, sorry.'))
+      if not bool.Parse(BotConfig.GetParameter('SupressCommandNotFoundMessage')):
+        IrcConnection.SendPRIVMSG(message.Nick, (('The \'' + message.Command) + '\' command does not exist, sorry.')) 
       return 
       
     // check if the message is properly formed...?

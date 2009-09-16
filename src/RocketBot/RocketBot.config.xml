@@ -17,6 +17,9 @@
     <Channel>
       #testchannel
     </Channel>
+    <SupressCommandNotFoundMessage>
+      True
+    </SupressCommandNotFoundMessage>
     <IRCNick>
       rocketbot_test
     </IRCNick>
