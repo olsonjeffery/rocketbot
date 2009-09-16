@@ -39,7 +39,7 @@ if !Bbh.isWindowsPlatform
 end
 
 
-task :mbuild => ['projects:bin']do
+task :mbuild => ['projects:deploy']do
 end
 
 
@@ -49,6 +49,19 @@ end
 namespace :projects do
   buildDir = 'bin'
   
+  desc 'build everything and copy scripts'
+  task :deploy => :bin do
+    scriptsPath = Bbh.convertToPlatformSeparator(buildDir + '\Scripts')
+    fromPath = Bbh.convertToPlatformSeparator('src\Scripts')
+    Bbh.createFolderIfNeeded(scriptsPath)
+    Bbh.copyAllFilesFromTo(fromPath, scriptsPath)
+    
+    configName = 'RocketBot.config.xml'
+    configSrcPath = Bbh.convertToPlatformSeparator('src/RocketBot/'+configName)
+    configDestPath = Bbh.convertToPlatformSeparator(buildDir + '/' + configName)
+    File.copy(configSrcPath, configDestPath)
+  end
+
   desc 'create the build directory, if needed'
   task :create_build_dir do
     Bbh.createFolderIfNeeded(buildDir)
