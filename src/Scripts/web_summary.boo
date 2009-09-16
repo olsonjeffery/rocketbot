@@ -9,7 +9,7 @@ import System.Text.RegularExpressions
 import RocketBot.Core
 
 plugin WebSummaryPlugin:
-  name "Web Summary"
+  name "web_summary"
   desc "prints the <title> to a channel when a URL is pasted"
   version "0.1"
   author "pfox"
