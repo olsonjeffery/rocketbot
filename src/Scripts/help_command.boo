@@ -12,7 +12,7 @@ plugin HelpPlugin:
   setup:
     print "hello from help's setup"
   
-  bot_command '^(?<command>help)(?<args>.*)$', help, info:
+  bot_command help, info:
     // if this is true, then instead of running the command, we just output
     // the documentation for this command to the requesting user via privmsg
     if displayDocs:

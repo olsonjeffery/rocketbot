@@ -12,7 +12,7 @@ plugin SpellCommand:
   version "0.1"
   author "pfox"
   desc "checks for proper spelling of a word"
-  bot_command '^(?<command>spell) (?<args>.*)$', spell:
+  bot_command spell:
     // spelling, yay
     // http://spell.ockham.org/?word=origami&dictionary=master
     
