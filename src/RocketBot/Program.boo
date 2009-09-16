@@ -4,6 +4,8 @@ import System
 import RocketBot.Core
 
 BotConfig.Initialize('./RocketBot.config.xml', 'RocketBotConfiguration')
+Database.Initialize()
+
 RegexLibrary.Initialize()
 PrivMSGRunner.Initialize()
 RawMSGRunner.Initialize()

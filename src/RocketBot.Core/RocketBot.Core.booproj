@@ -73,7 +73,9 @@
     <Compile Include="Macros\NameMacro.boo" />
     <Compile Include="Macros\PluginMacro.boo" />
     <Compile Include="Macros\RawCommandMacro.boo" />
+    <Compile Include="Macros\SetupMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
+    <Compile Include="Peristence\Database.boo" />
     <Compile Include="Plugin\CommandWrapper.boo" />
     <Compile Include="Plugin\IPlugin.boo" />
     <Compile Include="Plugin\PluginWrapper.boo" />
