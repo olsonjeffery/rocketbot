@@ -6,12 +6,12 @@ import System.Threading
 import System.Data
 
 public static class Database:
-  _db as SQLiteDatabase
+  db as SQLiteDatabase
   rwl as ReaderWriterLock
   timeout = 10000
   
   public def Initialize():
-    _db = SQLiteDatabase(BotConfig.GetParameter('DatabasePath'))
+    db = SQLiteDatabase(BotConfig.GetParameter('DatabasePath'))
     rwl = ReaderWriterLock()
     SetupTableList() if not DoesTableExist('TableList')
   
@@ -22,14 +22,25 @@ public static class Database:
   public def ExecuteNonQuery(query as string):
     rwl.AcquireWriterLock(timeout)
     
-    _db.ExecuteNonQuery(query)
+    db.ExecuteNonQuery(query)
     
     rwl.ReleaseWriterLock()
+  
+  public def SanitizeString(input as string):
+    input = input.Replace("'", "''")
+    return input
+  
+  public def GetTableVersion(tableName as string) as int:
+    tableName = SanitizeString(tableName)
+    
+    return -1 if not DoesTableExist(tableName)
+    result = ExecuteQuery("SELECT version FROM TableList WHERE name = '"+tableName+"';")
+    return Int32.Parse(result.Rows[0][0].ToString())
   
   public def DoesTableExist(tableName as string) as bool:
     rwl.AcquireReaderLock(timeout)
     
-    tables = _db.GetTables()
+    tables = db.GetTables()
     containsTable = false
     for table as string in tables:
       containsTable = true if table == tableName
@@ -41,7 +52,7 @@ public static class Database:
   public def ExecuteQuery(query as string) as DataTable:
     rwl.AcquireReaderLock(timeout)
     
-    result = _db.ExecuteQuery(query)
+    result = db.ExecuteQuery(query)
     
     rwl.ReleaseReaderLock()
     
