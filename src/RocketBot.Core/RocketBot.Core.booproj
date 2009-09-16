@@ -75,6 +75,7 @@
     <Compile Include="Macros\RawCommandMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Plugin\CommandWrapper.boo" />
+    <Compile Include="Plugin\IPlugin.boo" />
     <Compile Include="Plugin\Plugin.boo" />
     <Compile Include="Plugin\PluginLoader.boo" />
     <Compile Include="Plugin\ScriptCompiler.boo" />
@@ -89,6 +90,7 @@
     <Folder Include="Macros" />
     <Folder Include="Irc" />
     <Folder Include="Config" />
+    <Folder Include="Peristence" />
     <Folder Include="Runners" />
     <Folder Include="Plugin" />
   </ItemGroup>
