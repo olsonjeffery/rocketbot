@@ -47,6 +47,9 @@
     <Reference Include="Boo.Lang.Useful">
       <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
     </Reference>
+    <Reference Include="Community.Data.SQLite">
+      <HintPath>..\..\lib\csharp-sqlite\Community.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
