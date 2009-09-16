@@ -17,6 +17,7 @@ macro plugin:
   desc = GetDescription(body)
   version = GetVersion(body)
   author = GetAuthor(body)
+  setup = GetSetupIfAny(body)
   
   commands = GetCommands(body)
   
@@ -38,6 +39,8 @@ macro plugin:
   
   for command in commands:
     pluginClass.Members.Add(command)
+  if setup is not null:
+    pluginClass.Members.Add(setup)
   
   yield pluginClass
 
@@ -68,6 +71,18 @@ def ScrapeBlockForTextAndReturnContentAsSLE(text as string, body as Block) as St
       if es.ContainsAnnotation(text):
         return es[text] as StringLiteralExpression
   return null
+
+def GetSetupIfAny(body as Block) as Method:
+  for i as Statement in body.Statements:
+    if i isa ExpressionStatement:
+      es = i as ExpressionStatement
+      if es.ContainsAnnotation("setup"):
+        return es["method"] as Method
+  stub = [|
+    public def Setup():
+      pass
+  |]
+  return stub
 
 def GetCommands(body as Block) as Method*:
   commands = List[of Method]()

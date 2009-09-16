@@ -17,3 +17,4 @@ public interface IPlugin:
     get
 
   def GetCommands() as List[of CommandWrapper]
+  def Setup()

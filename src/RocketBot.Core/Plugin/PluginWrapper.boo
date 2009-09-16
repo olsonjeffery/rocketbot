@@ -21,7 +21,10 @@ public class PluginWrapper:
   public Author as string:
     get:
       return _internalPlugin.Author
-
+  
+  public def Setup():
+    _internalPlugin.Setup()
+  
   public def GetCommands() as List[of CommandWrapper]:
     return _internalPlugin.GetCommands()
 

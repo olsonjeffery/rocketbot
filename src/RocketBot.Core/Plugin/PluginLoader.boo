@@ -56,7 +56,6 @@ public static class PluginLoader:
 
         implementsIPlugin = typeof(IPlugin).IsAssignableFrom(type)
         if implementsIPlugin:
-          print "here?"
           PluginClass = type
           rawPlugin = (Activator.CreateInstance(PluginClass) as IPlugin)
           
@@ -65,6 +64,7 @@ public static class PluginLoader:
           // add code here to deal with plugins with the same name... ?
           plugin = PluginWrapper(rawPlugin)
           _plugins.Add(plugin.Name, plugin)
+          plugin.Setup()
           
           // register all the commands in this plugin
           for wrapper as CommandWrapper in plugin.GetCommands():

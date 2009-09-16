@@ -8,6 +8,10 @@ plugin HelpPlugin:
   desc "provides help for various bot functionality"
   version "0.1"
   author "pfox"
+  
+  setup:
+    print "hello from help's setup"
+  
   bot_command '^(?<command>help)(?<args>.*)$', help, info:
     // if this is true, then instead of running the command, we just output
     // the documentation for this command to the requesting user via privmsg
