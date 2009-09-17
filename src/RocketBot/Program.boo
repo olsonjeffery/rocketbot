@@ -10,6 +10,7 @@ RegexLibrary.Initialize()
 PrivMSGRunner.Initialize()
 RawMSGRunner.Initialize()
 TimerRunner.Initialize()
+
 ActionQueue.Initialize()
 PluginLoader.LoadPluginsFromAssembliesInPath(Environment.CurrentDirectory)
 PluginLoader.LoadPluginsFromScriptsInPath(Environment.CurrentDirectory + System.IO.Path.AltDirectorySeparatorChar + BotConfig.GetParameter('ScriptDirectory'))

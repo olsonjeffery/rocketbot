@@ -7,6 +7,7 @@ import System.Text.RegularExpressions
 public class PrivMSGRunner:
   private static _commandSyntaxDict as Dictionary[of string, Regex] = Dictionary[of string, Regex]()
   
+  static _pluginIds as Dictionary[of string, Guid]
   private static _lexicon as Dictionary[of string, PrivMSGCommand]
   public static Lexicon as Dictionary[of string, PrivMSGCommand]:
     get:
@@ -18,6 +19,9 @@ public class PrivMSGRunner:
     // in commandNames..
     for commandName as string in commandInfo.Names:
       _lexicon.Add(commandName, commandInfo.PrivMSGMethod)
+      if _pluginIds.ContainsKey(commandName):
+        raise "there is already a registered command named '"+commandName+"'"
+      _pluginIds.Add(commandName, commandInfo.PluginId)
     
     // then we register the regex with the Names entry
     // in index 0
@@ -25,6 +29,7 @@ public class PrivMSGRunner:
     
   public static def Initialize():
     
+    _pluginIds = Dictionary[of string, Guid]()
     // the dictionary that contains the string/value pairs pointing to
     _lexicon = Dictionary[of string, PrivMSGCommand]()
     // set up the command syntax dict, which does all of out syntax parsing for
@@ -41,15 +46,15 @@ public class PrivMSGRunner:
       Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(IncomingMessage): ') + e.ToString()))
     
   public static def ExecuteCommand(commandTemp as string, message as IncomingMessage):
-    
-    try:
-      command = cast(PrivMSGCommand, _lexicon[commandTemp])
-      
-      ActionQueue.EnqueueItem(ActionItem(message, command))
-    except e as Exception:
-      
-      // blah!
-      Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(string, IncomingMessage): ') + e.ToString()))
+    if not PluginLoader.Plugins[_pluginIds[commandTemp]].IsEnabled:
+      IrcConnection.SendPRIVMSG(message.Nick, "Sorry, the '"+commandTemp+"' command is currently disabled.")
+    else:
+      try:
+        command = cast(PrivMSGCommand, _lexicon[commandTemp])
+        
+        ActionQueue.EnqueueItem(ActionItem(message, command))
+      except e as Exception:
+        Console.WriteLine(((Utilities.TimeStamp() + 'Whoops! Exception in ExecuteCommand(string, IncomingMessage): ') + e.ToString()))
   
   public static def DoesCommandExist(key as string) as bool:
     return Lexicon.ContainsKey(key)

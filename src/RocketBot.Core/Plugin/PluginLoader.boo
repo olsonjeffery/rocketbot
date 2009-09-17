@@ -7,15 +7,17 @@ import System.IO
 
 public static class PluginLoader:
 
-  private _plugins as Dictionary[of string, PluginWrapper]
+  private _pluginsByGuid as Dictionary[of Guid, PluginWrapper]
+  private _pluginsByName as Dictionary[of String, PluginWrapper]
 
-  public Plugins as Dictionary[of string, PluginWrapper]:
+  public Plugins as Dictionary[of Guid, PluginWrapper]:
     get:
-      return _plugins
+      return _pluginsByGuid
 
   
   public def InitializePluginsDict():
-    _plugins = Dictionary[of string, PluginWrapper]() if _plugins is null
+    _pluginsByGuid = Dictionary[of Guid, PluginWrapper]() if _pluginsByGuid is null
+    _pluginsByName = Dictionary[of string, PluginWrapper]() if _pluginsByName is null
   
   public def LoadPluginsFromScriptsInPath(pluginPath as string):
     InitializePluginsDict()
@@ -47,6 +49,22 @@ public static class PluginLoader:
       asm = Assembly.LoadFile(file.FullName)
       LoadPluginsInAssembly(asm)
   
+  public def DisablePlugin(name as string) as bool:
+    if not _pluginsByName.ContainsKey(name):
+      return false
+    elif not _pluginsByName[name].IsEnabled:
+      return false
+    _pluginsByName[name].IsEnabled = false
+    return true
+  
+  public def EnablePlugin(name as string) as bool:
+    if not _pluginsByName.ContainsKey(name):
+      return false
+    elif _pluginsByName[name].IsEnabled:
+      return false
+    _pluginsByName[name].IsEnabled = true
+    return true
+  
   public def LoadPluginsInAssembly(asm as Assembly):
     if asm is not null:
       for type as Type in asm.GetTypes():    
@@ -62,11 +80,15 @@ public static class PluginLoader:
           
           // add code here to deal with plugins with the same name... ?
           plugin = PluginWrapper(rawPlugin)
-          _plugins.Add(plugin.Name, plugin)
+          _pluginsByGuid.Add(plugin.PluginId, plugin)
+          if _pluginsByName.ContainsKey(plugin.Name):
+            raise "there is already a loaded plugin named '"+plugin.Name+"'"
+          _pluginsByName.Add(plugin.Name, plugin)
           plugin.Setup()
           
           // register all the commands in this plugin
           for wrapper as CommandWrapper in plugin.GetCommands():
+            wrapper.PluginId = plugin.PluginId
             if wrapper.CommandType == CommandType.PrivMSGCommand:
               PrivMSGRunner.RegisterCommand(wrapper)
             elif wrapper.CommandType == CommandType.RawMSGCommand:

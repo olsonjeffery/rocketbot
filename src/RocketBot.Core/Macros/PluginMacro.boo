@@ -98,9 +98,10 @@ def GetCommands(body as Block) as Method*:
       list = System.Collections.Generic.List[of CommandWrapper]()
   |]
   
+  methods as System.Collections.Generic.List of Method = System.Collections.Generic.List of Method()
   // add commands
   for m as Method in commands:
-    methods as System.Collections.Generic.List of Method = System.Collections.Generic.List of Method()
+    
     cmdType = m["commandType"] as string
     if cmdType == "bot":
       commandNames = m["commandNames"] as List[of string]

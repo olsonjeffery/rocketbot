@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{8F74
 		Scripts\web_summary.boo = Scripts\web_summary.boo
 		Scripts\logging_plugin.boo = Scripts\logging_plugin.boo
 		Scripts\seen_command.boo = Scripts\seen_command.boo
+		Scripts\plugin_management.boo = Scripts\plugin_management.boo
 	EndProjectSection
 EndProject
 Global

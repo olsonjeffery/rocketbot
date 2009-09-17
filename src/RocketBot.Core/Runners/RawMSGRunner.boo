@@ -10,7 +10,8 @@ public static class RawMSGRunner:
   private _lexicon as Dictionary[of string, RawMSGCommand]
 
   private _commandSyntaxDict as Dictionary[of string, Regex]
-
+  
+  private _pluginIds as Dictionary[of string, Guid]
   
   public def Initialize():
     // the dictionary that contains the string/value pairs pointing to
@@ -18,10 +19,11 @@ public static class RawMSGRunner:
     // set up the command syntax dict, which does all of out syntax parsing for
     // us...
     _commandSyntaxDict = Dictionary[of string, Regex]()
+    _pluginIds = Dictionary[of string, Guid]()
 
   
   public def RegisterCommand(commandInfo as CommandWrapper):
-    
+    _pluginIds.Add(commandInfo.Names[0], commandInfo.PluginId)
     _lexicon.Add(commandInfo.Names[0], commandInfo.RawMSGMethod)
     _commandSyntaxDict.Add(commandInfo.Names[0], commandInfo.SyntaxPattern)
     
@@ -46,9 +48,10 @@ public static class RawMSGRunner:
   public def ParseMessage(message as IncomingMessage):
     
     for key as string in _lexicon.Keys:
-      m as Match = _commandSyntaxDict[key].Match(message.RawMessage)
-      if m.Success:
-        ExecuteCommand(key, message)
+      if PluginLoader.Plugins[_pluginIds[key]].IsEnabled:
+        m as Match = _commandSyntaxDict[key].Match(message.RawMessage)
+        if m.Success:
+          ExecuteCommand(key, message)
     
   
   #endregion
