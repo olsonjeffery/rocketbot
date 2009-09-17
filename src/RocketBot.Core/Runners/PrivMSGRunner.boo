@@ -101,7 +101,7 @@ public class PrivMSGRunner:
       if m.Success:
         
         command = m.Groups['command'].Value
-        args = m.Groups['args'].Value
+        args = m.Groups['args'].Value.Trim()
         return true
         
       
@@ -129,7 +129,7 @@ public class PrivMSGRunner:
       if m.Success:
         
         command = m.Groups['command'].Value
-        args = m.Groups['args'].Value
+        args = m.Groups['args'].Value.Trim()
         return true
         
     
