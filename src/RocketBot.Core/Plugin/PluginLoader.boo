@@ -24,12 +24,17 @@ public static class PluginLoader:
     
     compiler = ScriptCompiler()
     
-    files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.boo')
-    for file in files:
-      Utilities.DebugOutput("LOADING SCRIPT: "+file.FullName)
-      asm = compiler.CompileCodeAndGetAssembly(file.FullName)
+    if DirectoryInfo(pluginPath).Exists:
+      files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.boo')
+      paths = List of string()
+      for file in files:
+        //Utilities.DebugOutput("LOADING SCRIPT: "+file.FullName)
+        paths.Add(file.FullName)
       
+      asm = compiler.CompileCodeAndGetAssembly(paths)
       LoadPluginsInAssembly(asm)
+    else:
+      Utilities.DebugOutput("Plugin path: '"+pluginPath+"' doesn't exist, no scripts were loaded.")
   
   public def LoadPluginsFromAssembliesInPath(pluginPath as string):
     
