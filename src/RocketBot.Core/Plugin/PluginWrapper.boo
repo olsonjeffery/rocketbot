@@ -22,6 +22,14 @@ public class PluginWrapper:
     get:
       return _internalPlugin.Author
   
+  _guidId as Guid
+  public PluginId as Guid:
+    get:
+      return _guidId
+  
+  [property(IsEnabled)]
+  _isEnabled as bool
+  
   public def Setup():
     _internalPlugin.Setup()
   
@@ -29,4 +37,6 @@ public class PluginWrapper:
     return _internalPlugin.GetCommands()
 
   public def constructor(plugin as IPlugin):
+    _isEnabled = true
+    _guidId = Guid.NewGuid()
     _internalPlugin = plugin

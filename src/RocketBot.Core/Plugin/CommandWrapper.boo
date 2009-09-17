@@ -19,8 +19,6 @@ public enum CommandType:
 
 public class CommandWrapper:
 
-  
-  #region properties
   private _names as List[of string]
 
   public Names as List[of string]:
@@ -63,28 +61,29 @@ public class CommandWrapper:
     get:
       return _commandType
 
-  
-  #endregion
+  [property(PluginId)]
+  _pluginIn as Guid
   
   public def constructor(names as List of string, syntaxPattern as regex, method as PrivMSGCommand):
-    _names = List[of string](names)
+    CommonSetup()
+    _names.AddRange(names)
     _syntaxPattern = syntaxPattern
     _privMSGMethod = method
     _commandType = CommandType.PrivMSGCommand
 
   public def constructor(name as string, syntaxPattern as regex, method as RawMSGCommand):
-    _names = List[of string]()
+    CommonSetup()
     Names.Add(name)
     _syntaxPattern = syntaxPattern
     _rawMSGMethod = method
     _commandType = CommandType.RawMSGCommand
-
   
   public def constructor(name as string, executionInterval as int, method as TimerCommand):
-    _names = List[of string]()
+    CommonSetup()
     Names.Add(name)
     _executionInterval = executionInterval
     _timerCommand = method
     _commandType = CommandType.TimerCommand
   
-
+  public def CommonSetup():
+    _names = List[of string]()
