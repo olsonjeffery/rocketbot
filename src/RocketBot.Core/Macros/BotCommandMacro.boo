@@ -27,7 +27,7 @@ macro bot_command:
       cmds += arg.ToString() + "|"
     cmds = cmds.Remove(cmds.Length - 1, 1)
     cmds += ')'
-    rawRegex = '^(?<command>{template}) (?<args>.*)$'.Replace('{template}', cmds)
+    rawRegex = '^(?<command>{template})(?<args>.*)$'.Replace('{template}', cmds)
     commandRegex = StringLiteralExpression(rawRegex)
   
   method = Method()
