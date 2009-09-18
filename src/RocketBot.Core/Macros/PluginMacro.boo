@@ -134,6 +134,14 @@ def GetCommands(body as Block) as Method*:
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($commandName, System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
     elif cmdType == "timer":
       pass
+    elif cmdType == "complex":
+      regexLiteral = m["reLiteral"] as StringLiteralExpression
+      raise "null re literal?" if regexLiteral is null
+      raise "null method name?" if m.Name is null
+      methodName = ReferenceExpression(m.Name)
+      pattern = regexLiteral
+      methods.Add(m)
+      getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper(System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
     else:
       raise "unknown command type in commands for plugin..."
     

@@ -103,3 +103,5 @@ public static class PluginLoader:
               RawMSGRunner.RegisterCommand(wrapper)
             elif wrapper.CommandType == CommandType.TimerCommand:
               TimerRunner.RegisterCommand(wrapper)
+            elif wrapper.CommandType == CommandType.ComplexCommand:
+              PrivMSGRunner.RegisterComplexCommand(wrapper)

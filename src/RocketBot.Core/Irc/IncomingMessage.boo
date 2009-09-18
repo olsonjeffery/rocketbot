@@ -39,7 +39,7 @@ public class IncomingMessage:
   // 0 = IRC Message, ie PRIVMSG to channel or user
   // 1 = an IRC Message that is also a bot command
   // 2 = Topic, ie TOPIC change or initial view on join
-  // 3 = Natural language bot command
+  // 3 = complex command
   // 4 = PONG reply from server
   // 5 = url?
   public MessageType as int
@@ -82,23 +82,13 @@ public class IncomingMessage:
           Message = ((Command + ' ') + Args)
         
         MessageType = 1
-      elif RegexLibrary.GetRegex('naturalLanguageGroup').IsMatch(Message):
-      
-      // natural language check
-        m = RegexLibrary.GetRegex('naturalLanguageGroup').Match(Message)
+      elif RegexLibrary.GetRegex('complexCommandGroup').IsMatch(Message):
+        m = RegexLibrary.GetRegex('complexCommandGroup').Match(Message)
         if m.Success:
-          
+          MessageType = 3
           Message = m.Groups['message'].Value
-          m2 as Match = RegexLibrary.GetRegex('botCommandGroup').Match(Message)
-          
-          if m2.Success:
-            // if this is a natural language, let's just mark it and pass
-            // it on for a downstream method to parse
-            MessageType = 3
-            Command = m2.Groups['command'].Value
-            Args = m2.Groups['args'].Value.Trim()
-            
-        
+        else:
+          raise "shouldn't be here for complex command group matching in IncomingMessage"
         return 
       else:
         

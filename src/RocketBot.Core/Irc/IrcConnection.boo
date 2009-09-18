@@ -267,21 +267,6 @@ public class IrcConnection:
           // Parse a message
           message = IncomingMessage(inputLine.ToString())
           
-          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          // the way that messages aprsed below needs to change
-          // in line with the move towards the new plugin archetecture...
-          // I want to split the message scrub up into basically two
-          // categories... 
-          //
-          // Commands that operate on only PRIVMSG (ie "in channel" or
-          // "user to user" messages) and commands that are checked
-          // against an entire RAW Message (right now the only thing
-          // I have that fits that criteria are topic changes).
-          //
-          // All commands are based on privmsg scrubbing, as well
-          // as irc message logging and weburl summarizing.
-          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          
           // this is a quick hack to enable privmsg communication..
           // ie if the "channel" for this message is the bot's name,
           // that means it's a privmsg, so the channel for reply
@@ -291,8 +276,15 @@ public class IrcConnection:
           
           // PRIV MSG COMMAND
           // if the message was parsed as a command, execute it
-          if (message.MessageType == 1) or (message.MessageType == 3):
+          if message.MessageType == 1:
             PrivMSGRunner.ParseCommand(message)
+          elif message.MessageType == 3:
+            // we're going to try and see if these match on any "complex" commands,
+            // which are like bot commands but they don't key off of a "keyword" in
+            // the !command <args> form, but must be "addressed" to the bot in the form
+            // of "botname: <complex_command_regex_match>" or "<complex_command_regex_match>, botname"
+            PrivMSGRunner.ParseComplexCommand(message)
+              
           
           // RAW MSG PARSING
           RawMSGRunner.ParseMessage(message)

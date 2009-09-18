@@ -9,12 +9,10 @@ public callable RawMSGCommand(message as IncomingMessage) as void
 public callable TimerCommand(placeHolder as object) as void
 
 public enum CommandType:
-
   RawMSGCommand
-
   PrivMSGCommand
-
   TimerCommand
+  ComplexCommand
 
 
 public class CommandWrapper:
@@ -84,6 +82,12 @@ public class CommandWrapper:
     _executionInterval = executionInterval
     _timerCommand = method
     _commandType = CommandType.TimerCommand
+  
+  public def constructor(regexPattern as regex, method as PrivMSGCommand):
+    CommonSetup()
+    _privMSGMethod = method
+    _commandType = CommandType.ComplexCommand
+    _syntaxPattern = regexPattern
   
   public def CommonSetup():
     _names = List[of string]()

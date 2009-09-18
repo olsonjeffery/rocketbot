@@ -36,7 +36,7 @@ public class ActionQueue:
     thread = Thread def():
       pass
 
-    if item.CommandType == CommandType.PrivMSGCommand:
+    if item.CommandType == CommandType.PrivMSGCommand or item.CommandType == CommandType.ComplexCommand:
       thread = Thread({ item.PrivMSGCommandMethod(item.Message, item.Message.DisplayDocs) })
     elif item.CommandType == CommandType.RawMSGCommand:
       thread = Thread({ item.RawMSGCommandMethod(item.Message) })
