@@ -26,7 +26,10 @@ public static class PluginLoader:
     
     if DirectoryInfo(pluginPath).Exists:
       files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.boo')
+      dlls as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.dll')
       paths = List of string()
+      for dll in dlls:
+        Assembly.LoadFile(dll.FullName)
       for file in files:
         //Utilities.DebugOutput("LOADING SCRIPT: "+file.FullName)
         paths.Add(file.FullName)
