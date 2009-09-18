@@ -34,12 +34,16 @@ plugin WebSummaryPlugin:
       doc = HtmlDocument()
       doc.Load(GetStreamFromUrl(url))
   
-      urlTitle = doc.DocumentNode.SelectSingleNode("html/head/title").InnerText
-      urlTitle = Utilities.HtmlDecode(urlTitle)
+      
+      node = doc.DocumentNode.SelectSingleNode("html/head/title")
+      if node is not null:
+        urlTitle = node.InnerText
+        urlTitle = Utilities.HtmlDecode(urlTitle)
+        if not urlTitle == string.Empty:
+          IrcConnection.SendPRIVMSG(message.Channel, '"' + urlTitle + '"')
+        
     except e as Exception:
       Console.WriteLine(((Utilities.TimeStamp() + 'EXCEPTION: ') + e.ToString()))
-    
-    IrcConnection.SendPRIVMSG(message.Channel, '"' + urlTitle + '"')
 
 def GetStreamFromUrl(url as string):
   request = cast(HttpWebRequest, WebRequest.Create(url))
