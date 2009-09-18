@@ -1,6 +1,7 @@
 namespace RocketBot.Core
 
 import System
+import System.Web
 
 public class Utilities:
 
@@ -44,5 +45,8 @@ public class Utilities:
       Utilities.DebugOutput((('User ' + nick) + ' is NOT an admin.'))
     
     return returnValue
+  
+  public static def HtmlDecode(input as string) as string:
+    return HttpUtility.HtmlDecode(input)
   
 
