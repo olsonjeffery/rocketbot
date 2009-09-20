@@ -38,7 +38,7 @@ plugin WebSummaryPlugin:
       node = doc.DocumentNode.SelectSingleNode("html/head/title")
       if node is not null:
         urlTitle = node.InnerText
-        urlTitle = Utilities.HtmlDecode(urlTitle)
+        urlTitle = Utilities.HtmlDecode(urlTitle).Replace("\n","").Replace("\t", "").Trim()
         if not urlTitle == string.Empty:
           IrcConnection.SendPRIVMSG(message.Channel, '"' + urlTitle + '"')
         
