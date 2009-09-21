@@ -312,6 +312,8 @@ public class IrcConnection:
     // just to give the quit message time to get out of the door before closing
     // the tcp connection
     Thread.Sleep(1000)
+    Database.Teardown()
+    
     irc.Close()
     
     Environment.Exit(0)

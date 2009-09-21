@@ -47,6 +47,9 @@
     <Reference Include="Boo.Lang.Useful">
       <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
     </Reference>
+    <Reference Include="Db4objects.Db4o">
+      <HintPath>..\..\lib\db4o\Db4objects.Db4o.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>

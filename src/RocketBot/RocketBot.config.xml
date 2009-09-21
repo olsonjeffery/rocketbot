@@ -18,7 +18,7 @@
       #testchannel
     </Channel>
     <DatabasePath>
-      rockbot.db
+      rocketbot.db4
     </DatabasePath>
     <SupressCommandNotFoundMessage>
       True
