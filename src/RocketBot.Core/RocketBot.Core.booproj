@@ -78,6 +78,7 @@
     <Compile Include="Macros\SetupMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Peristence\Database.boo" />
+    <Compile Include="Peristence\User.boo" />
     <Compile Include="Plugin\CommandWrapper.boo" />
     <Compile Include="Plugin\IPlugin.boo" />
     <Compile Include="Plugin\PluginWrapper.boo" />
@@ -87,7 +88,6 @@
     <Compile Include="Runners\PrivMSGRunner.boo" />
     <Compile Include="Runners\RawMSGRunner.boo" />
     <Compile Include="Runners\TimerRunner.boo" />
-    <Compile Include="User.boo" />
     <Compile Include="Utilities.boo" />
   </ItemGroup>
   <ItemGroup>

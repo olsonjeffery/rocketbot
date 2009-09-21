@@ -1,7 +1,6 @@
 namespace RocketBot.Core
 
 import System
-import System.IO
 import System.Threading
 import System.Data
 import System.Collections

@@ -23,8 +23,6 @@ public class IncomingMessage:
 
   public Args as string
 
-  public User as User
-
   public MessageTime as DateTime
 
   
@@ -50,8 +48,6 @@ public class IncomingMessage:
     MessageTime = DateTime.Now
     
     RawMessage = rawMessage
-    
-    User = User('.')
     DisplayDocs = false
     
     m as Match = RegexLibrary.GetRegex('IRCMessageGroup').Match(RawMessage)
