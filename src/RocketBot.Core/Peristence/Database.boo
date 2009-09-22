@@ -43,11 +43,13 @@ public static class Database:
   public def Store[of T(IPersistable)](item as T):
     rwl.AcquireWriterLock(timeout)
     db.Set(item)
+    db.Commit()
     rwl.ReleaseWriterLock()
   
   public def Delete[of T(IPersistable)](item as T):
     rwl.AcquireWriterLock(timeout)
     db.Delete(item)
+    db.Commit()
     rwl.ReleaseWriterLock()
   
   public def FromGuid[of T(IPersistable)](id as Guid) as T:

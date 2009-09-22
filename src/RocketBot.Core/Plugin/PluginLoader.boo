@@ -9,7 +9,10 @@ public static class PluginLoader:
 
   private _pluginsByGuid as Dictionary[of Guid, PluginWrapper]
   private _pluginsByName as Dictionary[of String, PluginWrapper]
-
+  private _scriptsAsm as Assembly
+  
+  private domain as AppDomain
+  
   public Plugins as Dictionary[of Guid, PluginWrapper]:
     get:
       return _pluginsByGuid
@@ -29,33 +32,20 @@ public static class PluginLoader:
       dlls as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.dll')
       paths = List of string()
       for dll in dlls:
-        Assembly.LoadFile(dll.FullName)
+        AppDomain.CurrentDomain.Load(Assembly.LoadFile(dll.FullName).GetName())
       for file in files:
         //Utilities.DebugOutput("LOADING SCRIPT: "+file.FullName)
         paths.Add(file.FullName)
       
       asm = compiler.CompileCodeAndGetAssembly(paths)
+      _scriptsAsm = asm
+      AppDomain.CurrentDomain.AssemblyResolve += ResolveEventHandler(ScriptResolveEventHandler)
       LoadPluginsInAssembly(asm)
     else:
       Utilities.DebugOutput("Plugin path: '"+pluginPath+"' doesn't exist, no scripts were loaded.")
   
-  public def LoadPluginsFromAssembliesInPath(pluginPath as string):
-    
-    // we're basically going to run through the directory
-    // provided and load every dll there into memory. along
-    // the way, we'll get an instance of every class in those
-    // dll's that happen to have the PredibotPlugin attribute.
-    // The reason that we load every dll is also so that we can
-    // cover deps. yay!!! I wonder what happens with interdependencies?
-    InitializePluginsDict();
-    
-    asm as Assembly
-    files as (FileInfo) = DirectoryInfo(pluginPath).GetFiles('*.dll')
-    Utilities.DebugOutput(((('Plugins found in dir \'' + pluginPath) + '\': ') + files.Length))
-    
-    for file as FileInfo in files:
-      asm = Assembly.LoadFile(file.FullName)
-      LoadPluginsInAssembly(asm)
+  def ScriptResolveEventHandler(sender as object, args as ResolveEventArgs) as Assembly:
+    return _scriptsAsm
   
   public def DisablePlugin(name as string) as bool:
     if not _pluginsByName.ContainsKey(name):
@@ -72,6 +62,24 @@ public static class PluginLoader:
       return false
     _pluginsByName[name].IsEnabled = true
     return true
+  
+  public def RunPluginSetups():
+    for plugin as PluginWrapper in _pluginsByName.Values:
+      plugin.Setup()
+  
+  public def RegisterPlugins():
+    for plugin as PluginWrapper in _pluginsByName.Values:
+      // register all the commands in this plugin
+      for wrapper as CommandWrapper in plugin.GetCommands():
+        wrapper.PluginId = plugin.PluginId
+        if wrapper.CommandType == CommandType.PrivMSGCommand:
+          PrivMSGRunner.RegisterCommand(wrapper)
+        elif wrapper.CommandType == CommandType.RawMSGCommand:
+          RawMSGRunner.RegisterCommand(wrapper)
+        elif wrapper.CommandType == CommandType.TimerCommand:
+          TimerRunner.RegisterCommand(wrapper)
+        elif wrapper.CommandType == CommandType.ComplexCommand:
+          PrivMSGRunner.RegisterComplexCommand(wrapper)
   
   public def LoadPluginsInAssembly(asm as Assembly):
     if asm is not null:
@@ -92,16 +100,3 @@ public static class PluginLoader:
           if _pluginsByName.ContainsKey(plugin.Name):
             raise "there is already a loaded plugin named '"+plugin.Name+"'"
           _pluginsByName.Add(plugin.Name, plugin)
-          plugin.Setup()
-          
-          // register all the commands in this plugin
-          for wrapper as CommandWrapper in plugin.GetCommands():
-            wrapper.PluginId = plugin.PluginId
-            if wrapper.CommandType == CommandType.PrivMSGCommand:
-              PrivMSGRunner.RegisterCommand(wrapper)
-            elif wrapper.CommandType == CommandType.RawMSGCommand:
-              RawMSGRunner.RegisterCommand(wrapper)
-            elif wrapper.CommandType == CommandType.TimerCommand:
-              TimerRunner.RegisterCommand(wrapper)
-            elif wrapper.CommandType == CommandType.ComplexCommand:
-              PrivMSGRunner.RegisterComplexCommand(wrapper)
