@@ -15,6 +15,6 @@ plugin SeenPlugin:
   bot_command seen, whereis:
     logMsg = LogMessage.NewestMessageFrom(message.Args)
     if logMsg is null:
-      IrcConnection.SendPRIVMSG(message.Channel, "Sorry, I haven't seen "+message.Nick)
+      IrcConnection.SendPRIVMSG(message.Channel, "Sorry, I haven't seen "+message.Args)
     else:
-      IrcConnection.SendPRIVMSG(message.Channel, message.Nick + " was last seen on " + logMsg.CreateDate.ToShortDateString() + " " + logMsg.CreateDate.ToLongTimeString())
+      IrcConnection.SendPRIVMSG(message.Channel, message.Args + " was last seen on " + logMsg.CreateDate.ToShortDateString() + " " + logMsg.CreateDate.ToLongTimeString() + ", saying: " + logMsg.Message)

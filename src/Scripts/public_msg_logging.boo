@@ -38,7 +38,7 @@ public class LogMessage(IPersistable, IComparable):
     User = user
     Channel = channel
     Message = message
-    Timestamp = timestamp
+    CreateDate = timestamp
   
   public override def ToString() as string:
     return _timestamp.ToShortDateString() +" " + _timestamp.ToLongTimeString() + " " + _channel + " <"+_user.Nick+"> "+ _message
@@ -59,5 +59,5 @@ public class LogMessage(IPersistable, IComparable):
       sorted.Reverse()
       return sorted[0]
    
-   public def Compare(dateTime as object):
-     return _timestamp.CompareTo(dateTime)
+   public def CompareTo(logMsg as object):
+     return _timestamp.CompareTo((logMsg as LogMessage).CreateDate)
