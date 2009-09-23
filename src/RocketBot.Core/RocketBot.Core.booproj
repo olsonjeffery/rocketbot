@@ -74,8 +74,10 @@
     <Compile Include="Macros\DescMacro.boo" />
     <Compile Include="Macros\NameMacro.boo" />
     <Compile Include="Macros\PluginMacro.boo" />
+    <Compile Include="Macros\PublishMacro.boo" />
     <Compile Include="Macros\RawCommandMacro.boo" />
     <Compile Include="Macros\SetupMacro.boo" />
+    <Compile Include="Macros\SubscribeMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Peristence\Database.boo" />
     <Compile Include="Peristence\User.boo" />
@@ -86,6 +88,7 @@
     <Compile Include="Plugin\ScriptCompiler.boo" />
     <Compile Include="RegexLibrary.boo" />
     <Compile Include="Runners\PrivMSGRunner.boo" />
+    <Compile Include="Runners\PubSubRunner.boo" />
     <Compile Include="Runners\RawMSGRunner.boo" />
     <Compile Include="Runners\TimerRunner.boo" />
     <Compile Include="Utilities.boo" />

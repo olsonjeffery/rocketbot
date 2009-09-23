@@ -13,6 +13,7 @@ RegexLibrary.Initialize()
 PrivMSGRunner.Initialize()
 RawMSGRunner.Initialize()
 TimerRunner.Initialize()
+PubSubRunner.Initialize()
 PluginLoader.RegisterPlugins()
 PluginLoader.RunPluginSetups()
 

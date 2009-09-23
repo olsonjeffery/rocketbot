@@ -80,6 +80,8 @@ public static class PluginLoader:
           TimerRunner.RegisterCommand(wrapper)
         elif wrapper.CommandType == CommandType.ComplexCommand:
           PrivMSGRunner.RegisterComplexCommand(wrapper)
+        elif wrapper.CommandType == CommandType.PubSubCommand:
+          PubSubRunner.RegisterCommand(wrapper)
   
   public def LoadPluginsInAssembly(asm as Assembly):
     if asm is not null:

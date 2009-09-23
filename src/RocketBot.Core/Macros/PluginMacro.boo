@@ -142,6 +142,11 @@ def GetCommands(body as Block) as Method*:
       pattern = regexLiteral
       methods.Add(m)
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper(System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
+    elif cmdType == "subscribe":
+      messageName = StringLiteralExpression((m["messageName"] as ReferenceExpression).ToString())
+      methodName = ReferenceExpression(m.Name)
+      methods.Add(m)
+      getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($messageName, $methodName)) |]))
     else:
       raise "unknown command type in commands for plugin..."
     

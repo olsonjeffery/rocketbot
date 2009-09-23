@@ -13,6 +13,7 @@ public enum CommandType:
   PrivMSGCommand
   TimerCommand
   ComplexCommand
+  PubSubCommand
 
 
 public class CommandWrapper:
@@ -58,7 +59,12 @@ public class CommandWrapper:
   public CommandType as CommandType:
     get:
       return _commandType
-
+  
+  _messageName as string
+  MessageName as string:
+    get:
+      return _messageName
+  
   [property(PluginId)]
   _pluginIn as Guid
   
@@ -88,6 +94,12 @@ public class CommandWrapper:
     _privMSGMethod = method
     _commandType = CommandType.ComplexCommand
     _syntaxPattern = regexPattern
+  
+  public def constructor(messageName as string, method as RawMSGCommand):
+    CommonSetup()
+    _messageName = messageName
+    _rawMSGMethod = method
+    _commandType = CommandType.PubSubCommand
   
   public def CommonSetup():
     _names = List[of string]()
