@@ -49,4 +49,5 @@ public class Utilities:
   public static def HtmlDecode(input as string) as string:
     return HttpUtility.HtmlDecode(input)
   
-
+  public static def HtmlUrlEncode(input as string) as string:
+    return HttpUtility.UrlEncode(input)
