@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionQueue.boo" />
     <Compile Include="AssemblyInfo.boo" />
     <Compile Include="Config\BotConfig.boo" />
     <Compile Include="Irc\IncomingMessage.boo" />
@@ -87,6 +86,7 @@
     <Compile Include="Plugin\PluginLoader.boo" />
     <Compile Include="Plugin\ScriptCompiler.boo" />
     <Compile Include="RegexLibrary.boo" />
+    <Compile Include="Runners\ActionQueue.boo" />
     <Compile Include="Runners\PrivMSGRunner.boo" />
     <Compile Include="Runners\PubSubRunner.boo" />
     <Compile Include="Runners\RawMSGRunner.boo" />
