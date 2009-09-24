@@ -15,6 +15,13 @@ plugin WebSummaryPlugin:
   desc "prints the <title> to a channel when a URL is pasted"
   version "0.1"
   author "pfox"
+  
+  docs web_summary:
+    """
+Web summary functionality
+The bot will post a summary of a given link to the channel in which it was posted, if it is a valid HTML document with a <title> element in it.
+    """
+  
   raw_command "^.+PRIVMSG #[^ ]+ :.*http://[^ ]+.*":
     webMatch = Regex('(?<before>.*)(?<websummaryurl>http://[^ ]+)(?<after>.*)')
     if message.Command == 'websummary':

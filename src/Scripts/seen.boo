@@ -9,8 +9,12 @@ plugin SeenPlugin:
   author "pfox"
   desc "shows when the person requested was last seen in the requesting user's channel"
   
-  setup:
-    pass
+  
+  docs seen, whereis:
+    """
+syntax: !seen <nickname> (or !whereis)
+Asks the bot for information on when they last saw the person requested by 'nickname'
+    """
   
   bot_command seen, whereis:
     logMsg = LogMessage.NewestMessageFrom(message.Args)

@@ -16,20 +16,18 @@ plugin WeatherPlugin:
   version "0.2"
   author "pfox"
   desc "gets weather information for a 5-digit ZIP code (US based)"
+  
+  docs weather:
+    """
+Documentation for the \'weather\' command:
+Synonyms: none
+Syntax: weather <location>
+Alternative Syntax: none
+Parameters: location: a zip code or city, state/country combination
+Purpose: Provides current weather information for the supplied location.
+    """
+  
   bot_command weather:
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'weather\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: weather <location>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: location: a zip code or city, state/country combination')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Provides current weather information for the supplied location.')
-      return 
-    
-    
     url = String.Format('http://www.google.com/ig/api?weather={0}', message.Args)
     url = url.Replace(" ", '%20')
     print url

@@ -9,8 +9,25 @@ plugin PluginManagement:
   author "pfox"
   desc "allows the enabling and disabling of plugins"
   
+  docs plugins:
+    """
+syntax: !plugins
+Displays a list of currently installed plugins and some information about them
+    """
+  
+  docs enable:
+    """
+syntax: !enable <plugin_name>
+enables the selected plugin. use !plugins for a list of all installed plugins and their enabled status. This command is only available to bot admins
+    """
+  
+  docs disable:
+    """
+syntax: !disable <plugin_name>
+disables the selected plugin. use !plugins for a list of all installed plugins and their enabled status. This command is only available to bot admins
+    """
+  
   bot_command plugins:
-    
     if displayDocs:
       IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'plugins\' command:')
       IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
@@ -24,6 +41,7 @@ plugin PluginManagement:
     
     IrcConnection.SendPRIVMSG(message.Nick, "Here are the plugins that are loaded into this bot:")
     for plugin in plugins:
+      disabledText = ("(DISABLED)" if plugin.IsEnabled else "")
       IrcConnection.SendPRIVMSG(message.Nick, plugin.Name +" version "+plugin.Version+" by "+plugin.Author+" -- "+plugin.Description)
   
   bot_command enable:

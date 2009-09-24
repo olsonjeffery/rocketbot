@@ -12,6 +12,23 @@ plugin TwitterPlugin:
   author "pfox"
   version "1"
   
+  docs twitter:
+    """
+the bot has the ability to show new twitter messages for a given twitter user in a given channel. see the documentation for 'addtwit' and 'removetwit' for more info.
+    """
+  
+  docs addtwit:
+    """
+syntax: addtwit <screen_name>
+add the user named 'screen_name' to the list of users to have their tweets fetched and shown in the channel they were added in
+    """
+  
+  docs removetwit:
+    """
+syntax: removetwit <screen_name>
+remove the user named 'screen_name' from the list of users to have their tweets fetched and shown in the channel
+    """
+  
   setup:
     TwitterMessages.Initialize()
     if BotConfig.HasParameter('TwitterUsers'):

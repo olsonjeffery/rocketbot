@@ -12,22 +12,18 @@ plugin SpellCommand:
   version "0.1"
   author "pfox"
   desc "checks for proper spelling of a word"
+  
+  docs spell:
+    """
+Documentation for the \'spelling\' command:
+Synonyms: none
+Syntax: spell <word>
+Alternative Syntax: none
+Parameters: word: The word you would like spelling advice on.
+Purpose: Attempt to find the correct spelling for the supplied word.
+    """
+  
   bot_command spell:
-    // spelling, yay
-    // http://spell.ockham.org/?word=origami&dictionary=master
-    
-    // if this is true, then instead of running the command, we just output
-    // the documentation for this command to the requesting user via privmsg
-    if displayDocs:
-      // display syntax stuff here
-      IrcConnection.SendPRIVMSG(message.Nick, 'Documentation for the \'spelling\' command:')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Synonyms: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Syntax: spell <word>')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Alternative Syntax: none')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Parameters: word: The word you would like spelling advice on.')
-      IrcConnection.SendPRIVMSG(message.Nick, 'Purpose: Attempt to find the correct spelling for the supplied word.')
-      return 
-    
     // let's make sure we only have one word
     oneWordPattern = Regex('^[^0-9]+$')
     
