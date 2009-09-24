@@ -77,6 +77,7 @@
     <Compile Include="Macros\RawCommandMacro.boo" />
     <Compile Include="Macros\SetupMacro.boo" />
     <Compile Include="Macros\SubscribeMacro.boo" />
+    <Compile Include="Macros\TimerCommandMacro.boo" />
     <Compile Include="Macros\VersionMacro.boo" />
     <Compile Include="Peristence\Database.boo" />
     <Compile Include="Peristence\User.boo" />

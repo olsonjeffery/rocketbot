@@ -11,7 +11,7 @@ plugin SeenPlugin:
   
   setup:
     pass
- 
+  
   bot_command seen, whereis:
     logMsg = LogMessage.NewestMessageFrom(message.Args)
     if logMsg is null:

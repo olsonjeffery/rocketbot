@@ -1,7 +1,7 @@
 namespace RocketBot.Core
 
 import System
-import System.Threading
+import System.Timers
 import System.Collections.Generic
 
 public static class TimerRunner:
@@ -23,8 +23,8 @@ public static class TimerRunner:
 public class TimerItem:
 
 
-  private _timer as Timer
-  public Timer as Timer:
+  private _timer as System.Timers.Timer
+  public Timer as System.Timers.Timer:
     get:
       return _timer
 
@@ -38,8 +38,9 @@ public class TimerItem:
     invoker = def():
       if PluginLoader.Plugins[TimerRunner.PluginIds[method]].IsEnabled:
         method()
-    reset = AutoResetEvent(true)
-    _timer = Timer(TimerCallback(invoker), reset, 0, 0)
+    _timer = Timer(interval * 60000)
+    _timer.Elapsed += ElapsedEventHandler(invoker)
+    _timer.Enabled = true
     
     
   
