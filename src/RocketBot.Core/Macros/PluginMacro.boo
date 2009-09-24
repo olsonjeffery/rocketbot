@@ -151,9 +151,8 @@ def GetCommands(body as Block) as Method*:
       methods.Add(m)
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($messageName, $methodName)) |]))
     else:
-      raise "unknown command type in commands for plugin..."
-    
-    
+      raise "unknown command type in commands for plugin..."    
+      
   getCommandsMethod.Body.Statements.Add([| return list |])
   methods.Add(getCommandsMethod)
   return methods

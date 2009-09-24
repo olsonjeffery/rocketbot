@@ -52,6 +52,10 @@ public final class BotConfig:
       
       return config[param].ToString().Trim()
   
+  public static def HasParameter(param as string) as bool:
+    return true if _usableConfig.ContainsKey(param)
+    return false
+  
   public static def GetParameter(param as string) as string:
     raise "configuration does not contain '"+param+"' parameter" if not _usableConfig.ContainsKey(param)
     return _usableConfig[param]

@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{8F74
 		Scripts\help.boo = Scripts\help.boo
 		Scripts\leave.boo = Scripts\leave.boo
 		Scripts\plugin_management.boo = Scripts\plugin_management.boo
-		Scripts\plugins_command.boo = Scripts\plugins_command.boo
 		Scripts\public_msg_logging.boo = Scripts\public_msg_logging.boo
 		Scripts\seen.boo = Scripts\seen.boo
 		Scripts\spell.boo = Scripts\spell.boo
 		Scripts\version.boo = Scripts\version.boo
 		Scripts\weather.boo = Scripts\weather.boo
 		Scripts\web_summary.boo = Scripts\web_summary.boo
+		Scripts\twitter.boo = Scripts\twitter.boo
 	EndProjectSection
 EndProject
 Global
