@@ -6,7 +6,7 @@ import System.Text.RegularExpressions
 
 public callable PrivMSGCommand(message as IncomingMessage, displayDocs as bool) as void
 public callable RawMSGCommand(message as IncomingMessage) as void
-public callable TimerCommand(placeHolder as object) as void
+public callable TimerCommand() as void
 
 public enum CommandType:
   RawMSGCommand
@@ -82,9 +82,8 @@ public class CommandWrapper:
     _rawMSGMethod = method
     _commandType = CommandType.RawMSGCommand
   
-  public def constructor(name as string, executionInterval as int, method as TimerCommand):
+  public def constructor(executionInterval as int, method as TimerCommand):
     CommonSetup()
-    Names.Add(name)
     _executionInterval = executionInterval
     _timerCommand = method
     _commandType = CommandType.TimerCommand

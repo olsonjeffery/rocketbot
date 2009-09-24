@@ -133,7 +133,10 @@ def GetCommands(body as Block) as Method*:
       methods.Add(m)
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($commandName, System.Text.RegularExpressions.Regex($pattern), $methodName)) |]))
     elif cmdType == "timer":
-      pass
+      interval = m["interval"] as IntegerLiteralExpression
+      methodName = ReferenceExpression(m.Name)
+      methods.Add(m)
+      getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($interval, $methodName)) |]))
     elif cmdType == "complex":
       regexLiteral = m["reLiteral"] as StringLiteralExpression
       raise "null re literal?" if regexLiteral is null
