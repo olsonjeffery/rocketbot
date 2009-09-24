@@ -71,6 +71,7 @@
     <Compile Include="Macros\BotCommandMacro.boo" />
     <Compile Include="Macros\ComplexCommandMacro.boo" />
     <Compile Include="Macros\DescMacro.boo" />
+    <Compile Include="Macros\DocsMacro.boo" />
     <Compile Include="Macros\NameMacro.boo" />
     <Compile Include="Macros\PluginMacro.boo" />
     <Compile Include="Macros\PublishMacro.boo" />
@@ -82,6 +83,7 @@
     <Compile Include="Peristence\Database.boo" />
     <Compile Include="Peristence\User.boo" />
     <Compile Include="Plugin\CommandWrapper.boo" />
+    <Compile Include="Plugin\Documentation.boo" />
     <Compile Include="Plugin\IPlugin.boo" />
     <Compile Include="Plugin\PluginWrapper.boo" />
     <Compile Include="Plugin\PluginLoader.boo" />

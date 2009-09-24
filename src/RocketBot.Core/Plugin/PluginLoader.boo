@@ -69,6 +69,9 @@ public static class PluginLoader:
   
   public def RegisterPlugins():
     for plugin as PluginWrapper in _pluginsByName.Values:
+      // load some docs
+      for kvp in plugin.Documentation:
+        Docs.AddDocsFor(kvp.Key, kvp.Value)
       // register all the commands in this plugin
       for wrapper as CommandWrapper in plugin.GetCommands():
         wrapper.PluginId = plugin.PluginId

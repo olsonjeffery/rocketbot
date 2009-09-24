@@ -22,6 +22,10 @@ public class PluginWrapper:
     get:
       return _internalPlugin.Author
   
+  public Documentation as Dictionary[of string, string]:
+    get:
+      return _internalPlugin.Documentation
+  
   _guidId as Guid
   public PluginId as Guid:
     get:

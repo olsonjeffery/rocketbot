@@ -21,6 +21,7 @@ macro plugin:
   
   commands = GetCommands(body)
   
+  
   pluginClass = [|
     public class $(ReferenceExpression(className))(IPlugin):
       Name as string:
@@ -35,12 +36,24 @@ macro plugin:
       Author as string:
         get:
           return $author
+      _documentation as System.Collections.Generic.Dictionary[of string, string]
+      Documentation as System.Collections.Generic.Dictionary[of string, string]:
+        get:
+          return _documentation
   |]
   
   for command in commands:
     pluginClass.Members.Add(command)
   if setup is not null:
     pluginClass.Members.Add(setup)
+  
+  ctor = [|
+    public def constructor():
+      pass
+  |]
+  ctor.Body = Block()
+  ctor = GetDocumentation(body, ctor)
+  pluginClass.Members.Add(ctor)
   
   yield pluginClass
 
@@ -83,6 +96,26 @@ def GetSetupIfAny(body as Block) as Method:
       pass
   |]
   return stub
+
+def GetDocumentation(body as Block, ctor as Constructor) as Constructor:
+  ctor.Body.Statements.Add(ExpressionStatement([| _documentation = System.Collections.Generic.Dictionary[of string, string]() |]))
+  
+  for i in body.Statements:
+    if i isa ExpressionStatement and i.ContainsAnnotation("docs"):
+      docs = i as ExpressionStatement
+      names = docs["names"] as ReferenceExpression*
+      val = docs["value"] as StringLiteralExpression
+      for keyRef as ReferenceExpression in names:  
+        key = StringLiteralExpression(keyRef.ToString())
+        
+        ifStatement = [|
+          if _documentation.ContainsKey($key):
+            raise "duplicate documentation for: "+ $key
+        |]
+        ctor.Body.Statements.Add(ifStatement)
+        ctor.Body.Statements.Add(ExpressionStatement([| _documentation.Add($key, $val) |]))
+  
+  return ctor
 
 def GetCommands(body as Block) as Method*:
   commands = List[of Method]()
@@ -151,7 +184,7 @@ def GetCommands(body as Block) as Method*:
       methods.Add(m)
       getCommandsMethod.Body.Statements.Add(ExpressionStatement([| list.Add(CommandWrapper($messageName, $methodName)) |]))
     else:
-      raise "unknown command type in commands for plugin..."    
+      raise "unknown command type in commands for plugin..." 
       
   getCommandsMethod.Body.Statements.Add([| return list |])
   methods.Add(getCommandsMethod)

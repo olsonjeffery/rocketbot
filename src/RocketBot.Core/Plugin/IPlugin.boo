@@ -15,6 +15,9 @@ public interface IPlugin:
 
   Author as string:
     get
-
+  
+  Documentation as Dictionary[of string, string]:
+    get
+  
   def GetCommands() as List[of CommandWrapper]
   def Setup()
