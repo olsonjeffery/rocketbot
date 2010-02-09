@@ -16,13 +16,9 @@ public class IrcConnection:
     
     whoisEOF as string = (((('318 ' + BotConfig.GetParameter('IRCNick')) + ' ') + nick) + ' :End of /WHOIS list.')
     
-    nickIdString as string = (((('320 ' + BotConfig.GetParameter('IRCNick')) + ' ') + nick) + ' :is identified to services')
+    nickIdString = '330 ' + BotConfig.GetParameter('IRCNick') + ' ' + nick + ' ' + nick +  ' :is logged in as'
     
     isNickRegged = false
-    
-    
-    
-    
     
     SendWHOIS(nick)
     
@@ -36,14 +32,9 @@ public class IrcConnection:
         Utilities.DebugOutput(('Backup Stream: ' + inputLine))
         
         if inputLine.Contains(nickIdString):
-          
           isNickRegged = true
         elif inputLine.Contains(whoisEOF):
-        
-        
           Utilities.DebugOutput('Got WHOIS EOF!')
-    
-    
     return isNickRegged
 
   

@@ -29,7 +29,9 @@ public class Utilities:
     
     // next let's check if the user is identified to nickserv
     if not IrcConnection.IsNickIdentifiedToServices(nick):
+      Utilities.DebugOutput('User '+nick+' is NOT identified.')
       return returnValue
+    Utilities.DebugOutput('User '+nick+' is identified.')
     
     // let's get the list of bot admins
     botAdmins as (string) = BotConfig.GetParameter('BotAdmins').Split(char(','))
