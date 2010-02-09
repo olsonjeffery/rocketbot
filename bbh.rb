@@ -1,7 +1,6 @@
 require 'find'
 require 'fileutils'
 require 'rexml/document'
-require 'ftools'
 
 # BooBuildHelper (Bbh)
 class Bbh
@@ -52,7 +51,7 @@ class Bbh
     end
 
     hintPaths.each do |path|
-      File.copy(path, buildDir)
+      cp(path, buildDir)
     end
   end
 
@@ -62,7 +61,7 @@ class Bbh
     files = []
     exploreDirSearchForFilesAndStoreInList(fromPath, nil, files)
     files.each do |path|
-      File.copy(path, toPath)
+      cp(path, toPath)
     end
   end
  

@@ -59,7 +59,7 @@ namespace :projects do
     configName = 'RocketBot.config.xml'
     configSrcPath = Bbh.convertToPlatformSeparator('src/RocketBot/'+configName)
     configDestPath = Bbh.convertToPlatformSeparator(buildDir + '/' + configName)
-    File.copy(configSrcPath, configDestPath)
+    cp(configSrcPath, configDestPath)
   end
 
   desc 'create the build directory, if needed'
