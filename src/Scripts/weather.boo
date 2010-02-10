@@ -28,6 +28,9 @@ Purpose: Provides current weather information for the supplied location.
     """
   
   bot_command weather:
+    if message.Args is null or string.Empty.Equals(message.Args):
+      IrcConnection.SendPRIVMSG(message.Channel, "How about you give me a location to look up instead of wasting my time?")
+      return
     url = String.Format('http://www.google.com/ig/api?weather={0}', message.Args)
     url = url.Replace(" ", '%20')
     print url
