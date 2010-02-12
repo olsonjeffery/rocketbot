@@ -11,5 +11,6 @@ _ReSharper.*
 Generated
 obj
 bin
+/bot
 /Build
 Specs.html
