@@ -58,5 +58,8 @@
     <ScriptDirectory>
       Scripts
     </ScriptDirectory>
+    <CommandPrefix>
+      $
+    </CommandPrefix>
   </RocketBotConfiguration>
 </Configuration>

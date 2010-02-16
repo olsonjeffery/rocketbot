@@ -17,8 +17,13 @@ public class RegexLibrary:
     _regexDict.Add('IRCMessageGroup', Regex('(?<nick>[^:!]+)!(?<hostcrap>.+) PRIVMSG (?<channel>.+) :(?<message>.+)'))
     _regexDict.Add('TopicMessageGroup', Regex('(?<nick>[^:!]+)!(?<hostcrap>.+) TOPIC (?<channel>#.+) :(?<message>.+)'))
     
-    _regexDict.Add('botCommandPattern', Regex('^!.+'))
-    _regexDict.Add('botCommandGroup', Regex('(?<command>[^! ]+)(?<args>.*)'))
+    prefix = BotConfig.GetParameter('CommandPrefix').Trim();
+    if prefix in ('*', '.', '[', """\""", '^', '$'):
+      prefix = """\""" + prefix
+    bcp = String.Format('^{0}.+', prefix)
+    bcg = String.Format('(?<command>[^{0} ]+)(?<args>.*)', prefix)
+    _regexDict.Add('botCommandPattern', Regex(bcp))
+    _regexDict.Add('botCommandGroup', Regex(bcg))
     
     // natural language parsing
     _regexDict.Add('complexCommandGroup', Regex((((('(^' + BotConfig.GetParameter('IRCNick')) + '(,|:)\\s*(?<message>.+)$|^(?<message>.+),\\s*') + BotConfig.GetParameter('IRCNick')) + '$)')))
