@@ -88,6 +88,7 @@
     <Compile Include="Plugin\PluginWrapper.boo" />
     <Compile Include="Plugin\PluginLoader.boo" />
     <Compile Include="Plugin\ScriptCompiler.boo" />
+    <Compile Include="Plugin\ScriptSandbox.boo" />
     <Compile Include="RegexLibrary.boo" />
     <Compile Include="Runners\ActionQueue.boo" />
     <Compile Include="Runners\PrivMSGRunner.boo" />
