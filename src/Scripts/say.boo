@@ -23,7 +23,7 @@ Have the bot send 'message' to the location targetted by #channel/nickname. This
     m = Regex("""^(?<target>[^\\s]+) (?<message>.+)$""").Match(message.Args)
     if m.Success:
       target = m.Groups['target'].Value.Trim()
-      msg = m.Groups['target'].Value.Trim()
+      msg = m.Groups['message'].Value.Trim()
       IrcConnection.SendPRIVMSG(target, msg)
       IrcConnection.SendPRIVMSG(message.Nick, "Okay, I just said '"+msg+"' to '"+target+"'.")
     else:
