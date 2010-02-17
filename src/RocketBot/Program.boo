@@ -3,10 +3,13 @@ namespace RocketBot
 import System
 import RocketBot.Core
 
+class Stub:
+	pass
+
 BotConfig.Initialize('./RocketBot.config.xml', 'RocketBotConfiguration')
 
-
 PluginLoader.LoadPluginsFromScriptsInPath(Environment.CurrentDirectory + System.IO.Path.AltDirectorySeparatorChar + BotConfig.GetParameter('ScriptDirectory'))
+PluginLoader.LoadPluginsInAssembly(typeof(Stub).Assembly)
 Database.Initialize()
 
 RegexLibrary.Initialize()
