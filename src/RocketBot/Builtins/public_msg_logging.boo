@@ -2,7 +2,6 @@
 
 import System
 import System.Collections.Generic
-import System.Data
 import RocketBot.Core
 import Db4objects.Db4o
 
@@ -21,6 +20,9 @@ plugin ChannelLoggingPlugin:
     Utilities.DebugOutput(msg.ToString())
 
 public class LogMessage(IPersistable, IComparable):
+  
+  [property(Id)]
+  _id as Guid
   
   [property(RocketBot.Core.User)]
   _user as RocketBot.Core.User

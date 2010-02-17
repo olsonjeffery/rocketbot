@@ -42,7 +42,7 @@ disables the selected plugin. use !plugins for a list of all installed plugins a
     IrcConnection.SendPRIVMSG(message.Nick, "Here are the plugins that are loaded into this bot:")
     for plugin in plugins:
       disabledText = ("(DISABLED)" if plugin.IsEnabled else "")
-      IrcConnection.SendPRIVMSG(message.Nick, plugin.Name +" version "+plugin.Version+" by "+plugin.Author+" -- "+plugin.Description)
+      IrcConnection.SendPRIVMSG(message.Nick, plugin.Name + disabledText +" version "+plugin.Version+" by "+plugin.Author+" -- "+plugin.Description)
   
   bot_command enable:
     if not Utilities.IsUserBotAdmin(message.Nick):

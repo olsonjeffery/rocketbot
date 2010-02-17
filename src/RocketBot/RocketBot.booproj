@@ -35,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Boo.Lang.Useful" />
+    <Reference Include="Db4objects.Db4o">
+      <HintPath>..\..\lib\db4o\Db4objects.Db4o.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -47,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.boo" />
+    <Compile Include="Builtins\help.boo" />
+    <Compile Include="Builtins\leave.boo" />
+    <Compile Include="Builtins\plugin_management.boo" />
+    <Compile Include="Builtins\public_msg_logging.boo" />
+    <Compile Include="Builtins\say.boo" />
+    <Compile Include="Builtins\version.boo" />
     <Compile Include="Program.boo" />
     <None Include="RocketBot.config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -57,6 +66,7 @@
       <Project>{D66440D4-BD0B-4D2D-A048-B9E63FD6A8E9}</Project>
       <Name>RocketBot.Core</Name>
     </ProjectReference>
+    <Folder Include="Builtins" />
   </ItemGroup>
   <Import Project="$(BooBinPath)\Boo.Microsoft.Build.targets" />
 </Project>
