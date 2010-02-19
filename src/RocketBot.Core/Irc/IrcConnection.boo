@@ -52,8 +52,25 @@ public class IrcConnection:
     //        " :" + message);
     //IrcBot.writer.Flush();
     IrcConnection.SendRawMessage(((('PRIVMSG ' + destination) + ' :') + message))
-    
-
+  
+  public static def SendBufferedPRIVMSG(destination as string, message as string, int bufferSize):
+    chunks = List of string()
+    if message.Length <= bufferSize:
+      chunks.Add(message)
+    else:
+      remaining = message
+      atEnd = false
+      while not atEnd:
+        if (remaining.Length <= bufferSize):
+          chunks.Add(remaining)
+          atEnd = true
+        else:
+          thisChunk = remaining.Substring(0, bufferSize)
+          remaining = remaining.Substring(bufferSize)
+          chunks.Add(thisChunk)
+      for chunk in chunks:
+        SendPRIVMSG(destination, chunk)
+        Thread.Sleep(500)
   
   public static def SendQUIT(message as string):
     
