@@ -53,7 +53,7 @@ public class IrcConnection:
     //IrcBot.writer.Flush();
     IrcConnection.SendRawMessage(((('PRIVMSG ' + destination) + ' :') + message))
   
-  public static def SendBufferedPRIVMSG(destination as string, message as string, int bufferSize):
+  public static def SendBufferedPRIVMSG(destination as string, message as string, bufferSize as int):
     chunks = List of string()
     if message.Length <= bufferSize:
       chunks.Add(message)

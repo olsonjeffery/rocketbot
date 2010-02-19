@@ -1,23 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-# SharpDevelop 3.1.0.4903
+# SharpDevelop 3.2.0.5512
 Project("{A33008B1-5DAC-44D5-9060-242E3B6E38F2}") = "RocketBot", "RocketBot\RocketBot.booproj", "{C59FB463-622A-41C2-8930-F1485E268AE7}"
 EndProject
 Project("{A33008B1-5DAC-44D5-9060-242E3B6E38F2}") = "RocketBot.Core", "RocketBot.Core\RocketBot.Core.booproj", "{D66440D4-BD0B-4D2D-A048-B9E63FD6A8E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{8F74501B-B022-4486-BB49-BFA8B0061F55}"
 	ProjectSection(SolutionItems) = postProject
-		Scripts\help.boo = Scripts\help.boo
-		Scripts\leave.boo = Scripts\leave.boo
-		Scripts\plugin_management.boo = Scripts\plugin_management.boo
-		Scripts\public_msg_logging.boo = Scripts\public_msg_logging.boo
 		Scripts\seen.boo = Scripts\seen.boo
 		Scripts\spell.boo = Scripts\spell.boo
-		Scripts\version.boo = Scripts\version.boo
 		Scripts\weather.boo = Scripts\weather.boo
 		Scripts\web_summary.boo = Scripts\web_summary.boo
 		Scripts\twitter.boo = Scripts\twitter.boo
+		Scripts\etym.boo = Scripts\etym.boo
 	EndProjectSection
 EndProject
 Global
